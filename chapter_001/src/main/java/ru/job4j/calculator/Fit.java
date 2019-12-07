@@ -1,4 +1,4 @@
-package job4j.calculator;
+package ru.job4j.calculator;
 
 public class Fit {
     public static final double MAN_HEIGHT_DELTA = 100D;
