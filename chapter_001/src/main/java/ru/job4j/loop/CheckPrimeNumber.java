@@ -8,6 +8,6 @@ public class CheckPrimeNumber {
                 count++;
             }
         }
-        return count == 2 ? true : false;
+        return count == 2;
     }
 }
