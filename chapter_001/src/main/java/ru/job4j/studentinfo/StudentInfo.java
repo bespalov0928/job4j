@@ -1,4 +1,4 @@
-package ru.job4j;
+package ru.job4j.studentinfo;
 
 /**
  * Created by prats on 12/2/19.

@@ -1,4 +1,4 @@
-package job4j.converter;
+package ru.job4j.converter;
 
 public class Converter {
     public static final int EQUIVALENT_OF_ONE_DOLLAR_TO_RUBLE = 60;
