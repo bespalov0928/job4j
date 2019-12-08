@@ -1,4 +1,4 @@
-package ru.job4j.loop;
+package ru.job4j.array;
 
 public class Turn {
     public int[] back(int[] array) {
