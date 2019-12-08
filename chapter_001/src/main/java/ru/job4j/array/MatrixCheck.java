@@ -15,6 +15,7 @@ public class MatrixCheck {
 
                     if (rowCount[row] == board.length || colCount[cell] == board.length) {
                         result = true;
+                        break;
                     }
                 }
             }
