@@ -17,6 +17,7 @@ public class MatrixCheck {
                 }
                 if (rowCount == board.length || colCount == board.length) {
                     result = true;
+                    break;
                 }
             }
         }
