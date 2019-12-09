@@ -24,22 +24,15 @@ public class Converter {
 
         double expected = 2;
         double out = rubleToEuro(140);
-
         System.out.println("140 rubles are 2. Test result : " + assertResult(expected, out));
-
         expected = 3;
         out = rubleToDollar(180);
-
         System.out.println("180 rubles are 3 dollars. Test result : " + assertResult(expected, out));
-
         expected = 140;
         out = euroToRuble(2);
-
         System.out.println("2 euro are 140 ruble. Test result : " + assertResult(expected, out));
-
         expected = 180;
         out = dollarToRuble(3);
-
         System.out.println("3 dollars are 180 ruble. Test result : " + assertResult(expected, out));
     }
 
