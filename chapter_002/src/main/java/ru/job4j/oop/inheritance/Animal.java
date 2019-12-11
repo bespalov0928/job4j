@@ -1,7 +1,10 @@
 package ru.job4j.oop.inheritance;
 
 public class Animal {
-    public Animal() {
-        System.out.println("Animal");
+    String name;
+
+    public Animal(String name) {
+        this.name = name;
+        System.out.println("Animal name is " + name);
     }
 }
