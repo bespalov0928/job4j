@@ -1,4 +1,4 @@
-package ru.job4j.oop.inheritance;
+package ru.job4j.inheritance;
 
 public class Program {
     String name;
