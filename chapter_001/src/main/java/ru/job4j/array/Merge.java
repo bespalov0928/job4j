@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class Merge {
     public int[] merge(int[] left, int[] right) {
         int[] rsl = new int[left.length + right.length];
-        int i = 0, j = 0, k = 0;
+        int i = 0, j = 0;
         while (i < left.length || j < right.length) {
             int currentLeft = 0;
             int currentRight = 0;
@@ -19,15 +19,15 @@ public class Merge {
             }
 
             if (currentLeft == currentRight) {
-                rsl[k++] = currentLeft;
-                rsl[k++] = currentRight;
+                rsl[i + j] = currentLeft;
+                rsl[i + j + 1] = currentRight;
                 i++;
                 j++;
             } else if (currentLeft == 0 || currentRight < currentLeft) {
-                rsl[k++] = currentRight;
+                rsl[i + j] = currentRight;
                 j++;
             } else {
-                rsl[k++] = currentLeft;
+                rsl[i + j] = currentLeft;
                 i++;
             }
         }
