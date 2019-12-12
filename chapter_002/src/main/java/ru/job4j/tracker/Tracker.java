@@ -37,6 +37,7 @@ public class Tracker {
         boolean result = false;
         int index = findItemIndexById(id);
         if (index > -1) {
+            item.setId(items[index].getId());
             items[index] = item;
             result = true;
         }
@@ -47,9 +48,7 @@ public class Tracker {
         boolean result = false;
         int index = findItemIndexById(id);
         if (index > -1) {
-            for (items[index] = null; index < items.length && items[index + 1] != null; items[++index] = null) {
-                items[index] = items[index + 1];
-            }
+            System.arraycopy(this.items, index + 1, this.items, index, this.position - index);
             result = true;
             this.position--;
         }
@@ -62,17 +61,23 @@ public class Tracker {
         return result;
     }
 
-    public Item findByName(String key) {
-        Item result = new Item("");
+    public Item[] findByName(String key) {
+        Item[] found = new Item[this.position];
+        int count = 0;
         for (Item item : this.items) {
             if (item == null) {
                 break;
             }
             if (item.getName().equals(key)) {
-                result = item;
-                break;
+                found[count++] = item;
             }
         }
+        Item[] result = new Item[0];
+        if (count > 0) {
+            result = new Item[count];
+            System.arraycopy(found, 0, result, 0, count);
+        }
+
         return result;
     }
 

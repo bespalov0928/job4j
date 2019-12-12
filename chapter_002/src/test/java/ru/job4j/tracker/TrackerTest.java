@@ -28,10 +28,13 @@ public class TrackerTest {
     @Test
     public void testFindByNameWhenItemPresent() {
         Tracker tracker = new Tracker();
-        Item item = new Item("test1");
-        tracker.add(item);
-        Item result = tracker.findByName(item.getName());
-        assertEquals(item, result);
+        Item item1 = new Item("test1");
+        tracker.add(item1);
+        Item item2 = new Item("test1");
+        tracker.add(item2);
+        Item[] result = tracker.findByName(item1.getName());
+        Item[] expected = new Item[]{item1, item2};
+        assertThat(result, is(expected));
     }
 
     @Test
@@ -39,9 +42,9 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         Item item = new Item("test1");
         tracker.add(item);
-        Item result = tracker.findByName("Test");
-        Item expected = new Item("");
-        assertEquals(expected, result);
+        Item[] result = tracker.findByName("Test");
+        Item[] expected = new Item[]{};
+        assertThat(expected, is(result));
     }
 
     @Test
