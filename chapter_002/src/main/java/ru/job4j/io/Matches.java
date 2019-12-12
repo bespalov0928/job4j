@@ -10,7 +10,7 @@ public class Matches {
         int currentPlayer = 2;
 
         System.out.println("Игра 11");
-        while (run) {
+        while (matches > 0) {
             System.out.println("Осталось спичек:");
             for (int i = 0; i < matches; i++) {
                 System.out.print("|");
@@ -22,14 +22,11 @@ public class Matches {
             if (select < 1 || select > 3) {
                 System.out.println("Введено не верное значение... Введите цифру от 1 до 3");
                 currentPlayer = choosePlayer(currentPlayer);
-                continue;
-            }
-            matches -= select;
-            if (matches <= 0) {
-                System.out.println(String.format("Игрок %d победил!", currentPlayer));
-                run = false;
+            } else {
+                matches -= select;
             }
         }
+        System.out.println(String.format("Игрок %d победил!", currentPlayer));
     }
 
     public static int choosePlayer(int currentPlayer) {
