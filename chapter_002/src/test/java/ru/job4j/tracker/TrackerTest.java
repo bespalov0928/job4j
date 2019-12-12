@@ -3,8 +3,7 @@ package ru.job4j.tracker;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class TrackerTest {
     @Test
@@ -113,8 +112,8 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         Item item = new Item("test1");
         tracker.add(item);
-        Item result = tracker.findById("1234567");
-        assertThat(result.getId(), is(""));
+        Item result = tracker.findById("1234");
+        assertNull(result);
     }
 
     @Test
