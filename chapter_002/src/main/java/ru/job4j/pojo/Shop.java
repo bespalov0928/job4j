@@ -41,9 +41,8 @@ public class Shop {
     }
 
     private static void delete(Product[] products, int index) {
-        for (; index < products.length && products[index + 1] != null; index++) {
+        for (products[index] = null; index < products.length && products[index + 1] != null; products[++index] = null) {
             products[index] = products[index + 1];
-            products[index + 1] = null;
         }
     }
 }
