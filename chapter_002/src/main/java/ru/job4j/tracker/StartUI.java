@@ -42,7 +42,7 @@ public class StartUI {
         }
     }
 
-    private static void addNewItem(Input input, Tracker tracker) {
+    protected static void addNewItem(Input input, Tracker tracker) {
         System.out.println("=== Create a New Item ===");
         String name = input.askStr("Enter name: ");
         Item item = new Item(name);
