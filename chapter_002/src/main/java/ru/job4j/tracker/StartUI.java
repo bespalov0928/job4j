@@ -63,7 +63,11 @@ public class StartUI {
         String name = input.askStr("Enter a new name of item: ");
         Item item = new Item(name);
         item.setId(id);
-        tracker.replace(id, item);
+        if (tracker.replace(id, item)) {
+            System.out.print("Item successfully replaced");
+        } else {
+            System.out.print("Item not found. Id is incorrect!");
+        }
     }
 
     protected static void deleteItem(Input input, Tracker tracker) {
