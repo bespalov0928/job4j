@@ -19,17 +19,17 @@ public class StartUI {
             this.showMenu();
             select = input.askInt("Input number of operation:");
             if (select == 0) {
-                addNewItem(input, tracker);
+                StartUI.addNewItem(input, tracker);
             } else if (select == 1) {
-                showAllItems(tracker);
+                StartUI.showAllItems(tracker);
             } else if (select == 2) {
-                editItem(input, tracker);
+                StartUI.editItem(input, tracker);
             } else if (select == 3) {
-                deleteItem(input, tracker);
+                StartUI.deleteItem(input, tracker);
             } else if (select == 4) {
-                findItemById(input, tracker);
+                StartUI.findItemById(input, tracker);
             } else if (select == 5) {
-                findItemsByName(input, tracker);
+                StartUI.findItemsByName(input, tracker);
             }
         }
     }
@@ -42,14 +42,14 @@ public class StartUI {
         }
     }
 
-    private void addNewItem(Input input, Tracker tracker) {
+    private static void addNewItem(Input input, Tracker tracker) {
         System.out.println("=== Create a New Item ===");
         String name = input.askStr("Enter name: ");
         Item item = new Item(name);
         tracker.add(item);
     }
 
-    private void showAllItems(Tracker tracker) {
+    private static void showAllItems(Tracker tracker) {
         System.out.println("=== Show All Items ===");
         Item[] items = tracker.findAll();
         for (Item item : items) {
@@ -57,7 +57,7 @@ public class StartUI {
         }
     }
 
-    private void editItem(Input input, Tracker tracker) {
+    private static void editItem(Input input, Tracker tracker) {
         System.out.println("=== Edit Item ===");
         String id = input.askStr("Enter item Id: ");
         Item item = tracker.findById(id);
@@ -69,7 +69,7 @@ public class StartUI {
         }
     }
 
-    private void deleteItem(Input input, Tracker tracker) {
+    private static void deleteItem(Input input, Tracker tracker) {
         System.out.println("=== Delete Item ===");
         String id = input.askStr("Enter item Id: ");
         if (tracker.delete(id)) {
@@ -79,7 +79,7 @@ public class StartUI {
         }
     }
 
-    private void findItemById(Input input, Tracker tracker) {
+    private static void findItemById(Input input, Tracker tracker) {
         System.out.println("=== Find Item By Id ===");
         String id = input.askStr("Enter item Id: ");
         Item item = tracker.findById(id);
@@ -90,7 +90,7 @@ public class StartUI {
         }
     }
 
-    private void findItemsByName(Input input, Tracker tracker) {
+    private static void findItemsByName(Input input, Tracker tracker) {
         System.out.println("=== Find Items By Name ===");
         System.out.print("Enter item name: ");
         String name = input.askStr("Enter new name: ");
