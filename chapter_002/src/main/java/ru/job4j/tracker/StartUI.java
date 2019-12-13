@@ -23,7 +23,7 @@ public class StartUI {
             } else if (select == 1) {
                 StartUI.showAllItems(tracker);
             } else if (select == 2) {
-                StartUI.editItem(input, tracker);
+                StartUI.replaceItem(input, tracker);
             } else if (select == 3) {
                 StartUI.deleteItem(input, tracker);
             } else if (select == 4) {
@@ -57,19 +57,16 @@ public class StartUI {
         }
     }
 
-    private static void editItem(Input input, Tracker tracker) {
-        System.out.println("=== Edit Item ===");
-        String id = input.askStr("Enter item Id: ");
-        Item item = tracker.findById(id);
-        if (item != null) {
-            String name = input.askStr("Enter new name: ");
-            item.setName(name);
-        } else {
-            System.out.print("Item not found. Id is incorrect!");
-        }
+    protected static void replaceItem(Input input, Tracker tracker) {
+        System.out.println(" === Update item ====");
+        String id = input.askStr("Enter item id:");
+        String name = input.askStr("Enter a new name of item: ");
+        Item item = new Item(name);
+        item.setId(id);
+        tracker.replace(id, item);
     }
 
-    private static void deleteItem(Input input, Tracker tracker) {
+    protected static void deleteItem(Input input, Tracker tracker) {
         System.out.println("=== Delete Item ===");
         String id = input.askStr("Enter item Id: ");
         if (tracker.delete(id)) {
