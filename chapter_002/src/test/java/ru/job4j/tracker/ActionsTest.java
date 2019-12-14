@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
 public class ActionsTest {
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
     private final PrintStream stdout = System.out;
-
+    private final Tracker tracker = new Tracker();
     @Before
     public void loadOutput() {
         System.setOut(new PrintStream(this.out));
@@ -27,7 +27,6 @@ public class ActionsTest {
 
     @Test
     public void testShowAllAction() {
-        Tracker tracker = new Tracker();
         Item item = new Item("fix bug");
         tracker.add(item);
         ShowAllAction act = new ShowAllAction();
@@ -40,7 +39,6 @@ public class ActionsTest {
 
     @Test
     public void testFindByNameActionWhenFound() {
-        Tracker tracker = new Tracker();
         Item item = new Item("fix bug");
         tracker.add(item);
         FindByNameAction action = new FindByNameAction();
@@ -53,9 +51,6 @@ public class ActionsTest {
 
     @Test
     public void testFindByNameActionWhenNotFound() {
-        Tracker tracker = new Tracker();
-        Item item = new Item("fix bug");
-        tracker.add(item);
         FindByNameAction action = new FindByNameAction();
         action.execute(new StubInput(new String[]{"test"}), tracker);
         String expect = new StringJoiner(System.lineSeparator(), "", "")
