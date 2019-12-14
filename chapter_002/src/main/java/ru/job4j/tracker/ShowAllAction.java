@@ -8,8 +8,7 @@ public class ShowAllAction implements UserAction {
 
     @Override
     public boolean execute(Input input, Tracker tracker) {
-        Item[] items = tracker.findAll();
-        for (Item item : items) {
+        for (Item item : tracker.findAll()) {
             System.out.println("Name: " + item.getName() + ", Id: " + item.getId());
         }
         return true;
