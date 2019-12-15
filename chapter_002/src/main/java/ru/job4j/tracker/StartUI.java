@@ -8,7 +8,7 @@ public class StartUI {
         boolean run = true;
         while (run) {
             this.showMenu(actions);
-            int select = input.askInt("Input number of operation: ");
+            int select = input.askInt("Input number of operation: ", actions.length);
             UserAction action = actions[select];
             System.out.println(action.name());
             run = action.execute(input, tracker);
@@ -23,7 +23,7 @@ public class StartUI {
     }
 
     public static void main(String[] args) {
-        Input input = new ConsoleInput();
+        Input input = new ValidateInput();
         Tracker tracker = new Tracker();
         new StartUI().init(input, tracker, new UserAction[]{
                 new CreateAction(),
