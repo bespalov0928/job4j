@@ -20,15 +20,17 @@ public class ValidateInput implements Input {
     @Override
     public int askInt(String question, int max) {
         int value = -1;
-        while (value < 0) {
+        boolean invalid = true;
+        do {
             try {
                 value = input.askInt(question, max);
+                invalid = false;
             } catch (IllegalStateException moe) {
                 System.out.println(moe.getMessage());
             } catch (NumberFormatException nfe) {
                 System.out.println("Please enter validate data again ");
             }
-        }
+        } while (invalid);
         return value;
     }
 }
