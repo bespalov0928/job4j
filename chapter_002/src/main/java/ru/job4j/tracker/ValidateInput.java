@@ -19,18 +19,16 @@ public class ValidateInput implements Input {
 
     @Override
     public int askInt(String question, int max) {
-        boolean invalid = true;
         int value = -1;
-        do {
+        while (value < 0) {
             try {
                 value = input.askInt(question, max);
-                invalid = false;
             } catch (IllegalStateException moe) {
-                System.out.println("Please select key from menu ");
+                System.out.println(moe.getMessage());
             } catch (NumberFormatException nfe) {
                 System.out.println("Please enter validate data again ");
             }
-        } while (invalid);
+        }
         return value;
     }
 }
