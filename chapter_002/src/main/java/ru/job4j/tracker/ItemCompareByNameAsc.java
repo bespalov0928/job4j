@@ -6,24 +6,6 @@ public class ItemCompareByNameAsc implements Comparator<Item> {
 
     @Override
     public int compare(Item o1, Item o2) {
-        String name1 = o1.getName();
-        String name2 = o2.getName();
-        int length = Math.min(name1.length(), name2.length());
-        int result = 0;
-
-        for (int index = 0; index < length; index++) {
-            int char1 = name1.charAt(index);
-            int char2 = name2.charAt(index);
-            if (char1 != char2) {
-                result = char1 - char2;
-                break;
-            }
-        }
-
-        if (result == 0 && name1.length() != name2.length()) {
-            result = name1.length() - name2.length();
-        }
-
-        return result;
+        return o1.getName().compareTo(o2.getName());
     }
 }
