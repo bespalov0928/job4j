@@ -37,4 +37,12 @@ public class User implements Comparable<User> {
     public int hashCode() {
         return Objects.hash(name, age);
     }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
