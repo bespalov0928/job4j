@@ -4,12 +4,40 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 public class TrackerTest {
+
+    @Test
+    public void testSortAsc() {
+        Tracker tracker = new Tracker();
+        Item item1 = new Item("Test");
+        tracker.add(item1);
+        Item item2 = new Item("Asc");
+        tracker.add(item2);
+        tracker.sortAsc();
+        List<Item> result = tracker.findAll();
+        List<Item> expected = Arrays.asList(item2, item1);
+        assertThat(result, is(expected));
+    }
+
+    @Test
+    public void testSortDesc() {
+        Tracker tracker = new Tracker();
+        Item item1 = new Item("Asc");
+        tracker.add(item1);
+        Item item2 = new Item("Test");
+        tracker.add(item2);
+        tracker.sortDesc();
+        List<Item> result = tracker.findAll();
+        List<Item> expected = Arrays.asList(item2, item1);
+        assertThat(result, is(expected));
+    }
+
     @Test
     public void testFindAllWhenEmpty() {
         Tracker tracker = new Tracker();

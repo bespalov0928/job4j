@@ -1,6 +1,7 @@
 package ru.job4j.tracker;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -64,6 +65,14 @@ public class Tracker {
             }
         }
         return found;
+    }
+
+    public void sortAsc() {
+        Collections.sort(this.items, new ItemCompareByNameAsc());
+    }
+
+    public void sortDesc() {
+        Collections.sort(this.items, new ItemCompareByNameDesc());
     }
 
     protected int findItemIndexById(String id) {
