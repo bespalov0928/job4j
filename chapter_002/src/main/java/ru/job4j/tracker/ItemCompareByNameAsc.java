@@ -2,12 +2,12 @@ package ru.job4j.tracker;
 
 import java.util.Comparator;
 
-public class ItemCompareByNameAsc implements Comparator {
+public class ItemCompareByNameAsc implements Comparator<Item> {
 
     @Override
-    public int compare(Object o1, Object o2) {
-        String name1 = ((Item) o1).getName();
-        String name2 = ((Item) o2).getName();
+    public int compare(Item o1, Item o2) {
+        String name1 = o1.getName();
+        String name2 = o2.getName();
         int length = Math.min(name1.length(), name2.length());
         int result = 0;
 
