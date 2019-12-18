@@ -2,6 +2,10 @@ package ru.job4j.tracker;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
@@ -9,8 +13,8 @@ public class TrackerTest {
     @Test
     public void testFindAllWhenEmpty() {
         Tracker tracker = new Tracker();
-        Item[] result = tracker.findAll();
-        Item[] expected = new Item[]{};
+        List<Item> result = tracker.findAll();
+        List<Item> expected = new ArrayList<>();
         assertThat(expected, is(result));
     }
 
@@ -19,8 +23,8 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         Item item = new Item("Test");
         tracker.add(item);
-        Item[] result = tracker.findAll();
-        Item[] expected = new Item[]{item};
+        List<Item> result = tracker.findAll();
+        List<Item> expected = Arrays.asList(item);
         assertThat(expected, is(result));
     }
 
@@ -31,8 +35,8 @@ public class TrackerTest {
         tracker.add(item1);
         Item item2 = new Item("test1");
         tracker.add(item2);
-        Item[] result = tracker.findByName(item1.getName());
-        Item[] expected = new Item[]{item1, item2};
+        List<Item> result = tracker.findByName(item1.getName());
+        List<Item> expected = Arrays.asList(item1, item2);
         assertThat(result, is(expected));
     }
 
@@ -41,8 +45,8 @@ public class TrackerTest {
         Tracker tracker = new Tracker();
         Item item = new Item("test1");
         tracker.add(item);
-        Item[] result = tracker.findByName("Test");
-        Item[] expected = new Item[]{};
+        List<Item> result = tracker.findByName("Test");
+        List<Item> expected = new ArrayList<>();
         assertThat(expected, is(result));
     }
 
@@ -131,38 +135,5 @@ public class TrackerTest {
         // Проверяем, что заявка с таким id имеет новые имя test2.
         Item found = tracker.findById(previous.getId());
         assertThat(found.getName(), is(next.getName()));
-    }
-
-    @Test
-    public void testPositionWhen1ItemAdded() {
-        Tracker tracker = new Tracker();
-        Item item = new Item("test1");
-        tracker.add(item);
-        int result = tracker.getPosition();
-        int expected = 1;
-        assertEquals(expected, result);
-    }
-
-    @Test
-    public void testPositionWhen2ItemsAdded() {
-        Tracker tracker = new Tracker();
-        Item item = new Item("test1");
-        tracker.add(item);
-        item = new Item("test2");
-        tracker.add(item);
-        int result = tracker.getPosition();
-        int expected = 2;
-        assertEquals(expected, result);
-    }
-
-    @Test
-    public void testPositionAfterDelete() {
-        Tracker tracker = new Tracker();
-        Item item = new Item("test1");
-        tracker.add(item);
-        tracker.delete(item.getId());
-        int result = tracker.getPosition();
-        int expected = 0;
-        assertEquals(expected, result);
     }
 }

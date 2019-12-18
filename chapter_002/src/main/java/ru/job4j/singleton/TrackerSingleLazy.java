@@ -3,6 +3,8 @@ package ru.job4j.singleton;
 import ru.job4j.tracker.Item;
 import ru.job4j.tracker.Tracker;
 
+import java.util.List;
+
 public class TrackerSingleLazy {
     private static TrackerSingleLazy instance;
 
@@ -34,11 +36,11 @@ public class TrackerSingleLazy {
         return tracker.delete(id);
     }
 
-    public Item[] findAll() {
+    public List<Item> findAll() {
         return tracker.findAll();
     }
 
-    public Item[] findByName(String key) {
+    public List<Item> findByName(String key) {
         return tracker.findByName(key);
     }
 }
