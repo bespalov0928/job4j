@@ -35,14 +35,9 @@ public class Bank {
             String destRequisite,
             double amount) {
         boolean result = false;
-        User srcUser = findUserByPassport(srcPassport);
-        User destUser = findUserByPassport(destPassport);
-        Account srcAccount = findUserAccountByRequisites(srcUser, srcRequisite);
-        Account destAccount = findUserAccountByRequisites(destUser, destRequisite);
-        if (!srcAccount.getRequisites().isEmpty()
-                && !destAccount.getRequisites().isEmpty()
-                && srcAccount.getAmount() > 0
-                && srcAccount.getAmount() >= amount) {
+        Account srcAccount = findUserAccountByPassportAndRequisites(srcPassport, srcRequisite);
+        Account destAccount = findUserAccountByPassportAndRequisites(destPassport, destRequisite);
+        if (srcAccount != null && destAccount != null && srcAccount.getAmount() > 0 && srcAccount.getAmount() >= amount) {
             srcAccount.setAmount(srcAccount.getAmount() - amount);
             destAccount.setAmount(destAccount.getAmount() + amount);
             result = true;
@@ -56,7 +51,7 @@ public class Bank {
 
     protected int getUserAccountsCount(User user) {
         List<Account> accounts = this.users.get(user);
-        return accounts.size();
+        return accounts != null ? accounts.size() : 0;
     }
 
     public List<Account> getUserAccountsByUser(User user) {
@@ -77,6 +72,18 @@ public class Bank {
 
     private Account findUserAccountByRequisites(User user, String requisites) {
         Account result = new Account(0, "");
+        for (Account account : getUserAccountsByUser(user)) {
+            if (account.getRequisites().equals(requisites)) {
+                result = account;
+                break;
+            }
+        }
+        return result;
+    }
+
+    private Account findUserAccountByPassportAndRequisites(String passport, String requisites) {
+        User user = findUserByPassport(passport);
+        Account result = null;
         for (Account account : getUserAccountsByUser(user)) {
             if (account.getRequisites().equals(requisites)) {
                 result = account;
