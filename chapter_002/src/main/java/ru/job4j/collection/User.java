@@ -3,12 +3,25 @@ package ru.job4j.collection;
 import java.util.Objects;
 
 public class User implements Comparable<User> {
-    private String name;
+
     private int age;
+    private String name;
+
+    public String getPassport() {
+        return passport;
+    }
+
+    private String passport;
 
     public User(String name, int age) {
         this.name = name;
         this.age = age;
+    }
+
+    public User(String name, int age, String passport) {
+        this.name = name;
+        this.age = age;
+        this.passport = passport;
     }
 
     @Override
@@ -30,12 +43,13 @@ public class User implements Comparable<User> {
         }
         User user = (User) o;
         return age == user.age
-                && Objects.equals(name, user.name);
+                && Objects.equals(name, user.name)
+                && Objects.equals(passport, user.passport);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, age);
+        return Objects.hash(name, age, passport);
     }
 
     public int getAge() {
