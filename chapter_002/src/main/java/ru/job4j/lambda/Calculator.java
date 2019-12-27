@@ -1,19 +1,26 @@
 package ru.job4j.lambda;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class Calculator {
-    public interface Operation {
-        double calc(int left, int right);
-    }
-
     public void multiple(int start, int finish, int value,
                          BiFunction<Integer, Integer, Double> op,
                          Consumer<Double> printer) {
         for (int index = start; index != finish; index++) {
             printer.accept(op.apply(value, index));
         }
+    }
+
+    List<Double> diapason(int start, int end, Function<Double, Double> func) {
+        List<Double> result = new ArrayList<>();
+        for (int index = start; index != end; index++) {
+            result.add(func.apply((double) index));
+        }
+        return result;
     }
 
     public static void main(String[] args) {
@@ -24,4 +31,6 @@ public class Calculator {
                 System.out::println
         );
     }
+
+
 }
