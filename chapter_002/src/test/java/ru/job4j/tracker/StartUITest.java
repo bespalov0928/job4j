@@ -8,38 +8,38 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.StringJoiner;
+import java.util.function.Consumer;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 public class StartUITest {
+    private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+    private final PrintStream stdout = new PrintStream(out);
+    private final Consumer<String> output = stdout::println;
+
     @Test
     public void whenExit() {
         StubInput input = new StubInput(
                 new String[]{"0"}
         );
         StubAction action = new StubAction();
-        new StartUI().init(input, new Tracker(), Arrays.asList(action));
+        new StartUI(input, new Tracker(), output).init(Arrays.asList(new UserAction[]{action}));
         assertThat(action.isCall(), is(true));
     }
 
     @Test
     public void whenPrtMenu() {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        PrintStream def = System.out;
-        System.setOut(new PrintStream(out));
         StubInput input = new StubInput(
                 new String[]{"0"}
         );
-        StubAction action = new StubAction();
-        new StartUI().init(input, new Tracker(), Arrays.asList(action));
-        String expect = new StringJoiner(System.lineSeparator(), System.lineSeparator(), System.lineSeparator())
+        new StartUI(input, new Tracker(), output).init(Arrays.asList(new UserAction[]{new StubAction()}));
+        String expect = new StringJoiner(System.lineSeparator(), "", System.lineSeparator())
                 .add("0. Stub action")
                 .add("Stub action")
                 .toString();
         assertThat(new String(out.toByteArray()), is(expect));
-        System.setOut(def);
     }
 
     @Ignore
@@ -65,5 +65,28 @@ public class StartUITest {
         //StartUI.deleteItem(new StubInput(answers), tracker);
         Item deleted = tracker.findById(item.getId());
         assertNull(deleted);
+    }
+
+    @Test
+    public void whenFindById() {
+        Tracker tracker = new Tracker();
+        Item item = new Item("Name");
+        tracker.add(item);
+        String[] answers = {
+                "0",
+                item.getId(),
+                "1"
+        };
+        new StartUI(new StubInput(answers), tracker, output).init(Arrays.asList(new FindByIdAction(output), new ExitAction()));
+        String expected = new StringJoiner(System.lineSeparator(), "", System.lineSeparator())
+                .add("0. Find Item by Id")
+                .add("1. Exit Program")
+                .add("Find Item by Id")
+                .add("Name: " + item.getName() + ", Id: " + item.getId())
+                .add("0. Find Item by Id")
+                .add("1. Exit Program")
+                .add("Exit Program")
+                .toString();
+        assertThat(new String(out.toByteArray()), is(expected));
     }
 }

@@ -1,38 +1,34 @@
 package ru.job4j.tracker;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class StartUI {
+    private final Input input;
+    private final Tracker tracker;
+    private final Consumer<String> output;
 
-    public void init(Input input, Tracker tracker, List<UserAction> actions) {
-        boolean run = true;
-        while (run) {
-            this.showMenu(actions);
-            int select = input.askInt("Input number of operation: ", actions.size());
-            UserAction action = actions.get(select);
-            System.out.println(action.name());
-            run = action.execute(input, tracker);
-        }
+    public StartUI(Input input, Tracker tracker, Consumer<String> output) {
+        this.input = input;
+        this.tracker = tracker;
+        this.output = output;
     }
 
-    private void showMenu(List<UserAction> actions) {
-        System.out.println();
-        for (int index = 0; index < actions.size(); index++) {
-            System.out.println(index + ". " + actions.get(index).name());
-        }
+    public void init(List<UserAction> actions) {
+        MenuTracker menuTracker = new MenuTracker(input, tracker, output, actions);
+        menuTracker.showMenu();
     }
 
     public static void main(String[] args) {
         Input input = new ValidateInput(new ConsoleInput());
         Tracker tracker = new Tracker();
-        new StartUI().init(input, tracker, Arrays.asList(
+        new StartUI(input, tracker, System.out::println).init(Arrays.asList(
                 new CreateAction(),
                 new ShowAllAction(),
                 new EditAction(),
                 new DeleteAction(),
-                new FindByIdAction(),
+                new FindByIdAction(System.out::println),
                 new FindByNameAction(),
                 new ExitAction()
         ));
