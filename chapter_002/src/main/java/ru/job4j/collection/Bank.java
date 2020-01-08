@@ -60,36 +60,17 @@ public class Bank {
     }
 
     private User findUserByPassport(String passport) {
-        User result = new User("", 0, "");
-        for (User user : this.users.keySet()) {
-            if (user.getPassport().equals(passport)) {
-                result = user;
-                break;
-            }
-        }
-        return result;
-    }
-
-    private Account findUserAccountByRequisites(User user, String requisites) {
-        Account result = new Account(0, "");
-        for (Account account : getUserAccountsByUser(user)) {
-            if (account.getRequisites().equals(requisites)) {
-                result = account;
-                break;
-            }
-        }
-        return result;
+        return this.users.keySet().stream()
+                .filter(user -> user.getPassport().equals(passport))
+                .findFirst()
+                .orElse(new User("", 0, ""));
     }
 
     private Account findUserAccountByPassportAndRequisites(String passport, String requisites) {
         User user = findUserByPassport(passport);
-        Account result = null;
-        for (Account account : getUserAccountsByUser(user)) {
-            if (account.getRequisites().equals(requisites)) {
-                result = account;
-                break;
-            }
-        }
-        return result;
+        return getUserAccountsByUser(user).stream()
+                .filter(account -> account.getRequisites().equals(requisites))
+                .findFirst()
+                .orElse(null);
     }
 }
