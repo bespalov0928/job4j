@@ -12,10 +12,9 @@ public class ProfilesTest {
 
     @Test
     public void testProfiles() {
-        Profiles.Address address1 = new Profiles.Address();
-        Profiles.Address address2 = new Profiles.Address();
-        List<Profiles.Profile> profiles = Arrays.asList(new Profiles.Profile(address1), new Profiles.Profile(address2));
-        List<Profiles.Address> result = Profiles.collect(profiles);
+        Address address1 = new Address();
+        Address address2 = new Address();
+        List<Address> result = Profiles.collect(Arrays.asList(new Profile(address1), new Profile(address2)));
         assertThat(result, is(Arrays.asList(address1, address2)));
     }
 }
