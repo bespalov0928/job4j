@@ -13,8 +13,8 @@ public class Profiles {
     public static List<Address> collectDistinctSortedByCity(List<Profile> profiles) {
         return profiles.stream()
                 .map(Profile::getAddress)
-                .distinct()
                 .sorted(new AddressByCityComparator())
+                .distinct()
                 .collect(Collectors.toList());
     }
 }
