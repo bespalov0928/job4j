@@ -2,6 +2,7 @@ package ru.job4j.stream;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class StreamUsage {
@@ -24,7 +25,7 @@ public class StreamUsage {
     }
 
     public static void main(String[] args) {
-        List<Task> tasks = Arrays.asList(
+        /*List<Task> tasks = Arrays.asList(
                 new Task("Bug #1", 100),
                 new Task("Task #2", 100),
                 new Task("Bug #3", 100)
@@ -41,6 +42,18 @@ public class StreamUsage {
 
         long total = tasks.stream()
                 .map(task -> task.spent)
-                .reduce(0L, Long::sum);
+                .reduce(0L, Long::sum);*/
+
+        List.of(2, 4, 3, 4).stream()
+                .takeWhile(v -> {
+                    System.out.println("takeWhile: " + v);
+                    return v % 2 == 0;
+                })
+                .map(v -> {
+                    System.out.println("map: " + v);
+                    return String.format(" %s", v);
+                })
+                .forEach(System.out::println);
+
     }
 }
