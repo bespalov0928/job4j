@@ -49,4 +49,13 @@ public class SchoolTest {
         }
         assertThat(result, is(expected));
     }
+
+    @Test
+    public void levelOfTest() {
+        List<School.Student> result = School.levelOf(students, 50);
+        assertThat(result, is(Arrays.asList(
+                new School.Student(90, "Pratsun"),
+                new School.Student(70, "Sidorov")
+        )));
+    }
 }
