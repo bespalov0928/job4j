@@ -60,8 +60,8 @@ public class School {
 
     public static List<Student> levelOf(List<Student> students, int bound) {
         return students.stream()
-                .sorted()
                 .flatMap(Stream::ofNullable)
+                .sorted()
                 .takeWhile(student -> student.score > bound)
                 .collect(Collectors.toList());
     }

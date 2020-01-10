@@ -52,7 +52,10 @@ public class SchoolTest {
 
     @Test
     public void levelOfTest() {
-        List<School.Student> result = School.levelOf(students, 50);
+        List<School.Student> data = new ArrayList<>(students);
+        data.add(1, null);
+        data.add(3, null);
+        List<School.Student> result = School.levelOf(data, 50);
         assertThat(result, is(Arrays.asList(
                 new School.Student(90, "Pratsun"),
                 new School.Student(70, "Sidorov")
