@@ -14,9 +14,8 @@ public class UserTest {
 
     @Test
     public void whenAsc() {
-        Set<User> users = new TreeSet<>();
-        users.add(new User("Petr", 32));
-        users.add(new User("Ivan", 31));
+        List<User> users = Arrays.asList(new User("Petr", 32), new User("Ivan", 31));
+        Collections.sort(users);
         Iterator<User> it = users.iterator();
         assertThat(it.next(), is(new User("Ivan", 31)));
         assertThat(it.next(), is(new User("Petr", 32)));
@@ -24,9 +23,7 @@ public class UserTest {
 
     @Test
     public void whenNamesEqualAsc() {
-        Set<User> users = new TreeSet<>();
-        users.add(new User("Ivan", 32));
-        users.add(new User("Ivan", 11));
+        List<User> users = Arrays.asList(new User("Ivan", 32), new User("Ivan", 11));
         Iterator<User> it = users.iterator();
         assertThat(it.next(), is(new User("Ivan", 11)));
         assertThat(it.next(), is(new User("Ivan", 32)));
@@ -43,36 +40,28 @@ public class UserTest {
 
     @Test
     public void whenUserByNameAsc() {
-        List<User> users = new ArrayList<>();
-        users.add(new User("Ivan", 32));
-        users.add(new User("Denis", 11));
+        List<User> users = Arrays.asList(new User("Ivan", 32), new User("Denis", 11));
         Collections.sort(users, new UserByNameAscComparator());
         assertThat(users, is(Arrays.asList(new User("Denis", 11), new User("Ivan", 32))));
     }
 
     @Test
     public void whenUserByNameDesc() {
-        List<User> users = new ArrayList<>();
-        users.add(new User("Denis", 32));
-        users.add(new User("Ivan", 11));
+        List<User> users = Arrays.asList(new User("Denis", 32), new User("Ivan", 11));
         Collections.sort(users, new UserByNameDescComparator());
         assertThat(users, is(Arrays.asList(new User("Ivan", 11), new User("Denis", 32))));
     }
 
     @Test
     public void whenUserByAgeAsc() {
-        List<User> users = new ArrayList<>();
-        users.add(new User("Ivan", 11));
-        users.add(new User("Denis", 32));
+        List<User> users = Arrays.asList(new User("Ivan", 11), new User("Denis", 32));
         Collections.sort(users, new UserByAgeAscComparator());
         assertThat(users, is(Arrays.asList(new User("Ivan", 11), new User("Denis", 32))));
     }
 
     @Test
     public void whenUserByAgeDesc() {
-        List<User> users = new ArrayList<>();
-        users.add(new User("Denis", 11));
-        users.add(new User("Ivan", 32));
+        List<User> users = Arrays.asList(new User("Denis", 11), new User("Ivan", 32));
         Collections.sort(users, new UserByAgeDescComparator());
         assertThat(users, is(Arrays.asList(new User("Ivan", 32), new User("Denis", 11))));
     }
