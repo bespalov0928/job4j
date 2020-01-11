@@ -15,7 +15,7 @@ public class ProfilesTest {
         Address address1 = new Address("Kiev");
         Address address2 = new Address("Kiev");
         List<Address> result = Profiles.collect(Arrays.asList(new Profile(address1), new Profile(address2)));
-        assertThat(result, is(Arrays.asList(address1, address2)));
+        assertThat(result, is(List.of(address1, address2)));
     }
 
     @Test
@@ -26,6 +26,6 @@ public class ProfilesTest {
         List<Address> result = Profiles.collectDistinctSortedByCity(
                 Arrays.asList(new Profile(address3), new Profile(address1), new Profile(address2))
         );
-        assertThat(result, is(Arrays.asList(address1, address3)));
+        assertThat(result, is(List.of(address1, address3)));
     }
 }

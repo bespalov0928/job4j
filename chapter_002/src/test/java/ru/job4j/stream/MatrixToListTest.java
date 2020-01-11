@@ -15,6 +15,6 @@ public class MatrixToListTest {
     @Test
     public void matrixToListTest() {
         List<Integer> result = MatrixToList.convert(new Integer[][]{{1, 2}, {3, 4}});
-        assertThat(result, is(Arrays.asList(1, 2, 3, 4)));
+        assertThat(result, is(List.of(1, 2, 3, 4)));
     }
 }

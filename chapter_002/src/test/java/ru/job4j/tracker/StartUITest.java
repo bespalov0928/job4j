@@ -7,6 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.StringJoiner;
 import java.util.function.Consumer;
 
@@ -25,7 +26,7 @@ public class StartUITest {
                 new String[]{"0"}
         );
         StubAction action = new StubAction();
-        new StartUI(input, new Tracker(), output).init(Arrays.asList(new UserAction[]{action}));
+        new StartUI(input, new Tracker(), output).init(List.of(new UserAction[]{action}));
         assertThat(action.isCall(), is(true));
     }
 
@@ -77,7 +78,7 @@ public class StartUITest {
                 item.getId(),
                 "1"
         };
-        new StartUI(new StubInput(answers), tracker, output).init(Arrays.asList(new FindByIdAction(output), new ExitAction()));
+        new StartUI(new StubInput(answers), tracker, output).init(List.of(new FindByIdAction(output), new ExitAction()));
         String expected = new StringJoiner(System.lineSeparator(), "", System.lineSeparator())
                 .add("0. Find Item by Id")
                 .add("1. Exit Program")

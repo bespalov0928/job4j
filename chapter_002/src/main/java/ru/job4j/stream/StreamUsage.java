@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class StreamUsage {
     public static class Task {
@@ -44,7 +45,7 @@ public class StreamUsage {
                 .map(task -> task.spent)
                 .reduce(0L, Long::sum);*/
 
-        List.of(2, 4, 3, 4).stream()
+        /*List.of(2, 4, 3, 4).stream()
                 .takeWhile(v -> {
                     System.out.println("takeWhile: " + v);
                     return v % 2 == 0;
@@ -53,7 +54,11 @@ public class StreamUsage {
                     System.out.println("map: " + v);
                     return String.format(" %s", v);
                 })
-                .forEach(System.out::println);
+                .forEach(System.out::println);*/
+        Stream.of(1, null, 2, null, 3)
+                .filter(integer -> integer != null)
+                .map(v -> String.format(" %s", v))
+                .forEach(System.out::print);
 
     }
 }

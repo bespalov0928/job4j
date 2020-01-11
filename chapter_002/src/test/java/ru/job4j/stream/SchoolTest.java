@@ -56,7 +56,7 @@ public class SchoolTest {
         data.add(1, null);
         data.add(3, null);
         List<School.Student> result = School.levelOf(data, 50);
-        assertThat(result, is(Arrays.asList(
+        assertThat(result, is(List.of(
                 new School.Student(90, "Pratsun"),
                 new School.Student(70, "Sidorov")
         )));

@@ -24,6 +24,7 @@ public class UserTest {
     @Test
     public void whenNamesEqualAsc() {
         List<User> users = Arrays.asList(new User("Ivan", 32), new User("Ivan", 11));
+        Collections.sort(users);
         Iterator<User> it = users.iterator();
         assertThat(it.next(), is(new User("Ivan", 11)));
         assertThat(it.next(), is(new User("Ivan", 32)));
