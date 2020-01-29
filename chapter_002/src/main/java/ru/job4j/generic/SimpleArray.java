@@ -35,6 +35,17 @@ public class SimpleArray<T> implements Iterable<T> {
         return values[index];
     }
 
+    public int indexOf(T model) {
+        int result = -1;
+        for (int i = 0; i < size; i++) {
+            if (values[i].equals(model)) {
+                result = i;
+                break;
+            }
+        }
+        return result;
+    }
+
     public int length() {
         return size;
     }
@@ -51,10 +62,10 @@ public class SimpleArray<T> implements Iterable<T> {
 
             @Override
             public T next() {
-                if (index >= size) {
-                    throw new NoSuchElementException();
+                if (hasNext()) {
+                    return values[index++];
                 }
-                return values[index++];
+                throw new NoSuchElementException();
             }
         };
     }
