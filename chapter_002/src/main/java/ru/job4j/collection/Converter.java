@@ -23,8 +23,10 @@ public class Converter {
 
             @Override
             public Integer next() {
-                hasNext();
-                return currentIt.next();
+                if (hasNext()) {
+                    return currentIt.next();
+                }
+                throw new NoSuchElementException();
             }
         };
     }
