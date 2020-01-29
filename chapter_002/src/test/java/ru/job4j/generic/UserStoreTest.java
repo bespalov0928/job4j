@@ -7,7 +7,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 public class UserStoreTest {
-    UserStore userStore;
+    Store<User> userStore;
 
     @Before
     public void setUp() {

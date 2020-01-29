@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 import static org.junit.Assert.assertNull;
 
 public class RoleStoreTest {
-    RoleStore roleStore;
+    Store<Role> roleStore;
 
     @Before
     public void setUp() {
