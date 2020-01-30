@@ -9,10 +9,10 @@ public class LinkedList<T> implements Iterable<T> {
     private int size;
     private int modCount;
     private Node first;
-    private Node last;
+    protected Node last;
 
-    private class Node {
-        T data;
+    protected class Node {
+        public T data;
         Node next;
 
         public Node(T data) {
@@ -44,6 +44,20 @@ public class LinkedList<T> implements Iterable<T> {
             }
         }
         return result;
+    }
+
+    public void remove(T value) {
+        if (first == null) {
+            throw new IndexOutOfBoundsException();
+        }
+        Node prev = null;
+        for (Node curr = first; curr != null; curr = curr.next) {
+            if (value.equals(curr.data)) {
+                unlink(prev, curr);
+                break;
+            }
+            prev = curr;
+        }
     }
 
     public int getSize() {
@@ -82,5 +96,19 @@ public class LinkedList<T> implements Iterable<T> {
                 }
             }
         };
+    }
+
+    private void unlink(Node prev, Node curr) {
+        if (prev == null) {
+            first = null;
+            last = null;
+        } else if (curr == last) {
+            prev.next = null;
+            last = prev;
+        } else {
+            prev.next = curr.next;
+        }
+        size--;
+        modCount++;
     }
 }
