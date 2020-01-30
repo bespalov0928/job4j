@@ -1,11 +1,9 @@
 package ru.job4j.generic;
 
-import java.util.Iterator;
-
 public abstract class AbstractStore<T extends Base> implements Store<T> {
     private SimpleArray<T> items;
 
-    public AbstractStore(int length) {
+    protected AbstractStore(int length) {
         this.items = new SimpleArray<>(length);
     }
 
