@@ -59,4 +59,17 @@ public class LinkedListTest {
         list.add(2);
         it.next();
     }
+
+    @Test(expected = NoSuchElementException.class)
+    public void whenNextReturnElementsSequentiallyInOrderOfAdding() {
+        LinkedList<Integer> list = new LinkedList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        Iterator<Integer> it = list.iterator();
+        assertThat(it.next(), is(1));
+        assertThat(it.next(), is(2));
+        assertThat(it.next(), is(3));
+        it.next();
+    }
 }

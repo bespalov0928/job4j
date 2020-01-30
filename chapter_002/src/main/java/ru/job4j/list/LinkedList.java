@@ -9,6 +9,7 @@ public class LinkedList<T> implements Iterable<T> {
     private int size;
     private int modCount;
     private Node first;
+    private Node last;
 
     private class Node {
         T data;
@@ -20,11 +21,15 @@ public class LinkedList<T> implements Iterable<T> {
     }
 
     public void add(T value) {
-        modCount++;
-        size++;
         Node newEl = new Node(value);
-        newEl.next = first;
-        first = newEl;
+        if (size == 0) {
+            first = newEl;
+        } else {
+            last.next = newEl;
+        }
+        last = newEl;
+        size++;
+        modCount++;
     }
 
     public T get(int index) {
