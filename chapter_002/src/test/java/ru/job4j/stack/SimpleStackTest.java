@@ -2,6 +2,8 @@ package ru.job4j.stack;
 
 import org.junit.Test;
 
+import java.util.EmptyStackException;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -16,5 +18,11 @@ public class SimpleStackTest {
         assertThat(stack.poll(), is(3));
         assertThat(stack.poll(), is(2));
         assertThat(stack.poll(), is(1));
+    }
+
+    @Test(expected = EmptyStackException.class)
+    public void whenPollShouldThrowExceptionIfEmpty() {
+        SimpleStack<Integer> stack = new SimpleStack<>();
+        stack.poll();
     }
 }

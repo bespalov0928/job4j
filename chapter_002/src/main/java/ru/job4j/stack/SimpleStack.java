@@ -2,6 +2,9 @@ package ru.job4j.stack;
 
 import ru.job4j.list.LinkedList;
 
+import java.util.EmptyStackException;
+import java.util.NoSuchElementException;
+
 public class SimpleStack<T> extends LinkedList<T> {
 
     public void push(T value) {
@@ -9,8 +12,12 @@ public class SimpleStack<T> extends LinkedList<T> {
     }
 
     public T poll() {
-        T data = super.last.data;
-        super.remove(data);
+        T data;
+        try {
+            data = super.removeLast();
+        } catch (NoSuchElementException e) {
+            throw new EmptyStackException();
+        }
         return data;
     }
 }
