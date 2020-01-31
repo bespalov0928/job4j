@@ -7,12 +7,12 @@ import java.util.NoSuchElementException;
 public class LinkedList<T> implements Iterable<T> {
     private int size;
     private int modCount;
-    protected Node first;
-    protected Node last;
+    protected Node<T> first;
+    protected Node<T> last;
 
-    protected class Node {
+    protected static class Node<T> {
         public T data;
-        Node next;
+        Node<T> next;
 
         public Node(T data) {
             this.data = data;
@@ -20,7 +20,7 @@ public class LinkedList<T> implements Iterable<T> {
     }
 
     public void add(T value) {
-        Node newEl = new Node(value);
+        Node<T> newEl = new Node<>(value);
         if (size == 0) {
             first = newEl;
         } else {
@@ -36,7 +36,7 @@ public class LinkedList<T> implements Iterable<T> {
         if (first == null) {
             throw new IndexOutOfBoundsException();
         }
-        for (Node curr = first; curr != null; curr = curr.next) {
+        for (Node<T> curr = first; curr != null; curr = curr.next) {
             if (index-- == 0) {
                 result = curr.data;
                 break;
@@ -49,8 +49,8 @@ public class LinkedList<T> implements Iterable<T> {
         if (first == null) {
             throw new IndexOutOfBoundsException();
         }
-        Node prev = null;
-        for (Node curr = first; curr != null; curr = curr.next) {
+        Node<T> prev = null;
+        for (Node<T> curr = first; curr != null; curr = curr.next) {
             if (value.equals(curr.data)) {
                 unlink(prev, curr);
                 break;
@@ -85,7 +85,7 @@ public class LinkedList<T> implements Iterable<T> {
     public Iterator<T> iterator() {
         return new Iterator<>() {
             private int expectedModCount = modCount;
-            private Node curr = first;
+            private Node<T> curr = first;
 
             @Override
             public boolean hasNext() {
@@ -115,7 +115,7 @@ public class LinkedList<T> implements Iterable<T> {
         };
     }
 
-    private void unlink(Node prev, Node curr) {
+    private void unlink(Node<T> prev, Node<T> curr) {
         if (curr == first) {
             if (last == first) {
                 last = null;

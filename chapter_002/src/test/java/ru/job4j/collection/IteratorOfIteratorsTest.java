@@ -1,9 +1,6 @@
 package ru.job4j.collection;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,12 +13,12 @@ public class IteratorOfIteratorsTest {
 
     @Before
     public void setUp() {
-        Iterator<Integer> it1 = Arrays.asList(1, 2, 3).iterator();
-        Iterator<Integer> it2 = Arrays.asList(4, 5, 6).iterator();
-        Iterator<Integer> it3 = Arrays.asList(7, 8, 9).iterator();
-        Iterator<Iterator<Integer>> its = Arrays.asList(it1, it2, it3).iterator();
-        Converter IteratorOfIterators = new Converter();
-        it = IteratorOfIterators.convert(its);
+        Iterator<Integer> itFirst = Arrays.asList(1, 2, 3).iterator();
+        Iterator<Integer> itSecond = Arrays.asList(4, 5, 6).iterator();
+        Iterator<Integer> itThird = Arrays.asList(7, 8, 9).iterator();
+        Iterator<Iterator<Integer>> its = Arrays.asList(itFirst, itSecond, itThird).iterator();
+        Converter iteratorOfIterators = new Converter();
+        it = iteratorOfIterators.convert(its);
     }
 
     @Test
@@ -77,21 +74,21 @@ public class IteratorOfIteratorsTest {
 
     @Test
     public void hasNextShouldReturnFalseInCaseOfEmptyIterators() {
-        Iterator<Integer> it1 = (new ArrayList<Integer>()).iterator();
-        Iterator<Integer> it2 = (new ArrayList<Integer>()).iterator();
-        Iterator<Integer> it3 = (new ArrayList<Integer>()).iterator();
+        Iterator<Integer> it1 = Collections.emptyIterator();
+        Iterator<Integer> it2 = Collections.emptyIterator();
+        Iterator<Integer> it3 = Collections.emptyIterator();
         Iterator<Iterator<Integer>> its = Arrays.asList(it1, it2, it3).iterator();
-        Converter IteratorOfIterators = new Converter();
-        it = IteratorOfIterators.convert(its);
+        Converter iteratorOfIterators = new Converter();
+        it = iteratorOfIterators.convert(its);
         assertThat(it.hasNext(), is(false));
     }
 
     @Test(expected = NoSuchElementException.class)
     public void invocationOfNextMethodShouldThrowNoSuchElementException() {
         Iterator<Integer> it1 = Arrays.asList(1, 2, 3).iterator();
-        Iterator<Iterator<Integer>> its = Arrays.asList(it1).iterator();
-        Converter IteratorOfIterators = new Converter();
-        it = IteratorOfIterators.convert(its);
+        Iterator<Iterator<Integer>> its = List.of(it1).iterator();
+        Converter iteratorOfIterators = new Converter();
+        it = iteratorOfIterators.convert(its);
         assertThat(it.next(), is(1));
         assertThat(it.next(), is(2));
         assertThat(it.next(), is(3));
