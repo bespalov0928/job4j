@@ -1,6 +1,5 @@
 package ru.job4j.list;
 
-import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -8,7 +7,7 @@ import java.util.NoSuchElementException;
 public class LinkedList<T> implements Iterable<T> {
     private int size;
     private int modCount;
-    private Node first;
+    protected Node first;
     protected Node last;
 
     protected class Node {
@@ -60,6 +59,24 @@ public class LinkedList<T> implements Iterable<T> {
         }
     }
 
+    public T removeFirst() {
+        T result = null;
+        if (first != null) {
+            result = first.data;
+            unlink(null, first);
+        }
+        return result;
+    }
+
+    public T removeLast() {
+        if (last == null) {
+            throw new NoSuchElementException();
+        }
+        T result = last.data;
+        remove(result);
+        return result;
+    }
+
     public int getSize() {
         return size;
     }
@@ -99,9 +116,13 @@ public class LinkedList<T> implements Iterable<T> {
     }
 
     private void unlink(Node prev, Node curr) {
-        if (prev == null) {
-            first = null;
-            last = null;
+        if (curr == first) {
+            if (last == first) {
+                last = null;
+                first = null;
+            } else {
+                first = first.next;
+            }
         } else if (curr == last) {
             prev.next = null;
             last = prev;
