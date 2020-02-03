@@ -1,14 +1,14 @@
 package ru.job4j.set;
 
-import ru.job4j.list.ArrayList;
+import ru.job4j.list.SimpleList;
 
 import java.util.Iterator;
 
 public class SimpleSet<T> implements Iterable<T> {
-    ArrayList<T> items;
+    private SimpleList<T> items;
 
     public SimpleSet(int length) {
-        this.items = new ArrayList<>(length);
+        this.items = new SimpleList<>(length);
     }
 
     public void add(T model) {

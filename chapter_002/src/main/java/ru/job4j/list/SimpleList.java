@@ -5,13 +5,13 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class ArrayList<T> implements Iterable<T> {
+public class SimpleList<T> implements Iterable<T> {
     private static final int CAPACITY_DELTA = 2;
     private Object[] items;
     private int size;
     private int modCount;
 
-    public ArrayList(int length) {
+    public SimpleList(int length) {
         this.items = new Object[length];
     }
 
