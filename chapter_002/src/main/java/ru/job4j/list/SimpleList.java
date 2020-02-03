@@ -16,10 +16,8 @@ public class SimpleList<T> implements Iterable<T> {
     }
 
     public void add(T value) {
+        grow();
         modCount++;
-        if (size == items.length) {
-            items = Arrays.copyOf(items, items.length * CAPACITY_DELTA);
-        }
         items[size++] = value;
     }
 
@@ -32,6 +30,12 @@ public class SimpleList<T> implements Iterable<T> {
 
     public int getSize() {
         return size;
+    }
+
+    private void grow() {
+        if (size == items.length) {
+            items = Arrays.copyOf(items, items.length * CAPACITY_DELTA);
+        }
     }
 
     @Override
