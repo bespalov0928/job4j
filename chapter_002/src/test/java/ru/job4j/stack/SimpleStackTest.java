@@ -3,6 +3,7 @@ package ru.job4j.stack;
 import org.junit.Test;
 
 import java.util.EmptyStackException;
+import java.util.NoSuchElementException;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -20,7 +21,7 @@ public class SimpleStackTest {
         assertThat(stack.poll(), is(1));
     }
 
-    @Test(expected = EmptyStackException.class)
+    @Test(expected = NoSuchElementException.class)
     public void whenPollShouldThrowExceptionIfEmpty() {
         SimpleStack<Integer> stack = new SimpleStack<>();
         stack.poll();
