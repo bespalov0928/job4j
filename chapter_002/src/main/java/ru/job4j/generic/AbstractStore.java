@@ -3,7 +3,7 @@ package ru.job4j.generic;
 public abstract class AbstractStore<T extends Base> implements Store<T> {
     private SimpleArray<T> items;
 
-    AbstractStore(int length) {
+    public AbstractStore(int length) {
         this.items = new SimpleArray<>(length);
     }
 
