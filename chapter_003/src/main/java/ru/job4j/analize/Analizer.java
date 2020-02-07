@@ -5,28 +5,23 @@ import java.util.*;
 public class Analizer {
 
     public Info diff(List<User> previous, List<User> current) {
-        var deleted = new ArrayList<User>();
-        var changed = new ArrayList<User>();
-        var same = new ArrayList<User>();
+        int deleted = 0, changed = 0;
         var temp = new ArrayList<>(current);
 
         for (User prevUser : previous) {
             Optional<User> currUser = current.stream().filter(u -> u.id == prevUser.id).findFirst();
             if (currUser.isEmpty()) {
-                deleted.add(prevUser);
+                deleted++;
                 continue;
             }
             User user = currUser.get();
             if (!prevUser.equals(user)) {
-                changed.add(user);
-            } else {
-                same.add(user);
+                changed++;
             }
+            temp.remove(user);
         }
-        temp.removeAll(changed);
-        temp.removeAll(same);
 
-        return new Info(temp.size(), changed.size(), deleted.size());
+        return new Info(temp.size(), changed, deleted);
     }
 
     public static class User {
