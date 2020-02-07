@@ -79,4 +79,23 @@ public class TreeTest {
         it.next();
         it.next();
     }
+
+    @Test
+    public void whenIsBinaryReturnTrue() {
+        Tree<Integer> tree = new Tree<>(1);
+        tree.add(1, 2);
+        tree.add(1, 3);
+        tree.add(2, 4);
+        tree.add(3, 5);
+        assertTrue(tree.isBinary());
+    }
+
+    @Test
+    public void whenIsBinaryReturnFalse() {
+        Tree<Integer> tree = new Tree<>(1);
+        tree.add(1, 2);
+        tree.add(1, 3);
+        tree.add(1, 4);
+        assertFalse(tree.isBinary());
+    }
 }

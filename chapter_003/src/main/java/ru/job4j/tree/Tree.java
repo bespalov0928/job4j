@@ -41,12 +41,37 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         return rsl;
     }
 
-    @Override
-    public Iterator<E> iterator() {
-        return new TreeIterator();
+    public boolean isBinary() {
+        boolean rsl = true;
+        TreeIterator it = new TreeIterator();
+        while (it.hasNext()) {
+            Node<E> node = it.next();
+            if (node.leaves().size() > 2) {
+                rsl = false;
+                break;
+            }
+        }
+        return rsl;
     }
 
-    private class TreeIterator implements Iterator<E> {
+    @Override
+    public Iterator<E> iterator() {
+        return new Iterator<>() {
+            private TreeIterator treeIt = new TreeIterator();
+
+            @Override
+            public boolean hasNext() {
+                return treeIt.hasNext();
+            }
+
+            @Override
+            public E next() {
+                return treeIt.next().getValue();
+            }
+        };
+    }
+
+    private class TreeIterator implements Iterator<Node<E>> {
         private Queue<Node<E>> items = new LinkedList<>();
 
         public TreeIterator() {
@@ -59,7 +84,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         }
 
         @Override
-        public E next() {
+        public Node<E> next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
@@ -67,7 +92,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
             for (Node<E> leaf : node.leaves()) {
                 items.offer(leaf);
             }
-            return node.getValue();
+            return node;
         }
     }
 }
