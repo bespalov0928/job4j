@@ -26,7 +26,7 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
     boolean insert(K key, V value) {
         var result = false;
         grow();
-        int index = bucketIndex(key);
+        int index = bucketIndex(key, items.length);
         if (!keyExist(index, key)) {
             items[index] = new Node<>(key, value);
             size++;
@@ -37,7 +37,7 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
 
     public V get(K key) {
         V result = null;
-        int index = bucketIndex(key);
+        int index = bucketIndex(key, items.length);
         if (keyExist(index, key)) {
             result = items[index].value;
         }
@@ -46,7 +46,7 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
 
     public boolean delete(K key) {
         var result = false;
-        int index = bucketIndex(key);
+        int index = bucketIndex(key, items.length);
         if (keyExist(index, key)) {
             items[index] = null;
             size--;
@@ -69,12 +69,25 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
 
     private void grow() {
         if (items.length == size) {
-            items = Arrays.copyOf(items, items.length * 2);
+            Node<K, V>[] newItems = (Node<K, V>[]) new Node[items.length * 2];
+            copyNodesToNewArray(newItems);
+            items = newItems;
         }
     }
 
-    private int bucketIndex(K key) {
-        return Math.abs(key.hashCode()) % items.length;
+    private void copyNodesToNewArray(Node<K, V>[] newItems) {
+        for (Node<K, V> node : items) {
+            if (node != null) {
+                int index = bucketIndex(node.key, newItems.length);
+                if (newItems[index] == null) {
+                    newItems[index] = node;
+                }
+            }
+        }
+    }
+
+    private int bucketIndex(K key, int length) {
+        return Math.abs(key.hashCode()) % length;
     }
 
     private boolean keyExist(int index, K key) {
