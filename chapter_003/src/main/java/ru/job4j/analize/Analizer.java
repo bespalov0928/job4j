@@ -1,27 +1,28 @@
 package ru.job4j.analize;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Analizer {
 
     public Info diff(List<User> previous, List<User> current) {
         int deleted = 0, changed = 0;
-        var temp = new HashSet<>(current);
+        Map<Integer, User> map = current.stream().collect(Collectors.toMap(User::getId, Function.identity()));
 
         for (User prevUser : previous) {
-            Optional<User> currUser = temp.stream().filter(u -> u.id == prevUser.id).findFirst();
-            if (currUser.isEmpty()) {
+            User currUser = map.get(prevUser.id);
+            if (currUser == null) {
                 deleted++;
                 continue;
             }
-            User user = currUser.get();
-            if (!prevUser.equals(user)) {
+            if (!prevUser.equals(currUser)) {
                 changed++;
             }
-            temp.remove(user);
+            map.remove(prevUser.id);
         }
 
-        return new Info(temp.size(), changed, deleted);
+        return new Info(map.size(), changed, deleted);
     }
 
     public static class User {
@@ -31,6 +32,10 @@ public class Analizer {
         public User(int id, String name) {
             this.id = id;
             this.name = name;
+        }
+
+        public int getId() {
+            return id;
         }
 
         @Override
