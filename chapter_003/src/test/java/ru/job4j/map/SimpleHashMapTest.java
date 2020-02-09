@@ -55,6 +55,19 @@ public class SimpleHashMapTest {
     }
 
     @Test
+    public void whenAllElementsAreAvailableAfterMapGrowth() {
+        var map = new SimpleHashMap<Integer, String>();
+        map.insert(0, "First");
+        map.insert(1, "Second");
+        var oldLength = map.getLength();
+        var result = map.insert(2, "Third");
+        assertTrue(map.getLength() > oldLength);
+        assertThat(map.get(0), is("First"));
+        assertThat(map.get(1), is("Second"));
+        assertThat(map.get(2), is("Third"));
+    }
+
+    @Test
     public void whenGetByPresentIndexShouldReturnValue() {
         var map = new SimpleHashMap<Integer, String>();
         map.insert(0, "First");
@@ -64,7 +77,7 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void whenKeyHaveSameHashCodeAsPresentKeyButKeysAreNotEqualShouldReturnNull() {
+    public void whenKeyHaveSameHashCodeAsPresentKeyButKeysAreNotEqualInsertShouldReturnNull() {
         var map = new SimpleHashMap<Integer, String>();
         map.insert(0, "First");
         assertNull(map.get(2));
