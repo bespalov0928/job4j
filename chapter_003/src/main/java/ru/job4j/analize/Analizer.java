@@ -6,10 +6,10 @@ public class Analizer {
 
     public Info diff(List<User> previous, List<User> current) {
         int deleted = 0, changed = 0;
-        var temp = new ArrayList<>(current);
+        var temp = new HashSet<>(current);
 
         for (User prevUser : previous) {
-            Optional<User> currUser = current.stream().filter(u -> u.id == prevUser.id).findFirst();
+            Optional<User> currUser = temp.stream().filter(u -> u.id == prevUser.id).findFirst();
             if (currUser.isEmpty()) {
                 deleted++;
                 continue;
