@@ -40,9 +40,9 @@ public class DisjointGroups {
             } else {
                 groupNumber = groupsWithSameNumbers.first();
             }
-            for (var number : newNumbers) {
-                numbersGroups.put(number, groupNumber);
-            }
+
+            newNumbers.forEach(n -> numbersGroups.put(n, groupNumber));
+
             for (var group : groupsWithSameNumbers) {
                 if (group != groupNumber) {
                     mergedGroups.put(group, groupNumber);
