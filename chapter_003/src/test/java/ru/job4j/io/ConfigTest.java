@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.StringJoiner;
 
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 public class ConfigTest {
@@ -40,5 +41,13 @@ public class ConfigTest {
                 config.value("name"),
                 is("Dmitry Pratsun")
         );
+    }
+
+    @Test
+    public void whenNoPairs() {
+        String path = "./data/no_pair.properties";
+        Config config = new Config(path);
+        config.load();
+        assertNull(config.value("name"));
     }
 }
