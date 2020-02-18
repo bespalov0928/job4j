@@ -1,4 +1,4 @@
-package ru.job4j.disjointgroups;
+package ru.job4j.io;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class FileSearch {
             File dir = directoryQueue.poll();
             for (var file : dir.listFiles()) {
                 if (file.isFile()) {
-                    if (extensions.contains(getFileExtension(file.getName()))) {
+                    if (isCorrectExtension(file.getName(), extensions)) {
                         result.add(file);
                     }
                 } else if (file.isDirectory()) {
@@ -27,12 +27,14 @@ public class FileSearch {
         return result;
     }
 
-    private String getFileExtension(String fileName) {
-        String extension = "";
-        int i = fileName.lastIndexOf('.');
-        if (i > 0) {
-            extension = fileName.substring(i + 1);
+    private boolean isCorrectExtension(String fileName, List<String> extensions) {
+        var result = false;
+        for (var extension : extensions) {
+            if (fileName.endsWith(extension)) {
+                result = true;
+                break;
+            }
         }
-        return extension;
+        return result;
     }
 }

@@ -2,14 +2,9 @@ package ru.job4j.io;
 
 import org.junit.Before;
 import org.junit.Test;
-import ru.job4j.disjointgroups.FileSearch;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
