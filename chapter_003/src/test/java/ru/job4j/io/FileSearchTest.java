@@ -30,8 +30,8 @@ public class FileSearchTest {
     public void whenReturnOnlyTxtFile() {
         List<File> result = new FileSearch().files(path, List.of("txt"));
         assertThat(
-                result.stream().map(File::getName).collect(Collectors.joining())
-                , is("1.txt")
+                result.stream().map(File::getName).collect(Collectors.joining()),
+                is("1.txt")
         );
     }
 
@@ -39,8 +39,8 @@ public class FileSearchTest {
     public void whenReturnOnlyCsvFile() {
         List<File> result = new FileSearch().files(path, List.of("csv"));
         assertThat(
-                result.stream().map(File::getName).collect(Collectors.joining())
-                , is("2.csv")
+                result.stream().map(File::getName).collect(Collectors.joining()),
+                is("2.csv")
         );
     }
 
@@ -48,8 +48,8 @@ public class FileSearchTest {
     public void whenReturnAllFiles() {
         List<File> result = new FileSearch().files(path, List.of("txt", "csv", "xml"));
         assertThat(
-                result.stream().map(File::getName).collect(Collectors.toList())
-                , is(List.of("1.txt", "2.csv", "3.xml"))
+                result.stream().map(File::getName).collect(Collectors.toList()),
+                is(List.of("1.txt", "2.csv", "3.xml"))
         );
     }
 }

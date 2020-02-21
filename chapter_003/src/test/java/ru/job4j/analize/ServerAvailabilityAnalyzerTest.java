@@ -16,8 +16,8 @@ public class ServerAvailabilityAnalyzerTest {
 
     @Test
     public void whenSourceFileNotAvailable() {
-        new ServerAvailabilityAnalyzer().unavailable("", TARGET_FILE_PATH);
-        assertFalse(new File(TARGET_FILE_PATH).exists());
+        new ServerAvailabilityAnalyzer().unavailable("", "./data/result.csv");
+        assertFalse(new File("./data/result.csv").exists());
     }
 
     @Test
