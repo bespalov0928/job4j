@@ -2,26 +2,33 @@ package ru.job4j.zip;
 
 import java.io.*;
 import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class Zip {
 
-    private static List<File> seekBy(String root, String exclude) {
+    private static List<File> seekBy(String root, Predicate<File> predicate) {
         Queue<File> queue = new LinkedList<>(Arrays.asList(new File(root)));
         List<File> result = new ArrayList<>();
         while (!queue.isEmpty()) {
             File dir = queue.poll();
-            File[] files = dir.listFiles(file -> exclude.isEmpty() || !file.getName().endsWith(exclude));
-            if (files == null || files.length == 0) {
+            File[] files = dir.listFiles();
+            if (files == null) {
                 result.add(dir);
-            } else {
-                for (var file : files) {
-                    if (file.isDirectory()) {
-                        queue.offer(file);
-                    } else {
-                        result.add(file);
-                    }
+                continue;
+            }
+            var filesList = Stream.of(files).filter(predicate).collect(Collectors.toList());
+            if (filesList.size() == 0) {
+                result.add(dir);
+            }
+            for (var file : filesList) {
+                if (file.isDirectory()) {
+                    queue.offer(file);
+                } else {
+                    result.add(file);
                 }
             }
         }
@@ -45,6 +52,14 @@ public class Zip {
         zos.close();
     }
 
+    private static Predicate<File> getSearchConditions(Args arguments) {
+        Predicate<File> predicate = file -> arguments.exclude().isEmpty();
+        if (!arguments.exclude().isEmpty()) {
+            predicate = predicate.or(file -> !file.getName().endsWith(arguments.exclude()));
+        }
+        return predicate;
+    }
+
     public static void main(String[] args) {
         var arguments = new Args(args);
         var directory = arguments.directory();
@@ -63,7 +78,8 @@ public class Zip {
         }
 
         if (!error) {
-            List<File> files = seekBy(directory, arguments.exclude());
+            Predicate<File> predicate = getSearchConditions(arguments);
+            List<File> files = seekBy(directory, predicate);
             try {
                 pack(files, new File(output));
             } catch (IOException e) {
