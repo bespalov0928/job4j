@@ -1,16 +1,18 @@
 package ru.job4j.zip;
 
+import ru.job4j.commandoptions.CommandOption;
+import ru.job4j.commandoptions.CommandOptions;
 import ru.job4j.io.ExcludeFileFilter;
 
 import java.io.*;
 import java.util.*;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class Zip {
+    private static final String DIRECTORY_OPTION = "-d";
+    private static final String EXCLUDE_OPTION = "-e";
+    private static final String OUTPUT_OPTION = "-o";
 
     private static List<File> seekBy(String root, FileFilter fileFilter) {
         Queue<File> queue = new LinkedList<>(Arrays.asList(new File(root)));
@@ -20,6 +22,7 @@ public class Zip {
             File[] files = dir.listFiles(fileFilter);
             if (files == null || files.length == 0) {
                 result.add(dir);
+                continue;
             }
             for (var file : files) {
                 if (file.isDirectory()) {
@@ -50,29 +53,38 @@ public class Zip {
     }
 
     public static void main(String[] args) {
-        var arguments = new Args(args);
-        var directory = arguments.directory();
-        var output = arguments.output();
+        CommandOptions options = new CommandOptions();
 
-        var error = false;
+        options.add(new CommandOption(
+                DIRECTORY_OPTION,
+                "directory to archive",
+                true,
+                s -> new File(s).isDirectory()));
 
-        if (directory.isEmpty()) {
-            System.out.println("Set directory you want to archive!");
-            error = true;
+        options.add(new CommandOption(
+                EXCLUDE_OPTION,
+                "filename or mask for files to exclude",
+                false,
+                CommandOption::defaultPredicate,
+                s -> s.startsWith("*") ? s.substring(1) : s));
+
+        options.add(new CommandOption(
+                OUTPUT_OPTION,
+                "file name for zip file",
+                true,
+                s -> s.endsWith(".zip") && s.length() > 5));
+
+        if (!options.parse(args)) {
+            options.printErrors();
+            options.printHelp();
+            return;
         }
 
-        if (output.isEmpty()) {
-            System.out.println("Set directory output file name!");
-            error = true;
-        }
-
-        if (!error) {
-            List<File> files = seekBy(directory, new ExcludeFileFilter(arguments.exclude()));
-            try {
-                pack(files, new File(output));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        List<File> files = seekBy(options.get(DIRECTORY_OPTION), new ExcludeFileFilter(options.get(EXCLUDE_OPTION)));
+        try {
+            pack(files, new File(options.get(OUTPUT_OPTION)));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
