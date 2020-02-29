@@ -15,24 +15,21 @@ public class CommandOptions {
     }
 
     public boolean parse(String[] args) {
-        var input = new LinkedList<>(Arrays.asList(args));
+        var input = Arrays.asList(args);
         for (var key : optionMap.keySet()) {
             var option = optionMap.get(key);
-
             var index = input.indexOf(key);
-            if (index < 0 && !option.isRequired()) {
-                continue;
-            }
-            if (index < 0 && option.isRequired()) {
-                errors.add(String.format(ERROR_KEY_REQUIRED, key));
+            if (index < 0) {
+                if (option.isRequired()) {
+                    errors.add(String.format(ERROR_KEY_REQUIRED, key));
+                }
                 continue;
             }
             option.setPresent(true);
-            if (++index == input.size() && option.isRequired()) {
-                errors.add(String.format(ERROR_INPUT_KEY_VALUE, key));
-                continue;
-            }
-            if (index == input.size()) {
+            if (++index == input.size()) {
+                if (option.isRequired()) {
+                    errors.add(String.format(ERROR_INPUT_KEY_VALUE, key));
+                }
                 continue;
             }
             var value = input.get(index);
