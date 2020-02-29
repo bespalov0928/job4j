@@ -8,6 +8,7 @@ public class CommandOption {
     private String value;
     private final String description;
     private final boolean required;
+    private boolean present = false;
     private Predicate<String> valuePredicate = CommandOption::defaultPredicate;
     private Function<String, String> valueParser = s -> s;
 
@@ -39,6 +40,10 @@ public class CommandOption {
         return required;
     }
 
+    public boolean isPresent() {
+        return present;
+    }
+
     public String getValue() {
         return value;
     }
@@ -50,6 +55,10 @@ public class CommandOption {
             result = true;
         }
         return result;
+    }
+
+    public void setPresent(boolean present) {
+        this.present = present;
     }
 
     public static boolean defaultPredicate(String value) {

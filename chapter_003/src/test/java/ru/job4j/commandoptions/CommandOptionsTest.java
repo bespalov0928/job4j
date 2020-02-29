@@ -28,7 +28,7 @@ public class CommandOptionsTest {
         commandOptions.add(new CommandOption("-k", "description", true));
         String[] args = {"-k", "value"};
         commandOptions.parse(args);
-        assertEquals("value", commandOptions.get("-k"));
+        assertEquals("value", commandOptions.value("-k"));
     }
 
     @Test
@@ -45,7 +45,7 @@ public class CommandOptionsTest {
         commandOptions.add(new CommandOption("-k", "description", false));
         String[] args = {"-k", "value", "-d"};
         assertTrue(commandOptions.parse(args));
-        assertEquals("value", commandOptions.get("-k"));
+        assertEquals("value", commandOptions.value("-k"));
     }
 
     @Test
@@ -54,7 +54,7 @@ public class CommandOptionsTest {
         commandOptions.add(new CommandOption("-k", "description", true));
         String[] args = {"-k", "value", "-k"};
         assertTrue(commandOptions.parse(args));
-        assertEquals("value", commandOptions.get("-k"));
+        assertEquals("value", commandOptions.value("-k"));
     }
 
     @Test
@@ -72,5 +72,14 @@ public class CommandOptionsTest {
         commandOptions.add(new CommandOption("-k", "description", true));
         String[] args = {"-k", ""};
         assertFalse(commandOptions.parse(args));
+    }
+
+    @Test
+    public void testWhenOptionNotRequiredButPresentThanParseShouldReturnTrue() {
+        var commandOptions = new CommandOptions();
+        commandOptions.add(new CommandOption("-k", "description", false));
+        String[] args = {"-k"};
+        assertTrue(commandOptions.parse(args));
+        assertTrue(commandOptions.option("-k").isPresent());
     }
 }

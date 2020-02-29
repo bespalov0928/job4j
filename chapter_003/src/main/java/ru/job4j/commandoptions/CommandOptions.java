@@ -27,11 +27,14 @@ public class CommandOptions {
                 errors.add(String.format(ERROR_KEY_REQUIRED, key));
                 continue;
             }
+            option.setPresent(true);
             if (++index == input.size() && option.isRequired()) {
                 errors.add(String.format(ERROR_INPUT_KEY_VALUE, key));
                 continue;
             }
-
+            if (index == input.size()) {
+                continue;
+            }
             var value = input.get(index);
             var nextCommand = optionMap.get(value);
             if (nextCommand != null && option.isRequired()) {
@@ -43,9 +46,13 @@ public class CommandOptions {
         return errors.isEmpty();
     }
 
-    public String get(String key) {
+    public String value(String key) {
         var option = optionMap.get(key);
         return option == null ? "" : option.getValue();
+    }
+
+    public CommandOption option(String key) {
+        return optionMap.get(key);
     }
 
     public void printErrors() {
