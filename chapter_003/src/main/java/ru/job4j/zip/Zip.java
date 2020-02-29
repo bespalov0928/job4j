@@ -80,9 +80,9 @@ public class Zip {
             return;
         }
 
-        List<File> files = seekBy(options.get(DIRECTORY_OPTION), new ExcludeFileFilter(options.get(EXCLUDE_OPTION)));
+        List<File> files = seekBy(options.value(DIRECTORY_OPTION), new ExcludeFileFilter(options.value(EXCLUDE_OPTION)));
         try {
-            pack(files, new File(options.get(OUTPUT_OPTION)));
+            pack(files, new File(options.value(OUTPUT_OPTION)));
         } catch (IOException e) {
             e.printStackTrace();
         }
