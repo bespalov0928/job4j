@@ -33,6 +33,17 @@ public class FileSearchTest {
                 result.stream().map(File::getName).collect(Collectors.joining()),
                 is("1.txt")
         );
+
+        var chainedFilter = new ChainedFileFilter();
+
+        chainedFilter.add(File::isDirectory);
+        chainedFilter.add(new ExtensionFileFilter("txt"));
+
+        result = new FileSearch().files(path, chainedFilter);
+        assertThat(
+                result.stream().map(File::getName).collect(Collectors.joining()),
+                is("1.txt")
+        );
     }
 
     @Test
@@ -42,11 +53,35 @@ public class FileSearchTest {
                 result.stream().map(File::getName).collect(Collectors.joining()),
                 is("2.csv")
         );
+
+        var chainedFilter = new ChainedFileFilter();
+
+        chainedFilter.add(File::isDirectory);
+        chainedFilter.add(new ExtensionFileFilter("csv"));
+
+        result = new FileSearch().files(path, chainedFilter);
+        assertThat(
+                result.stream().map(File::getName).collect(Collectors.joining()),
+                is("2.csv")
+        );
     }
 
     @Test
     public void whenReturnAllFiles() {
         List<File> result = new FileSearch().files(path, List.of("txt", "csv", "xml"));
+        assertThat(
+                result.stream().map(File::getName).collect(Collectors.toList()),
+                is(List.of("1.txt", "2.csv", "3.xml"))
+        );
+
+        var chainedFilter = new ChainedFileFilter();
+
+        chainedFilter.add(File::isDirectory);
+        chainedFilter.add(new ExtensionFileFilter("xml"));
+        chainedFilter.add(new ExtensionFileFilter("csv"));
+        chainedFilter.add(new ExtensionFileFilter("txt"));
+
+        result = new FileSearch().files(path, chainedFilter);
         assertThat(
                 result.stream().map(File::getName).collect(Collectors.toList()),
                 is(List.of("1.txt", "2.csv", "3.xml"))
