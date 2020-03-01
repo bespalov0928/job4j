@@ -28,7 +28,7 @@ public class CommandOptionsTest {
         commandOptions.add(new CommandOption("-k", "description", true));
         String[] args = {"-k", "value"};
         commandOptions.parse(args);
-        assertEquals("value", commandOptions.value("-k"));
+        assertEquals("value", commandOptions.getOptionValue("-k"));
     }
 
     @Test
@@ -45,7 +45,7 @@ public class CommandOptionsTest {
         commandOptions.add(new CommandOption("-k", "description", false));
         String[] args = {"-k", "value", "-d"};
         assertTrue(commandOptions.parse(args));
-        assertEquals("value", commandOptions.value("-k"));
+        assertEquals("value", commandOptions.getOptionValue("-k"));
     }
 
     @Test
@@ -54,7 +54,7 @@ public class CommandOptionsTest {
         commandOptions.add(new CommandOption("-k", "description", true));
         String[] args = {"-k", "value", "-k"};
         assertTrue(commandOptions.parse(args));
-        assertEquals("value", commandOptions.value("-k"));
+        assertEquals("value", commandOptions.getOptionValue("-k"));
     }
 
     @Test
@@ -80,6 +80,6 @@ public class CommandOptionsTest {
         commandOptions.add(new CommandOption("-k", "description", false));
         String[] args = {"-k"};
         assertTrue(commandOptions.parse(args));
-        assertTrue(commandOptions.option("-k").isPresent());
+        assertTrue(commandOptions.getOption("-k").isPresent());
     }
 }

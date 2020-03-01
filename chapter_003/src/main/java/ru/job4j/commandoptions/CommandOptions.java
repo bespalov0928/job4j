@@ -17,7 +17,7 @@ public class CommandOptions {
     public boolean parse(String[] args) {
         var input = Arrays.asList(args);
         for (var key : optionMap.keySet()) {
-            var option = optionMap.get(key);
+            var option = getOption(key);
             var index = input.indexOf(key);
             if (index < 0) {
                 if (option.isRequired()) {
@@ -33,22 +33,21 @@ public class CommandOptions {
                 continue;
             }
             var value = input.get(index);
-            var nextCommand = optionMap.get(value);
-            if (nextCommand != null && option.isRequired()) {
-                errors.add(String.format(ERROR_INPUT_KEY_VALUE, key));
-            } else if (!option.setValue(value)) {
+            var nextOption = getOption(value);
+            if (nextOption == null && !option.setValue(value)) {
                 errors.add(String.format(ERROR_INPUT_INCORRECT, key));
+            } else if (nextOption != null && option.isRequired()) {
+                errors.add(String.format(ERROR_INPUT_KEY_VALUE, key));
             }
         }
         return errors.isEmpty();
     }
 
-    public String value(String key) {
-        var option = optionMap.get(key);
-        return option == null ? "" : option.getValue();
+    public String getOptionValue(String key) {
+        return getOption(key).getValue();
     }
 
-    public CommandOption option(String key) {
+    public CommandOption getOption(String key) {
         return optionMap.get(key);
     }
 
@@ -59,9 +58,6 @@ public class CommandOptions {
 
     public void printHelp() {
         System.out.println("Help:");
-        optionMap.keySet().forEach(k -> {
-            var option = optionMap.get(k);
-            System.out.println(String.join(" ", k, option.getDescription()));
-        });
+        optionMap.keySet().forEach(k -> System.out.println(String.join(" ", k, getOption(k).getDescription())));
     }
 }

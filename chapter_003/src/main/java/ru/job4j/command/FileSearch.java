@@ -56,17 +56,17 @@ public class FileSearch {
         ChainedFileFilter fileFilter = new ChainedFileFilter();
 
         fileFilter.add(File::isDirectory);
-        if (commandOptions.option(FILENAME_FULL_OPTION).isPresent()) {
-            fileFilter.add(f -> f.getName().equals(commandOptions.value(FILENAME_OPTION)));
-        } else if (commandOptions.option(FILENAME_MASK_OPTION).isPresent()) {
-            fileFilter.add(f -> f.getName().contains(commandOptions.value(FILENAME_OPTION)));
+        if (commandOptions.getOption(FILENAME_FULL_OPTION).isPresent()) {
+            fileFilter.add(f -> f.getName().equals(commandOptions.getOptionValue(FILENAME_OPTION)));
+        } else if (commandOptions.getOption(FILENAME_MASK_OPTION).isPresent()) {
+            fileFilter.add(f -> f.getName().contains(commandOptions.getOptionValue(FILENAME_OPTION)));
         } else {
-            fileFilter.add(f -> f.getName().equals(commandOptions.value(FILENAME_OPTION)));
+            fileFilter.add(f -> f.getName().equals(commandOptions.getOptionValue(FILENAME_OPTION)));
         }
 
-        var files = new ru.job4j.io.FileSearch().files(commandOptions.value(DIRECTORY_OPTION), fileFilter);
+        var files = new ru.job4j.io.FileSearch().files(commandOptions.getOptionValue(DIRECTORY_OPTION), fileFilter);
 
-        try (PrintWriter pw = new PrintWriter(new FileWriter(commandOptions.value(OUTPUT_OPTION)))) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(commandOptions.getOptionValue(OUTPUT_OPTION)))) {
             files.forEach(file -> pw.println(file.getAbsolutePath()));
         } catch (IOException e) {
             e.printStackTrace();
