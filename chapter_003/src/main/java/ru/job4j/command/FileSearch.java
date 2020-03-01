@@ -56,12 +56,13 @@ public class FileSearch {
         ChainedFileFilter fileFilter = new ChainedFileFilter();
 
         fileFilter.add(File::isDirectory);
+        var fileName = commandOptions.getOptionValue(FILENAME_OPTION);
         if (commandOptions.getOption(FILENAME_FULL_OPTION).isPresent()) {
-            fileFilter.add(f -> f.getName().equals(commandOptions.getOptionValue(FILENAME_OPTION)));
+            fileFilter.add(f -> fileName.equals(f.getName()));
         } else if (commandOptions.getOption(FILENAME_MASK_OPTION).isPresent()) {
-            fileFilter.add(f -> f.getName().contains(commandOptions.getOptionValue(FILENAME_OPTION)));
+            fileFilter.add(f -> fileName.contains(f.getName()));
         } else {
-            fileFilter.add(f -> f.getName().equals(commandOptions.getOptionValue(FILENAME_OPTION)));
+            fileFilter.add(f -> fileName.equals(f.getName()));
         }
 
         var files = new ru.job4j.io.FileSearch().files(commandOptions.getOptionValue(DIRECTORY_OPTION), fileFilter);
