@@ -60,7 +60,7 @@ public class FileSearch {
         if (commandOptions.getOption(FILENAME_FULL_OPTION).isPresent()) {
             fileFilter.add(f -> fileName.equals(f.getName()));
         } else if (commandOptions.getOption(FILENAME_MASK_OPTION).isPresent()) {
-            fileFilter.add(f -> fileName.contains(f.getName()));
+            fileFilter.add(f -> f.getName().contains(fileName));
         } else {
             fileFilter.add(f -> fileName.equals(f.getName()));
         }
