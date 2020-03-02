@@ -52,3 +52,8 @@ where count > 10;
 select p.*, pt.name
 from product as p
 left join product_type as pt on p.type_id = pt.id
+
+/* Или без джоина */
+select p.*, pt.name
+from product as p, product_type as pt
+where p.type_id = pt.id
