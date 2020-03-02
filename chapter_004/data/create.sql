@@ -45,7 +45,6 @@ CREATE TABLE IF NOT EXISTS user_requests.user (
   role_id int(11) NOT NULL,
   FOREIGN KEY (role_id)
         REFERENCES user_role (id)
-        ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 INSERT INTO user_requests.user (id, name, role_id) VALUES
@@ -70,15 +69,6 @@ INSERT INTO user_requests.request_category (id, category) VALUES
 (1, 'Category 1'),
 (2, 'Category 2');
 
-CREATE TABLE IF NOT EXISTS user_requests.request_attachment (
-  id int(11) PRIMARY KEY AUTO_INCREMENT,
-  path text NOT NULL
-) ENGINE=InnoDB;
-
-INSERT INTO user_requests.request_attachment (id, path) VALUES
-(1, '/data/1.jpg'),
-(2, '/data/2.jpg');
-
 CREATE TABLE IF NOT EXISTS user_requests.request (
   id int(11) PRIMARY KEY AUTO_INCREMENT,
   user_id int(11) NOT NULL,
@@ -97,21 +87,18 @@ CREATE TABLE IF NOT EXISTS user_requests.request (
 INSERT INTO user_requests.request (id, user_id, status_id, category_id, date_time) VALUES
 (1, 1, 1, 1, '2020-03-02 19:32:33');
 
-CREATE TABLE IF NOT EXISTS user_requests.request_to_attachment (
+CREATE TABLE IF NOT EXISTS user_requests.request_attachment (
   id int(11) PRIMARY KEY AUTO_INCREMENT,
   request_id int(11) NOT NULL,
-  attachment_id int(11) NOT NULL,
+  path text NOT NULL,
   FOREIGN KEY (request_id)
         REFERENCES request (id)
-        ON DELETE CASCADE,
-  FOREIGN KEY (attachment_id)
-        REFERENCES request_attachment (id)
         ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
-INSERT INTO user_requests.request_to_attachment (id, request_id, attachment_id) VALUES
-(1, 1, 1),
-(2, 1, 2);
+INSERT INTO user_requests.request_attachment (id, request_id, path) VALUES
+(1, 1, '/data/1.jpg'),
+(2, 1, '/data/2.jpg');
 
 CREATE TABLE IF NOT EXISTS user_requests.request_comment (
   id int(11) PRIMARY KEY AUTO_INCREMENT,
