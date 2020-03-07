@@ -44,9 +44,10 @@ from product
 where type_id in (1, 2);
 
 /* 7. Написать запрос, который выводит тип продуктов, которых осталось меньше 10 штук.*/
-select *
-from product
-where count > 10;
+SELECT COUNT(id) as count, type_id
+FROM `product`
+GROUP BY type_id
+HAVING count > 10
 
 /* 8. Вывести все продукты и их тип.*/
 select p.*, pt.name
