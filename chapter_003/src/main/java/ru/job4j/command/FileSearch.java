@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 public class FileSearch {
     private static final String DIRECTORY_OPTION = "-d";
@@ -16,9 +17,10 @@ public class FileSearch {
     private static final String FILENAME_FULL_OPTION = "-f";
     private static final String OUTPUT_OPTION = "-o";
 
-    public static void main(String[] args) {
-        CommandOptions commandOptions = new CommandOptions();
+    private final CommandOptions commandOptions = new CommandOptions();
+    private final ChainedFileFilter fileFilter = new ChainedFileFilter();
 
+    private void setCommandOptions() {
         commandOptions.add(new CommandOption(
                 DIRECTORY_OPTION,
                 "directory for searching",
@@ -46,15 +48,9 @@ public class FileSearch {
                 FILENAME_FULL_OPTION,
                 "search file by name",
                 false));
+    }
 
-        if (!commandOptions.parse(args)) {
-            commandOptions.printErrors();
-            commandOptions.printHelp();
-            return;
-        }
-
-        ChainedFileFilter fileFilter = new ChainedFileFilter();
-
+    private void setFileFilters() {
         fileFilter.add(File::isDirectory);
         var fileName = commandOptions.getOptionValue(FILENAME_OPTION);
         if (commandOptions.getOption(FILENAME_FULL_OPTION).isPresent()) {
@@ -64,13 +60,40 @@ public class FileSearch {
         } else {
             fileFilter.add(f -> fileName.equals(f.getName()));
         }
+    }
 
-        var files = new ru.job4j.io.FileSearch().files(commandOptions.getOptionValue(DIRECTORY_OPTION), fileFilter);
+    private boolean parseArgs(String[] args) {
+        var result = commandOptions.parse(args);
+        if (!result) {
+            commandOptions.printErrors();
+            commandOptions.printHelp();
+        }
+        return result;
+    }
 
-        try (PrintWriter pw = new PrintWriter(new FileWriter(commandOptions.getOptionValue(OUTPUT_OPTION)))) {
-            files.forEach(file -> pw.println(file.getAbsolutePath()));
+    private List<File> searchFiles() {
+        return new ru.job4j.io.FileSearch().files(commandOptions.getOptionValue(DIRECTORY_OPTION), fileFilter);
+    }
+
+    private void saveResultToFile(List<File> files) {
+        try (var pw = new PrintWriter(new FileWriter(commandOptions.getOptionValue(OUTPUT_OPTION)))) {
+            files.stream().map(File::getAbsolutePath).forEach(pw::println);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void search(String[] args) {
+        setCommandOptions();
+        if (!parseArgs(args)) {
+            return;
+        }
+        setFileFilters();
+        var files = searchFiles();
+        saveResultToFile(files);
+    }
+
+    public static void main(String[] args) {
+        new FileSearch().search(args);
     }
 }
