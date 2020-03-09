@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import ru.job4j.tracker.tracker.ITracker;
+
 public class StubAction implements UserAction {
     private boolean call = false;
 
@@ -9,7 +11,7 @@ public class StubAction implements UserAction {
     }
 
     @Override
-    public boolean execute(Input input, Tracker tracker) {
+    public boolean execute(Input input, ITracker tracker) {
         call = true;
         return false;
     }

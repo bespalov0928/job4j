@@ -1,14 +1,14 @@
 package ru.job4j.singleton;
 
 import ru.job4j.tracker.Item;
-import ru.job4j.tracker.Tracker;
+import ru.job4j.tracker.tracker.MemoryTracker;
 
 import java.util.List;
 
 public enum TrackerSingleEnum {
     INSTANCE;
 
-    private Tracker tracker = new Tracker();
+    private MemoryTracker tracker = new MemoryTracker();
 
     public Item add(Item item) {
         return tracker.add(item);

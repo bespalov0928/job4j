@@ -1,11 +1,15 @@
-package ru.job4j.tracker;
+package ru.job4j.tracker.tracker;
+
+import ru.job4j.tracker.Item;
+import ru.job4j.tracker.ItemCompareByNameAsc;
+import ru.job4j.tracker.ItemCompareByNameDesc;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class Tracker {
+public class MemoryTracker implements ITracker {
     /**
      * Массив для хранение заявок.
      */
@@ -16,12 +20,14 @@ public class Tracker {
      *
      * @param item новая заявка
      */
+    @Override
     public Item add(Item item) {
         item.setId(this.generateId());
         this.items.add(item);
         return item;
     }
 
+    @Override
     public Item findById(String id) {
         Item result = null;
         int index = findItemIndexById(id);
@@ -31,6 +37,7 @@ public class Tracker {
         return result;
     }
 
+    @Override
     public boolean replace(String id, Item item) {
         boolean result = false;
         int index = findItemIndexById(id);
@@ -43,6 +50,7 @@ public class Tracker {
         return result;
     }
 
+    @Override
     public boolean delete(String id) {
         boolean result = false;
         int index = findItemIndexById(id);
@@ -53,10 +61,12 @@ public class Tracker {
         return result;
     }
 
+    @Override
     public List<Item> findAll() {
         return this.items;
     }
 
+    @Override
     public List<Item> findByName(String key) {
         List<Item> found = new ArrayList<>();
         for (Item item : this.items) {
@@ -75,7 +85,7 @@ public class Tracker {
         Collections.sort(this.items, new ItemCompareByNameDesc());
     }
 
-    protected int findItemIndexById(String id) {
+    public int findItemIndexById(String id) {
         int result = -1;
         for (int index = 0; index < items.size(); index++) {
             if (items.get(index).getId().equals(id)) {

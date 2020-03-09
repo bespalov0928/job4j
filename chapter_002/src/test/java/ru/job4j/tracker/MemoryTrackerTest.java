@@ -1,20 +1,19 @@
 package ru.job4j.tracker;
 
 import org.junit.Test;
+import ru.job4j.tracker.tracker.MemoryTracker;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
-public class TrackerTest {
+public class MemoryTrackerTest {
 
     @Test
     public void testSortAsc() {
-        Tracker tracker = new Tracker();
+        MemoryTracker tracker = new MemoryTracker();
         Item item1 = new Item("Test");
         tracker.add(item1);
         Item item2 = new Item("Asc");
@@ -27,7 +26,7 @@ public class TrackerTest {
 
     @Test
     public void testSortDesc() {
-        Tracker tracker = new Tracker();
+        MemoryTracker tracker = new MemoryTracker();
         Item item1 = new Item("Asc");
         tracker.add(item1);
         Item item2 = new Item("Test");
@@ -40,7 +39,7 @@ public class TrackerTest {
 
     @Test
     public void testFindAllWhenEmpty() {
-        Tracker tracker = new Tracker();
+        MemoryTracker tracker = new MemoryTracker();
         List<Item> result = tracker.findAll();
         List<Item> expected = new ArrayList<>();
         assertThat(expected, is(result));
@@ -48,7 +47,7 @@ public class TrackerTest {
 
     @Test
     public void testFindAllWhenNotEmpty() {
-        Tracker tracker = new Tracker();
+        MemoryTracker tracker = new MemoryTracker();
         Item item = new Item("Test");
         tracker.add(item);
         List<Item> result = tracker.findAll();
@@ -58,7 +57,7 @@ public class TrackerTest {
 
     @Test
     public void testFindByNameWhenItemPresent() {
-        Tracker tracker = new Tracker();
+        MemoryTracker tracker = new MemoryTracker();
         Item item1 = new Item("test1");
         tracker.add(item1);
         Item item2 = new Item("test1");
@@ -70,7 +69,7 @@ public class TrackerTest {
 
     @Test
     public void testFindByNameWhenItemNotFound() {
-        Tracker tracker = new Tracker();
+        MemoryTracker tracker = new MemoryTracker();
         Item item = new Item("test1");
         tracker.add(item);
         List<Item> result = tracker.findByName("Test");
@@ -80,7 +79,7 @@ public class TrackerTest {
 
     @Test
     public void testDelete() {
-        Tracker tracker = new Tracker();
+        MemoryTracker tracker = new MemoryTracker();
         Item item = new Item("test1");
         tracker.add(item);
         item = new Item("test2");
@@ -92,7 +91,7 @@ public class TrackerTest {
 
     @Test
     public void testDeleteWhenNotExist() {
-        Tracker tracker = new Tracker();
+        MemoryTracker tracker = new MemoryTracker();
         Item item = new Item("test1");
         tracker.add(item);
         boolean result = tracker.delete("11111");
@@ -102,7 +101,7 @@ public class TrackerTest {
 
     @Test
     public void testDeleteWhenEmpty() {
-        Tracker tracker = new Tracker();
+        MemoryTracker tracker = new MemoryTracker();
         boolean result = tracker.delete("11111");
         boolean expected = false;
         assertEquals(expected, result);
@@ -110,7 +109,7 @@ public class TrackerTest {
 
     @Test
     public void whenAddNewItemThenTrackerHasSameItem() {
-        Tracker tracker = new Tracker();
+        MemoryTracker tracker = new MemoryTracker();
         Item item = new Item("test1");
         tracker.add(item);
         Item result = tracker.findById(item.getId());
@@ -119,7 +118,7 @@ public class TrackerTest {
 
     @Test
     public void testFindItemIndexById() {
-        Tracker tracker = new Tracker();
+        MemoryTracker tracker = new MemoryTracker();
         Item item = new Item("test1");
         tracker.add(item);
         item = new Item("test2");
@@ -131,7 +130,7 @@ public class TrackerTest {
 
     @Test
     public void testFindItemIndexByIdWhenNotFound() {
-        Tracker tracker = new Tracker();
+        MemoryTracker tracker = new MemoryTracker();
         Item item = new Item("test1");
         tracker.add(item);
         int result = tracker.findItemIndexById("11111");
@@ -141,7 +140,7 @@ public class TrackerTest {
 
     @Test
     public void whenItemNotFound() {
-        Tracker tracker = new Tracker();
+        MemoryTracker tracker = new MemoryTracker();
         Item item = new Item("test1");
         tracker.add(item);
         Item result = tracker.findById("1234");
@@ -150,7 +149,7 @@ public class TrackerTest {
 
     @Test
     public void whenReplaceNameThenReturnNewName() {
-        Tracker tracker = new Tracker();
+        MemoryTracker tracker = new MemoryTracker();
         Item previous = new Item("test1");
         // Добавляем заявку в трекер. Теперь в объект проинициализирован id.
         tracker.add(previous);

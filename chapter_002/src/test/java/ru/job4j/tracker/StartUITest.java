@@ -2,10 +2,10 @@ package ru.job4j.tracker;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import ru.job4j.tracker.tracker.MemoryTracker;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.StringJoiner;
@@ -26,7 +26,7 @@ public class StartUITest {
                 new String[]{"0"}
         );
         StubAction action = new StubAction();
-        new StartUI(input, new Tracker(), output).init(List.of(new UserAction[]{action}));
+        new StartUI(input, new MemoryTracker(), output).init(List.of(new UserAction[]{action}));
         assertThat(action.isCall(), is(true));
     }
 
@@ -35,7 +35,7 @@ public class StartUITest {
         StubInput input = new StubInput(
                 new String[]{"0"}
         );
-        new StartUI(input, new Tracker(), output).init(Arrays.asList(new UserAction[]{new StubAction()}));
+        new StartUI(input, new MemoryTracker(), output).init(Arrays.asList(new UserAction[]{new StubAction()}));
         String expect = new StringJoiner(System.lineSeparator(), "", System.lineSeparator())
                 .add("0. Stub action")
                 .add("Stub action")
@@ -45,7 +45,7 @@ public class StartUITest {
 
     @Ignore
     public void whenReplaceItem() {
-        Tracker tracker = new Tracker();
+        MemoryTracker tracker = new MemoryTracker();
         Item item = new Item("new item");
         tracker.add(item);
         String[] answers = {
@@ -59,7 +59,7 @@ public class StartUITest {
 
     @Ignore
     public void whenDeleteItem() {
-        Tracker tracker = new Tracker();
+        MemoryTracker tracker = new MemoryTracker();
         Item item = new Item("new item");
         tracker.add(item);
         String[] answers = {item.getId()};
@@ -70,7 +70,7 @@ public class StartUITest {
 
     @Test
     public void whenFindById() {
-        Tracker tracker = new Tracker();
+        MemoryTracker tracker = new MemoryTracker();
         Item item = new Item("Name");
         tracker.add(item);
         String[] answers = {

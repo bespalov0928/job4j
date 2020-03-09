@@ -3,6 +3,8 @@ package ru.job4j.tracker;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import ru.job4j.tracker.tracker.ITracker;
+import ru.job4j.tracker.tracker.MemoryTracker;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -14,7 +16,8 @@ import static org.junit.Assert.assertThat;
 public class ActionsTest {
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
     private final PrintStream stdout = System.out;
-    private final Tracker tracker = new Tracker();
+    private final ITracker tracker = new MemoryTracker();
+
     @Before
     public void loadOutput() {
         System.setOut(new PrintStream(this.out));
