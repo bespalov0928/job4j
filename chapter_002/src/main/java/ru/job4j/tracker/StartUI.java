@@ -1,7 +1,8 @@
 package ru.job4j.tracker;
 
+import ru.job4j.tracker.repository.ListItemRepository;
 import ru.job4j.tracker.tracker.ITracker;
-import ru.job4j.tracker.tracker.MemoryTracker;
+import ru.job4j.tracker.tracker.Tracker;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -25,7 +26,7 @@ public class StartUI {
     public static void main(String[] args) {
         new StartUI(
                 new ValidateInput(new ConsoleInput()),
-                new MemoryTracker(),
+                new Tracker(new ListItemRepository()),
                 System.out::println
         ).
                 init(List.of(

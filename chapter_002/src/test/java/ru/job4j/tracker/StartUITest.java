@@ -2,7 +2,8 @@ package ru.job4j.tracker;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import ru.job4j.tracker.tracker.MemoryTracker;
+import ru.job4j.tracker.repository.ListItemRepository;
+import ru.job4j.tracker.tracker.Tracker;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -26,7 +27,7 @@ public class StartUITest {
                 new String[]{"0"}
         );
         StubAction action = new StubAction();
-        new StartUI(input, new MemoryTracker(), output).init(List.of(new UserAction[]{action}));
+        new StartUI(input, new Tracker(new ListItemRepository()), output).init(List.of(new UserAction[]{action}));
         assertThat(action.isCall(), is(true));
     }
 
@@ -35,7 +36,7 @@ public class StartUITest {
         StubInput input = new StubInput(
                 new String[]{"0"}
         );
-        new StartUI(input, new MemoryTracker(), output).init(Arrays.asList(new UserAction[]{new StubAction()}));
+        new StartUI(input, new Tracker(new ListItemRepository()), output).init(Arrays.asList(new UserAction[]{new StubAction()}));
         String expect = new StringJoiner(System.lineSeparator(), "", System.lineSeparator())
                 .add("0. Stub action")
                 .add("Stub action")
@@ -45,7 +46,7 @@ public class StartUITest {
 
     @Ignore
     public void whenReplaceItem() {
-        MemoryTracker tracker = new MemoryTracker();
+        Tracker tracker = new Tracker(new ListItemRepository());
         Item item = new Item("new item");
         tracker.add(item);
         String[] answers = {
@@ -59,7 +60,7 @@ public class StartUITest {
 
     @Ignore
     public void whenDeleteItem() {
-        MemoryTracker tracker = new MemoryTracker();
+        Tracker tracker = new Tracker(new ListItemRepository());
         Item item = new Item("new item");
         tracker.add(item);
         String[] answers = {item.getId()};
@@ -70,7 +71,7 @@ public class StartUITest {
 
     @Test
     public void whenFindById() {
-        MemoryTracker tracker = new MemoryTracker();
+        Tracker tracker = new Tracker(new ListItemRepository());
         Item item = new Item("Name");
         tracker.add(item);
         String[] answers = {

@@ -1,4 +1,4 @@
-package ru.job4j.tracker.tracker;
+package ru.job4j.tracker.repository;
 
 import ru.job4j.tracker.Item;
 import ru.job4j.tracker.ItemCompareByNameAsc;
@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class MemoryTracker implements ITracker {
+public class ListItemRepository implements IItemRepository {
     /**
      * Массив для хранение заявок.
      */
@@ -78,11 +78,11 @@ public class MemoryTracker implements ITracker {
     }
 
     public void sortAsc() {
-        Collections.sort(this.items, new ItemCompareByNameAsc());
+        this.items.sort(new ItemCompareByNameAsc());
     }
 
     public void sortDesc() {
-        Collections.sort(this.items, new ItemCompareByNameDesc());
+        this.items.sort(new ItemCompareByNameDesc());
     }
 
     public int findItemIndexById(String id) {
