@@ -5,7 +5,6 @@ import ru.job4j.tracker.ItemCompareByNameAsc;
 import ru.job4j.tracker.ItemCompareByNameDesc;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
