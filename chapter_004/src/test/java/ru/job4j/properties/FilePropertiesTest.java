@@ -1,8 +1,8 @@
-package ru.job4j.tracker.properties;
+package ru.job4j.properties;
 
 import org.junit.Test;
-import ru.job4j.tracker.properties.FileProperties;
-import ru.job4j.tracker.properties.IProperties;
+import ru.job4j.properties.FileProperties;
+import ru.job4j.properties.IProperties;
 
 import java.util.NoSuchElementException;
 

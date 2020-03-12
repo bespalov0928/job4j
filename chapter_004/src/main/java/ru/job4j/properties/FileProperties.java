@@ -1,4 +1,4 @@
-package ru.job4j.tracker.properties;
+package ru.job4j.properties;
 
 import java.io.InputStream;
 import java.util.NoSuchElementException;

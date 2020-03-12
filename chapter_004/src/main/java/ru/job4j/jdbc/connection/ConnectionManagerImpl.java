@@ -1,12 +1,11 @@
-package ru.job4j.tracker.connection;
+package ru.job4j.jdbc.connection;
 
-import ru.job4j.tracker.properties.IProperties;
+import ru.job4j.properties.IProperties;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.Properties;
 
-public class DBConnectionManagerImpl implements IDBConnectionManager, AutoCloseable {
+public class ConnectionManagerImpl implements IConnectionManager, AutoCloseable {
     private final static String CONNECTION_URL_PROPERTY = "url";
     private final static String CONNECTION_USER_PROPERTY = "username";
     private final static String CONNECTION_PASSWORD_PROPERTY = "password";
@@ -14,7 +13,7 @@ public class DBConnectionManagerImpl implements IDBConnectionManager, AutoClosea
     private IProperties properties;
     private Connection connection;
 
-    public DBConnectionManagerImpl(IProperties properties) {
+    public ConnectionManagerImpl(IProperties properties) {
         this.properties = properties;
     }
 

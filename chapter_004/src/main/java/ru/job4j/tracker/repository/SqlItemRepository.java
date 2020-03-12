@@ -1,8 +1,8 @@
 package ru.job4j.tracker.repository;
 
 import ru.job4j.tracker.Item;
-import ru.job4j.tracker.executor.QueryExecutor;
-import ru.job4j.tracker.parser.ResultSetParser;
+import ru.job4j.jdbc.executor.QueryExecutor;
+import ru.job4j.jdbc.parser.ResultSetParser;
 
 import java.sql.*;
 import java.util.List;

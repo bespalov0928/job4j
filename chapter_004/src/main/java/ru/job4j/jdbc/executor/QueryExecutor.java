@@ -1,4 +1,4 @@
-package ru.job4j.tracker.executor;
+package ru.job4j.jdbc.executor;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,9 +26,7 @@ public class QueryExecutor {
         return execute(preparedStatement, PreparedStatement::executeUpdate);
     }
 
-    private static <R> R execute(
-            PreparedStatement preparedStatement,
-            ThrowingFunction<PreparedStatement, R> function) {
+    private static <R> R execute(PreparedStatement preparedStatement, ThrowingFunction<PreparedStatement, R> function) {
         R result = null;
         try {
             result = function.apply(preparedStatement);

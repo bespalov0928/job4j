@@ -6,11 +6,9 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import ru.job4j.tracker.Item;
-import ru.job4j.tracker.connection.DBConnectionManagerImpl;
-import ru.job4j.tracker.connection.IDBConnectionManager;
-import ru.job4j.tracker.properties.FileProperties;
-import ru.job4j.tracker.repository.IItemRepository;
-import ru.job4j.tracker.repository.SqlItemRepository;
+import ru.job4j.jdbc.connection.ConnectionManagerImpl;
+import ru.job4j.jdbc.connection.IConnectionManager;
+import ru.job4j.properties.FileProperties;
 
 import java.util.List;
 
@@ -20,19 +18,19 @@ import static org.junit.Assert.*;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SqlItemRepositoryTest {
-    private static IDBConnectionManager connectionManager;
+    private static IConnectionManager connectionManager;
     private static IItemRepository repository;
 
     @BeforeClass
     public static void beforeClass() throws Exception {
-        connectionManager = new DBConnectionManagerImpl(new FileProperties("test.properties"));
+        connectionManager = new ConnectionManagerImpl(new FileProperties("test.properties"));
         repository = new SqlItemRepository(connectionManager.getConnection());
     }
 
     @AfterClass
     public static void afterClass() throws Exception {
         try {
-            ((DBConnectionManagerImpl) connectionManager).close();
+            ((ConnectionManagerImpl) connectionManager).close();
         } catch (Exception e) {
             e.printStackTrace();
         }
