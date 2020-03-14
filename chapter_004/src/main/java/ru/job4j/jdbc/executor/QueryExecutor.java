@@ -26,6 +26,10 @@ public class QueryExecutor {
         return execute(preparedStatement, PreparedStatement::executeUpdate);
     }
 
+    public static int[] executeBatch(PreparedStatement preparedStatement) {
+        return execute(preparedStatement, PreparedStatement::executeBatch);
+    }
+
     private static <R> R execute(PreparedStatement preparedStatement, ThrowingFunction<PreparedStatement, R> function) {
         R result = null;
         try {
