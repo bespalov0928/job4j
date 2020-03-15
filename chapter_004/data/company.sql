@@ -29,5 +29,14 @@ from (  select count(p.id) as personCnt, c.name
         group by p.company_id) as cnt
 having max(personCnt);
 
+/*Or in one query */
+
+select count(p.id) as personCnt, c.name
+from person as p
+left join company as c on c.id = p.company_id
+group by p.company_id
+order by personCnt desc
+limit 1
+
 
 
