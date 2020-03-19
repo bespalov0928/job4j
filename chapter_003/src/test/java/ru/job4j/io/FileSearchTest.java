@@ -12,15 +12,15 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 public class FileSearchTest {
-    private String path = System.getProperty("java.io.tmpdir") + "filesearchtest";
+    private String path = System.getProperty("java.io.tmpdir") + "filesearchtest" + File.separator;
 
     @Before
     public void setUp() {
-        new File(path + "/1/2/3").mkdirs();
+        new File(path + String.join(File.separator, "1", "2", "3")).mkdirs();
         try {
-            new File(path + "/1/1.txt").createNewFile();
-            new File(path + "/1/2/2.csv").createNewFile();
-            new File(path + "/1/2/3/3.xml").createNewFile();
+            new File(path + "1" + File.separator + "1.txt").createNewFile();
+            new File(path + String.join(File.separator, "1", "2", "2.csv")).createNewFile();
+            new File(path + String.join(File.separator, "1", "2", "3", "3.xml")).createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
         }

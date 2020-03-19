@@ -23,17 +23,8 @@ env:
   global:
     - CODECOV_TOKEN="6e92f761-3a24-42f4-aeb1-57c106e7c457"
 
-os: osx
-
 services:
   - mysql
-
-addons:
-  apt:
-    sources:
-      - mysql-5.7-trusty
-    packages:
-      - mysql-server
 
 before_install:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS tracker;'
