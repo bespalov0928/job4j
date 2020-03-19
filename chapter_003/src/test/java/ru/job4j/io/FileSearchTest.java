@@ -17,11 +17,11 @@ import static org.junit.Assert.assertThat;
 
 public class FileSearchTest {
     private static final String SYSTEM_TMP = System.getProperty("java.io.tmpdir");
-    private static final List<String> dirs = List.of("1", File.separator + "2", File.separator + "3");
+    private static final List<String> DIRS = List.of("1", File.separator + "2", File.separator + "3");
     @Before
     public void setUp() {
         StringBuilder sb = new StringBuilder(SYSTEM_TMP);
-        for (var dir : dirs) {
+        for (var dir : DIRS) {
             sb.append(dir);
             new File(sb.toString()).mkdir();
         }
