@@ -21,6 +21,36 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>test</id>
+            <properties>
+                <db.url>jdbc:mysql://127.0.0.1:3306/tracker</db.url>
+                <db.username>root</db.username>
+                <db.password/>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <db.url>jdbc:mysql://127.0.0.1:3306/tracker</db.url>
+                <db.username>root</db.username>
+                <db.password/>
+            </properties>
+        </profile>
+        <profile>
+            <id>travis</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <db.url>jdbc:mysql://127.0.0.1:3306/tracker</db.url>
+                <db.username>root</db.username>
+                <db.password/>
+            </properties>
+        </profile>
+    </profiles>
+
     <dependencies>
         <dependency>
             <groupId>org.hamcrest</groupId>
@@ -79,6 +109,20 @@
                         <phase>test</phase>
                         <goals>
                             <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-help-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>show-profiles</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>active-profiles</goal>
                         </goals>
                     </execution>
                 </executions>

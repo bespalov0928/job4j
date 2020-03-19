@@ -1,53 +1,54 @@
 package ru.job4j.tracker.repository;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
-import ru.job4j.tracker.Item;
 import ru.job4j.jdbc.connection.ConnectionManagerImpl;
-import ru.job4j.jdbc.connection.IConnectionManager;
+import ru.job4j.jdbc.connection.ConnectionRollback;
 import ru.job4j.properties.FileProperties;
+import ru.job4j.tracker.Item;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertNull;
 
+public class SqlItemRepositoryIntegrationTest {
+    private Connection connection;
+    private IItemRepository repository;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class SqlItemRepositoryTest {
-    private static IConnectionManager connectionManager;
-    private static IItemRepository repository;
-
-    @BeforeClass
-    public static void beforeClass() throws Exception {
-        connectionManager = new ConnectionManagerImpl(new FileProperties("test.properties"));
-        repository = new SqlItemRepository(connectionManager.getConnection());
+    @Before
+    public void setUp() throws SQLException {
+        connection = ConnectionRollback.create(
+                new ConnectionManagerImpl(new FileProperties("prod.properties")).getConnection());
+        repository = new SqlItemRepository(connection);
     }
 
-    @AfterClass
-    public static void afterClass() throws Exception {
-        try {
-            ((ConnectionManagerImpl) connectionManager).close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @After
+    public void tearDown() throws SQLException {
+        connection.close();
     }
 
     @Test
-    public void aWhenRepositoryIsEmptyThanFindAllShouldReturnEmptyList() {
+    public void whenRepositoryIsEmptyThanFindAllShouldReturnEmptyList() {
         assertTrue(repository.findAll().isEmpty());
     }
 
     @Test
-    public void bWhenDeleteItemWhichIsNotPresentThanDeleteShouldReturnFalse() {
+    public void whenDeleteItemWhichIsNotPresentThanDeleteShouldReturnFalse() {
         assertFalse(repository.delete("1"));
     }
 
     @Test
-    public void cWhenAddNewItemThanIdShouldBeEqualsToPreviousItem() {
+    public void whenThereIsNoItemsWithGivenNameThanFindByNameShouldReturnEmptyList() {
+        assertTrue(repository.findByName("No Such Name").isEmpty());
+    }
+
+    @Test
+    public void whenAddNewItemThanIdShouldNotBeEqualsToPreviousItem() {
         Item first = new Item("test1");
         first = repository.add(first);
         Item second = new Item("test2");
@@ -56,17 +57,14 @@ public class SqlItemRepositoryTest {
     }
 
     @Test
-    public void dWhenItemsArePresentThanFindAllShouldReturnListOfAllItems() {
+    public void whenItemsArePresentThanFindAllShouldReturnListOfAllItems() {
+        repository.add(new Item("Test"));
+        repository.add(new Item("Test"));
         assertEquals(2, repository.findAll().size());
     }
 
     @Test
-    public void eWhenThereIsNoItemsWithGivenNameThanFindByNameShouldReturnEmptyList() {
-        assertTrue(repository.findByName("No Such Name").isEmpty());
-    }
-
-    @Test
-    public void fWhenItemsWithGivenNameArePresentThanFindByNameShouldReturnListOfAllItems() {
+    public void whenItemsWithGivenNameArePresentThanFindByNameShouldReturnListOfAllItems() {
         Item first = new Item("Test");
         first = repository.add(first);
         Item second = new Item("Test");

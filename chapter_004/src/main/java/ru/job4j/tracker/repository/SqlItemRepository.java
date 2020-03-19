@@ -8,10 +8,6 @@ import java.sql.*;
 import java.util.List;
 
 public class SqlItemRepository implements IItemRepository {
-    private static final String CREATE_TABLE_SQL =
-            "CREATE TABLE IF NOT EXISTS item ( "
-                    + "id int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT, "
-                    + "name varchar(255) NOT NULL);";
 
     private static final String INSERT_SQL = "INSERT INTO item (name) VALUES (?)";
     private static final String SELECT_BY_ID_SQL = "SELECT * FROM item WHERE id = ?";
@@ -24,7 +20,6 @@ public class SqlItemRepository implements IItemRepository {
 
     public SqlItemRepository(Connection connection) {
         this.connection = connection;
-        QueryExecutor.execute(prepareStatement(CREATE_TABLE_SQL));
     }
 
     @Override
