@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.util.Comparator;
 
 public class TemporaryFileSystem {
-    public static final String ROOT_FOLDER = System.getProperty("java.io.tmpdir") + File.separator + "job4j";
+    public static final String ROOT_FOLDER = getTmpFolder() + File.separator + "job4j";
 
     public TemporaryFileSystem() throws IOException {
         if (!Files.exists(Path.of(ROOT_FOLDER))) {
@@ -35,5 +35,10 @@ public class TemporaryFileSystem {
         if (!Files.exists(Path.of(String.join(File.separator, ROOT_FOLDER, dir, fileName)))) {
             Files.createFile(Path.of(String.join(File.separator, ROOT_FOLDER, dir, fileName)));
         }
+    }
+
+    private static String getTmpFolder() {
+        var tmpDir = System.getProperty("java.io.tmpdir");
+        return tmpDir.endsWith(File.separator) ? tmpDir.substring(0, tmpDir.lastIndexOf(File.separator)) : tmpDir;
     }
 }

@@ -4,63 +4,59 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import ru.job4j.io.TemporaryFileSystem;
 
 import java.io.*;
 
 import static org.junit.Assert.*;
 
-@Ignore
 public class FileSearchTest {
-    private final String path = System.getProperty("java.io.tmpdir") + "filesearchtest";
-    private final String resultFile = path + "/log.txt";
+    private TemporaryFileSystem fileSystem;
+    private String resultFile;
 
     @Before
-    public void setUp() {
-        new File(path + "/1/2/3").mkdirs();
-        try {
-            new File(path + "/1/1.txt").createNewFile();
-            new File(path + "/1/2/2.csv").createNewFile();
-            new File(path + "/1/2/3/3.xml").createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void setUp() throws IOException {
+        resultFile = TemporaryFileSystem.ROOT_FOLDER + File.separator + "log.txt";
+        fileSystem = new TemporaryFileSystem();
+        fileSystem.makeFolder("1");
+        fileSystem.makeFolder("1" + File.separator + "2");
+        fileSystem.makeFolder("1" + File.separator + "2" + File.separator + "3");
+        fileSystem.makeFile(String.join(File.separator, "1", "2", "3"), "3.xml");
     }
 
     @Test
     public void whenSearchCommandExecutedThanResultFileShouldAppear() {
-        String[] args = {"-d", path, "-n", "*.pdf", "-m", "-o", resultFile};
+        String[] args = {"-d", TemporaryFileSystem.ROOT_FOLDER, "-n", "*.pdf", "-m", "-o", resultFile};
         new FileSearch().search(args);
         assertTrue(new File(resultFile).exists());
     }
 
     @Test
     public void whenFilesNotFoundThanResultFileShouldBeEmpty() {
-        String[] args = {"-d", path, "-n", "*.pdf", "-m", "-o", resultFile};
+        String[] args = {"-d", TemporaryFileSystem.ROOT_FOLDER, "-n", "*.pdf", "-m", "-o", resultFile};
         new FileSearch().search(args);
         assertEquals("", getFileContent());
     }
 
     @Test
     public void whenFileIsFoundThanResultFileShouldContainFilePath() {
-        String[] args = {"-d", path, "-n", "3.xml", "-m", "-o", resultFile};
+        String[] args = {"-d", TemporaryFileSystem.ROOT_FOLDER, "-n", "3.xml", "-m", "-o", resultFile};
         new FileSearch().search(args);
-        var resultFilePath = path + "/1/2/3/3.xml";
+        var resultFilePath = String.join(File.separator,
+                TemporaryFileSystem.ROOT_FOLDER, "1", "2", "3", "3.xml");
         assertEquals(resultFilePath, getFileContent());
     }
 
     @Test
     public void whenArgumentInputIsWrongThanResultFileShouldNotAppear() {
-        String[] args = {"-d", path, "-n", "*.pdf", "-m", "-o"};
+        String[] args = {"-d", TemporaryFileSystem.ROOT_FOLDER, "-n", "*.pdf", "-m", "-o"};
         new FileSearch().search(args);
         assertFalse(new File(resultFile).exists());
     }
 
     @After
-    public void tearDown() {
-        var resultFile = new File(this.resultFile);
-        if (resultFile.exists()) {
-            resultFile.delete();
-        }
+    public void tearDown() throws IOException {
+        fileSystem.removeRootFolder();
     }
 
     private String getFileContent() {
