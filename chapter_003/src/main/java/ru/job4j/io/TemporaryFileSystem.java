@@ -7,9 +7,10 @@ import java.nio.file.Path;
 import java.util.Comparator;
 
 public class TemporaryFileSystem {
-    public static final String ROOT_FOLDER = System.getProperty("java.io.tmpdir") + "job4j";
+    public static final String ROOT_FOLDER = System.getProperty("java.io.tmpdir") + File.separator + "job4j";
 
     public TemporaryFileSystem() throws IOException {
+        System.out.println(ROOT_FOLDER);
         if (!Files.exists(Path.of(ROOT_FOLDER))) {
             Files.createDirectory(Path.of(ROOT_FOLDER));
         }
