@@ -16,43 +16,28 @@ import java.util.stream.Collectors;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-@Ignore
 public class FileSearchTest {
-    private static final String SYSTEM_TMP = System.getProperty("java.io.tmpdir");
-    private static final List<String> DIRS = List.of("1", File.separator + "2", File.separator + "3");
+    private TemporaryFileSystem fileSystem;
 
     @Before
-    public void setUp() {
-        StringBuilder sb = new StringBuilder(SYSTEM_TMP);
-        for (var dir : DIRS) {
-            sb.append(dir);
-            new File(sb.toString()).mkdir();
-        }
-
-        try {
-            new File(SYSTEM_TMP + "1" + File.separator + "1.txt").createNewFile();
-            new File(SYSTEM_TMP + String.join(File.separator, "1", "2", "2.csv")).createNewFile();
-            new File(SYSTEM_TMP + String.join(File.separator, "1", "2", "3", "3.xml")).createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void setUp() throws IOException {
+        fileSystem = new TemporaryFileSystem();
+        fileSystem.makeFolder("1");
+        fileSystem.makeFolder("1" + File.separator + "2");
+        fileSystem.makeFolder("1" + File.separator + "2" + File.separator + "3");
+        fileSystem.makeFile("1", "1.txt");
+        fileSystem.makeFile(String.join(File.separator, "1", "2"), "2.csv");
+        fileSystem.makeFile(String.join(File.separator, "1", "2", "3"), "3.xml");
     }
 
     @After
     public void tearDown() throws IOException {
-        try {
-            Files.walk(Path.of(SYSTEM_TMP + "1"))
-                    .sorted(Comparator.reverseOrder())
-                    .map(Path::toFile)
-                    .forEach(File::delete);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        fileSystem.removeRootFolder();
     }
 
     @Test
     public void whenReturnOnlyTxtFile() {
-        List<File> result = new FileSearch().files(SYSTEM_TMP, List.of("txt"));
+        List<File> result = new FileSearch().files(TemporaryFileSystem.ROOT_FOLDER, List.of("txt"));
         assertThat(
                 result.stream().map(File::getName).collect(Collectors.joining()),
                 is("1.txt")
@@ -63,7 +48,7 @@ public class FileSearchTest {
         chainedFilter.add(File::isDirectory);
         chainedFilter.add(new ExtensionFileFilter("txt"));
 
-        result = new FileSearch().files(SYSTEM_TMP, chainedFilter);
+        result = new FileSearch().files(TemporaryFileSystem.ROOT_FOLDER, chainedFilter);
         assertThat(
                 result.stream().map(File::getName).collect(Collectors.joining()),
                 is("1.txt")
@@ -72,7 +57,7 @@ public class FileSearchTest {
 
     @Test
     public void whenReturnOnlyCsvFile() {
-        List<File> result = new FileSearch().files(SYSTEM_TMP, List.of("csv"));
+        List<File> result = new FileSearch().files(TemporaryFileSystem.ROOT_FOLDER, List.of("csv"));
         assertThat(
                 result.stream().map(File::getName).collect(Collectors.joining()),
                 is("2.csv")
@@ -83,7 +68,7 @@ public class FileSearchTest {
         chainedFilter.add(File::isDirectory);
         chainedFilter.add(new ExtensionFileFilter("csv"));
 
-        result = new FileSearch().files(SYSTEM_TMP, chainedFilter);
+        result = new FileSearch().files(TemporaryFileSystem.ROOT_FOLDER, chainedFilter);
         assertThat(
                 result.stream().map(File::getName).collect(Collectors.joining()),
                 is("2.csv")
@@ -92,7 +77,7 @@ public class FileSearchTest {
 
     @Test
     public void whenReturnAllFiles() {
-        List<File> result = new FileSearch().files(SYSTEM_TMP, List.of("txt", "csv", "xml"));
+        List<File> result = new FileSearch().files(TemporaryFileSystem.ROOT_FOLDER, List.of("txt", "csv", "xml"));
         assertThat(
                 result.stream().map(File::getName).collect(Collectors.toList()),
                 is(List.of("1.txt", "2.csv", "3.xml"))
@@ -105,7 +90,7 @@ public class FileSearchTest {
         chainedFilter.add(new ExtensionFileFilter("csv"));
         chainedFilter.add(new ExtensionFileFilter("txt"));
 
-        result = new FileSearch().files(SYSTEM_TMP, chainedFilter);
+        result = new FileSearch().files(TemporaryFileSystem.ROOT_FOLDER, chainedFilter);
         assertThat(
                 result.stream().map(File::getName).collect(Collectors.toList()),
                 is(List.of("1.txt", "2.csv", "3.xml"))

@@ -10,7 +10,6 @@ public class TemporaryFileSystem {
     public static final String ROOT_FOLDER = System.getProperty("java.io.tmpdir") + File.separator + "job4j";
 
     public TemporaryFileSystem() throws IOException {
-        System.out.println(ROOT_FOLDER);
         if (!Files.exists(Path.of(ROOT_FOLDER))) {
             Files.createDirectory(Path.of(ROOT_FOLDER));
         }
