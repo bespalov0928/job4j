@@ -2,6 +2,7 @@ package ru.job4j.io;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -15,9 +16,11 @@ import java.util.stream.Collectors;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+@Ignore
 public class FileSearchTest {
     private static final String SYSTEM_TMP = System.getProperty("java.io.tmpdir");
     private static final List<String> DIRS = List.of("1", File.separator + "2", File.separator + "3");
+
     @Before
     public void setUp() {
         StringBuilder sb = new StringBuilder(SYSTEM_TMP);
