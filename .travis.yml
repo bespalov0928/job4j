@@ -35,5 +35,5 @@ addons:
     packages:
       - mysql-server
 
-before_script:
+before_install:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS tracker;'
