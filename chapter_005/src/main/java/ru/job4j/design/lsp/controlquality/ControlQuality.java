@@ -1,7 +1,7 @@
-package ru.job4j.design.lsp;
+package ru.job4j.design.lsp.controlquality;
 
-import ru.job4j.design.lsp.food.Food;
-import ru.job4j.design.lsp.service.FoodStorageService;
+import ru.job4j.design.lsp.controlquality.food.Food;
+import ru.job4j.design.lsp.controlquality.service.FoodStorageService;
 
 import java.util.ArrayList;
 import java.util.List;

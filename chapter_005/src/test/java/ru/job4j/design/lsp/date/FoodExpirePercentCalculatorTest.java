@@ -1,6 +1,7 @@
 package ru.job4j.design.lsp.date;
 
 import org.junit.Test;
+import ru.job4j.design.lsp.controlquality.date.FoodExpirePercentCalculator;
 
 import java.time.LocalDate;
 

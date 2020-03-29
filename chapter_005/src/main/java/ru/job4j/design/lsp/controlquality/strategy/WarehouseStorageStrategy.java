@@ -1,8 +1,8 @@
-package ru.job4j.design.lsp.strategy;
+package ru.job4j.design.lsp.controlquality.strategy;
 
-import ru.job4j.design.lsp.date.FoodExpirePercentCalculator;
-import ru.job4j.design.lsp.food.Food;
-import ru.job4j.design.lsp.storage.FoodStorage;
+import ru.job4j.design.lsp.controlquality.date.FoodExpirePercentCalculator;
+import ru.job4j.design.lsp.controlquality.food.Food;
+import ru.job4j.design.lsp.controlquality.storage.FoodStorage;
 
 public class WarehouseStorageStrategy implements StorageStrategy {
 

@@ -1,4 +1,4 @@
-package ru.job4j.design.lsp.food;
+package ru.job4j.design.lsp.controlquality.food;
 
 public class DiscountFoodDecorator extends Food {
     private final int discountPercent;

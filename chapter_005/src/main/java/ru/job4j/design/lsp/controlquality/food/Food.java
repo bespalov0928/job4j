@@ -1,4 +1,4 @@
-package ru.job4j.design.lsp.food;
+package ru.job4j.design.lsp.controlquality.food;
 
 import java.time.LocalDate;
 import java.util.Date;

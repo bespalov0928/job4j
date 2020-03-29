@@ -1,10 +1,12 @@
 package ru.job4j.design.lsp.service;
 
 import org.junit.Test;
-import ru.job4j.design.lsp.food.Food;
-import ru.job4j.design.lsp.storage.FoodStorage;
-import ru.job4j.design.lsp.storage.ListFoodStorage;
-import ru.job4j.design.lsp.strategy.TrashStorageStrategy;
+import ru.job4j.design.lsp.controlquality.food.Food;
+import ru.job4j.design.lsp.controlquality.service.FoodStorageService;
+import ru.job4j.design.lsp.controlquality.service.StrategyFoodStorageService;
+import ru.job4j.design.lsp.controlquality.storage.FoodStorage;
+import ru.job4j.design.lsp.controlquality.storage.ListFoodStorage;
+import ru.job4j.design.lsp.controlquality.strategy.TrashStorageStrategy;
 
 import java.time.LocalDate;
 

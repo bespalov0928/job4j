@@ -1,6 +1,6 @@
-package ru.job4j.design.lsp.service;
+package ru.job4j.design.lsp.controlquality.service;
 
-import ru.job4j.design.lsp.food.Food;
+import ru.job4j.design.lsp.controlquality.food.Food;
 
 import java.util.List;
 

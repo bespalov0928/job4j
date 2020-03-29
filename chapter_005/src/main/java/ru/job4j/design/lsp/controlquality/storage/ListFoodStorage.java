@@ -1,6 +1,6 @@
-package ru.job4j.design.lsp.storage;
+package ru.job4j.design.lsp.controlquality.storage;
 
-import ru.job4j.design.lsp.food.Food;
+import ru.job4j.design.lsp.controlquality.food.Food;
 
 import java.util.ArrayList;
 import java.util.List;

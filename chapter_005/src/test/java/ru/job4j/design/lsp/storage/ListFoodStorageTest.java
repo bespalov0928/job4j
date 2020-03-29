@@ -1,7 +1,8 @@
 package ru.job4j.design.lsp.storage;
 
 import org.junit.Test;
-import ru.job4j.design.lsp.food.Food;
+import ru.job4j.design.lsp.controlquality.food.Food;
+import ru.job4j.design.lsp.controlquality.storage.ListFoodStorage;
 
 import java.time.LocalDate;
 
