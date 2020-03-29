@@ -1,5 +1,6 @@
 package ru.job4j.design.srp.report;
 
+import ru.job4j.design.srp.collector.CollectorMap;
 import ru.job4j.design.srp.entity.Employee;
 
 import java.util.List;
@@ -10,8 +11,8 @@ public class HtmlReport extends AbstractReport {
 
     public HtmlReport(List<ReportField<?>> fields) {
         super(fields);
-        setCollector(FIELDS_COLLECTOR, Collectors.joining("", "<tr>", "</tr>"));
-        setCollector(HEADER_COLLECTOR, Collectors.joining("", "<tr>", "</tr>"));
+        setCollector(CollectorMap.FIELDS_COLLECTOR, collector());
+        setCollector(CollectorMap.HEADER_COLLECTOR, collector());
     }
 
     @Override
@@ -32,5 +33,9 @@ public class HtmlReport extends AbstractReport {
     @Override
     protected String mapper(ReportField<?> f, Employee e) {
         return mapper(f.getValue(e));
+    }
+
+    private Collector<CharSequence, ?, String> collector() {
+        return Collectors.joining("", "<tr>", "</tr>");
     }
 }

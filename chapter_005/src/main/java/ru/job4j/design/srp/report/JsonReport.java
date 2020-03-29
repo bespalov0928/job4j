@@ -1,5 +1,6 @@
 package ru.job4j.design.srp.report;
 
+import ru.job4j.design.srp.collector.CollectorMap;
 import ru.job4j.design.srp.entity.Employee;
 
 import java.util.List;
@@ -10,8 +11,8 @@ public class JsonReport extends AbstractReport {
 
     public JsonReport(List<ReportField<?>> fields) {
         super(fields);
-        setCollector(FIELDS_COLLECTOR, Collectors.joining(",", "{", "}"));
-        setCollector(BODY_COLLECTOR, Collectors.joining(","));
+        setCollector(CollectorMap.FIELDS_COLLECTOR, Collectors.joining(",", "{", "}"));
+        setCollector(CollectorMap.BODY_COLLECTOR, Collectors.joining(","));
     }
 
     @Override

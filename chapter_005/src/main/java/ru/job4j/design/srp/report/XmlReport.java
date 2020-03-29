@@ -1,16 +1,16 @@
 package ru.job4j.design.srp.report;
 
+import ru.job4j.design.srp.collector.CollectorMap;
 import ru.job4j.design.srp.entity.Employee;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class XmlReport extends AbstractReport {
 
     public XmlReport(List<ReportField<?>> fields) {
         super(fields);
-        setCollector(FIELDS_COLLECTOR, Collectors.joining("", "<employee>", "</employee>"));
+        setCollector(CollectorMap.FIELDS_COLLECTOR, Collectors.joining("", "<employee>", "</employee>"));
     }
 
     @Override
