@@ -5,6 +5,7 @@ import ru.job4j.design.lsp.parkinglot.service.SlotStorageService;
 import ru.job4j.design.lsp.parkinglot.service.VehicleStorageService;
 import ru.job4j.design.lsp.parkinglot.slot.Slot;
 import ru.job4j.design.lsp.parkinglot.ticket.Ticket;
+import ru.job4j.design.lsp.parkinglot.vehicle.Car;
 import ru.job4j.design.lsp.parkinglot.vehicle.Vehicle;
 
 import java.util.List;
@@ -39,5 +40,9 @@ public class ParkingLot {
 
     public void unpark(Vehicle vehicle) {
         parkingEventManager.notify(vehicle);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new Car());
     }
 }

@@ -3,10 +3,7 @@ package ru.job4j.design.lsp.parkinglot.vehicle;
 import ru.job4j.design.lsp.parkinglot.slot.Slot;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public abstract class AbstractVehicle implements Vehicle {
     private final int occupySlots;
@@ -35,9 +32,7 @@ public abstract class AbstractVehicle implements Vehicle {
     }
 
     private String generateNumberPlate() {
-        byte[] array = new byte[7];
-        new Random().nextBytes(array);
-        return new String(array, StandardCharsets.UTF_8);
+        return UUID.randomUUID().toString().substring(0, 7);
     }
 
     @Override
