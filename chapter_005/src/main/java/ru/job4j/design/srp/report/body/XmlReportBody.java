@@ -8,25 +8,28 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class XmlReportBody implements ReportBody {
-    private final List<ReportField<?>> fields;
+    private final static String PROPERTY = "<%s>%s</%s>";
+    private final static String TAG_OPEN = "<employee>";
+    private final static String TAG_CLOSE = "</employee>";
+
+    private final ReportFieldsCollector collector;
 
     public XmlReportBody(List<ReportField<?>> fields) {
-        this.fields = fields;
+        this.collector = new ReportFieldsCollector(fields);
     }
 
     @Override
     public String generate(List<Employee> employees) {
-        var collector = new ReportFieldsCollector(fields);
         return employees.stream()
-                .map(e -> collector.collect(
-                        f -> String
-                                .join(
-                                        "",
-                                        String.format("<%s>", f.getName().toLowerCase()),
+                .map(e -> collector.
+                        collect(
+                                f -> String.format(
+                                        PROPERTY,
+                                        f.getName().toLowerCase(),
                                         f.getValue(e),
-                                        String.format("</%s>", f.getName().toLowerCase())
+                                        f.getName().toLowerCase()
                                 ),
-                        Collectors.joining("", "<employee>", "</employee>")
+                                Collectors.joining("", TAG_OPEN, TAG_CLOSE)
                         )
                 ).collect(Collectors.joining());
     }

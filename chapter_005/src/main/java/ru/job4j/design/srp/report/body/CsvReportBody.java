@@ -8,19 +8,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CsvReportBody implements ReportBody {
-    private final List<ReportField<?>> fields;
+    private final static String DELIMITER = ";";
+
+    private final ReportFieldsCollector collector;
 
     public CsvReportBody(List<ReportField<?>> fields) {
-        this.fields = fields;
+        this.collector = new ReportFieldsCollector(fields);
     }
 
     @Override
     public String generate(List<Employee> employees) {
-        var collector = new ReportFieldsCollector(fields);
         return employees.stream()
                 .map(employee -> collector.collect(
                         f -> f.getValue(employee),
-                        Collectors.joining(";", "", System.lineSeparator())
+                        Collectors.joining(DELIMITER, "", System.lineSeparator())
                         )
                 ).collect(Collectors.joining());
     }

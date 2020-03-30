@@ -8,19 +8,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class HtmlReportBody implements ReportBody {
-    private final List<ReportField<?>> fields;
+    private final static String TD = "<td>%s</td>";
+    private final static String TR_OPEN = "<tr>";
+    private final static String TR_CLOSE = "</tr>";
+
+    private final ReportFieldsCollector collector;
 
     public HtmlReportBody(List<ReportField<?>> fields) {
-        this.fields = fields;
+        this.collector = new ReportFieldsCollector(fields);
     }
 
     @Override
     public String generate(List<Employee> employees) {
-        var collector = new ReportFieldsCollector(fields);
         return employees.stream()
-                .map(employee -> collector.collect(
-                        f -> String.join("", "<td>", f.getValue(employee), "</td>"),
-                        Collectors.joining("", "<tr>", "</tr>")
+                .map(employee -> collector
+                        .collect(
+                                f -> String.format(TD, f.getValue(employee)),
+                                Collectors.joining("", TR_OPEN, TR_CLOSE)
                         )
                 ).collect(Collectors.joining());
     }
