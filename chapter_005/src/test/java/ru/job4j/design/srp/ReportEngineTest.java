@@ -7,6 +7,7 @@ import org.junit.Test;
 import ru.job4j.design.srp.comparator.SalaryComparator;
 import ru.job4j.design.srp.entity.Employee;
 import ru.job4j.design.srp.report.*;
+import ru.job4j.design.srp.report.factory.AbstractReportFactory;
 import ru.job4j.design.srp.service.SortedStoreService;
 import ru.job4j.design.srp.service.StoreService;
 import ru.job4j.design.srp.store.ListStore;
@@ -23,7 +24,8 @@ public class ReportEngineTest {
     private StoreService storeService = new SortedStoreService(new ListStore());
     private DecimalFormat format = new DecimalFormat("####,###,###.00");
     List<ReportField<?>> fields = new ArrayList<>();
-    private ReportEngine reportEngine = new ReportEngine(storeService, new CsvReport(fields));
+    private AbstractReportFactory reportFactory = new AbstractReportFactory(fields);
+    private ReportEngine reportEngine = new ReportEngine(storeService, reportFactory.build(ReportType.CSV));
 
     @Before
     public void setUp() {
@@ -45,7 +47,7 @@ public class ReportEngineTest {
         storeService.add(first);
         storeService.add(second);
 
-        reportEngine.setReport(new CsvReport(fields));
+        reportEngine.setReport(reportFactory.build(ReportType.CSV));
 
         String expect = "Name;Salary"
                 + System.lineSeparator()
@@ -64,13 +66,13 @@ public class ReportEngineTest {
         Employee first = new Employee("Ivan", now, now, 1000);
         Employee second = new Employee("Dmitry", now, now, 2000);
 
-        reportEngine.setReport(new HtmlReport(fields));
+        reportEngine.setReport(reportFactory.build(ReportType.HTML));
 
         storeService.add(first);
         storeService.add(second);
 
         String expect = "<html><body><table>"
-                + "<tr><td>Name</td><td>Salary</td></tr>"
+                + "<tr><th>Name</th><th>Salary</th></tr>"
                 + "<tr><td>" + second.getName() + "</td><td>"
                 + format.format(second.getSalary()) + "</td></tr>"
                 + "<tr><td>" + first.getName() + "</td><td>"
@@ -85,13 +87,13 @@ public class ReportEngineTest {
         Employee first = new Employee("Ivan", now, now, 1000);
         Employee second = new Employee("Dmitry", now, now, 2000);
 
-        reportEngine.setReport(new HtmlReport(fields));
+        reportEngine.setReport(reportFactory.build(ReportType.HTML));
 
         storeService.add(first);
         storeService.add(second);
 
         String expect = "<html><body><table>"
-                + "<tr><td>Name</td><td>Salary</td></tr>"
+                + "<tr><th>Name</th><th>Salary</th></tr>"
                 + "<tr><td>" + second.getName() + "</td><td>"
                 + format.format(second.getSalary()) + "</td></tr>"
                 + "<tr><td>" + first.getName() + "</td><td>"
@@ -106,7 +108,7 @@ public class ReportEngineTest {
         Employee first = new Employee("Ivan", now, now, 1000);
         Employee second = new Employee("Dmitry", now, now, 2000);
 
-        reportEngine.setReport(new XmlReport(fields));
+        reportEngine.setReport(reportFactory.build(ReportType.XML));
 
         storeService.add(first);
         storeService.add(second);
@@ -118,7 +120,7 @@ public class ReportEngineTest {
 
         assertThat(reportEngine.generate(em -> true, new SalaryComparator().reversed()), is(expected));
 
-        reportEngine.setReport(new JsonReport(fields));
+        reportEngine.setReport(reportFactory.build(ReportType.JSON));
 
         expected = "{\"report\":[{\"name\":\""
                 + second.getName() + "\",\"salary\":\""
