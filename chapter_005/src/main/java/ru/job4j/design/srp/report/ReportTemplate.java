@@ -7,14 +7,14 @@ import ru.job4j.design.srp.report.header.ReportHeader;
 
 import java.util.List;
 
-public class ReportGenerator implements Report {
+public class ReportTemplate implements Report {
     private final ReportHeader header;
     private final ReportBody body;
     private final ReportFooter footer;
 
     private final StringBuilder report = new StringBuilder();
 
-    public ReportGenerator(ReportHeader header, ReportBody body, ReportFooter footer) {
+    public ReportTemplate(ReportHeader header, ReportBody body, ReportFooter footer) {
         this.header = header;
         this.body = body;
         this.footer = footer;

@@ -2,7 +2,7 @@ package ru.job4j.design.srp.report.factory;
 
 import ru.job4j.design.srp.report.Report;
 import ru.job4j.design.srp.report.ReportField;
-import ru.job4j.design.srp.report.ReportGenerator;
+import ru.job4j.design.srp.report.ReportTemplate;
 import ru.job4j.design.srp.report.ReportType;
 import ru.job4j.design.srp.report.body.CsvReportBody;
 import ru.job4j.design.srp.report.body.HtmlReportBody;
@@ -25,25 +25,25 @@ public class AbstractReportFactory implements ReportFactory {
         Report report;
         switch (type) {
             case JSON:
-                report = new ReportGenerator(
+                report = new ReportTemplate(
                         () -> "{\"report\":[",
                         new JsonReportBody(fields),
                         () -> "]}");
                 break;
             case XML:
-                report = new ReportGenerator(
+                report = new ReportTemplate(
                         () -> "<?xml version=\"1.0\" encoding=\"UTF-8\"?><report><employees>",
                         new XmlReportBody(fields),
                         () -> "</employees></report>");
                 break;
             case HTML:
-                report = new ReportGenerator(
+                report = new ReportTemplate(
                         new HtmlReportHeader(fields),
                         new HtmlReportBody(fields),
                         () -> "</table></body></html>");
                 break;
             default:
-                report = new ReportGenerator(
+                report = new ReportTemplate(
                         new CsvReportHeader(fields),
                         new CsvReportBody(fields),
                         () -> "");
