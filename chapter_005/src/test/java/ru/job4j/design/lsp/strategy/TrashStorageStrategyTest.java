@@ -3,6 +3,7 @@ package ru.job4j.design.lsp.strategy;
 import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.design.lsp.controlquality.food.Food;
+import ru.job4j.design.lsp.controlquality.predicate.TrashPredicate;
 import ru.job4j.design.lsp.controlquality.storage.ListFoodStorage;
 import ru.job4j.design.lsp.controlquality.strategy.StorageStrategy;
 import ru.job4j.design.lsp.controlquality.strategy.TrashStorageStrategy;
@@ -19,24 +20,24 @@ public class TrashStorageStrategyTest {
     @Before
     public void setUp() {
         storage = new ListFoodStorage();
-        strategy = new TrashStorageStrategy();
+        strategy = new TrashStorageStrategy(new TrashPredicate());
     }
 
     @Test
     public void whenAddExpiredFoodThanFoodShouldBeAddedToStorage() {
-        strategy.add(
-                new Food("", LocalDate.now().minusDays(2), LocalDate.now().minusDays(1), 0),
-                storage
-        );
+        var food = new Food("", LocalDate.now().minusDays(2), LocalDate.now().minusDays(1), 0);
+        if (strategy.check(food)) {
+            strategy.add(food, storage);
+        }
         assertThat(storage.findAll(), hasSize(1));
     }
 
     @Test
     public void whenAddNotExpiredFoodThanProductShouldNotBeAddedToStorage() {
-        strategy.add(
-                new Food("", LocalDate.now().minusDays(2), LocalDate.now().plusDays(10), 0),
-                storage
-        );
+        var food = new Food("", LocalDate.now().minusDays(2), LocalDate.now().plusDays(10), 0);
+        if (strategy.check(food)) {
+            strategy.add(food, storage);
+        }
         assertThat(storage.findAll(), hasSize(0));
     }
 }

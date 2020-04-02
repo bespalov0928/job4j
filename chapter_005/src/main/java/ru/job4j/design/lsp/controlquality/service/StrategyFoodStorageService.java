@@ -16,6 +16,11 @@ public class StrategyFoodStorageService implements FoodStorageService {
     }
 
     @Override
+    public boolean check(Food food) {
+        return storageStrategy.check(food);
+    }
+
+    @Override
     public boolean add(Food food) {
         return storageStrategy.add(food, storage);
     }

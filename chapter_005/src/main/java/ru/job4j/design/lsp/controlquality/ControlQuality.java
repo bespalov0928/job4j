@@ -15,7 +15,8 @@ public class ControlQuality {
 
     public void distribute(Food food) {
         for (var service : storageServices) {
-            if (service.add(food)) {
+            if (service.check(food)) {
+                service.add(food);
                 break;
             }
         }

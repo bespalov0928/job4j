@@ -4,6 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.design.lsp.controlquality.ControlQuality;
 import ru.job4j.design.lsp.controlquality.food.Food;
+import ru.job4j.design.lsp.controlquality.predicate.ShopPredicate;
+import ru.job4j.design.lsp.controlquality.predicate.TrashPredicate;
+import ru.job4j.design.lsp.controlquality.predicate.WarehousePredicate;
 import ru.job4j.design.lsp.controlquality.service.StrategyFoodStorageService;
 import ru.job4j.design.lsp.controlquality.storage.ListFoodStorage;
 import ru.job4j.design.lsp.controlquality.strategy.ShopStorageStrategy;
@@ -25,7 +28,7 @@ public class ControlQualityTest {
 
     @Test
     public void whenDistributeFoodThanServiceShouldReturnAmountOfStoredFood() {
-        var service = new StrategyFoodStorageService(new TrashStorageStrategy(), new ListFoodStorage());
+        var service = new StrategyFoodStorageService(new TrashStorageStrategy(new TrashPredicate()), new ListFoodStorage());
 
         controlQuality.addStorageService(service);
         controlQuality.distribute(
@@ -37,9 +40,18 @@ public class ControlQualityTest {
 
     @Test
     public void whenDistributeFoodThanFoodShouldBeDistributedToCorrectStorage() {
-        var trashService = new StrategyFoodStorageService(new TrashStorageStrategy(), new ListFoodStorage());
-        var warehouseService = new StrategyFoodStorageService(new WarehouseStorageStrategy(), new ListFoodStorage());
-        var shopService = new StrategyFoodStorageService(new ShopStorageStrategy(), new ListFoodStorage());
+        var trashService = new StrategyFoodStorageService(
+                new TrashStorageStrategy(new TrashPredicate()),
+                new ListFoodStorage()
+        );
+        var warehouseService = new StrategyFoodStorageService(
+                new WarehouseStorageStrategy(new WarehousePredicate()),
+                new ListFoodStorage()
+        );
+        var shopService = new StrategyFoodStorageService(
+                new ShopStorageStrategy(new ShopPredicate()),
+                new ListFoodStorage()
+        );
 
         controlQuality.addStorageService(trashService);
         controlQuality.addStorageService(warehouseService);

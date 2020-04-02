@@ -3,6 +3,7 @@ package ru.job4j.design.lsp.strategy;
 import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.design.lsp.controlquality.food.Food;
+import ru.job4j.design.lsp.controlquality.predicate.WarehousePredicate;
 import ru.job4j.design.lsp.controlquality.storage.ListFoodStorage;
 import ru.job4j.design.lsp.controlquality.strategy.StorageStrategy;
 import ru.job4j.design.lsp.controlquality.strategy.WarehouseStorageStrategy;
@@ -19,24 +20,24 @@ public class WarehouseStorageStrategyTest {
     @Before
     public void setUp() {
         storage = new ListFoodStorage();
-        strategy = new WarehouseStorageStrategy();
+        strategy = new WarehouseStorageStrategy(new WarehousePredicate());
     }
 
     @Test
     public void whenExpireLess25ThanFoodShouldBeAddedToStorage() {
-        strategy.add(
-                new Food("", LocalDate.now().minusDays(1), LocalDate.now().plusDays(3), 0),
-                storage
-        );
+        var food = new Food("", LocalDate.now().minusDays(1), LocalDate.now().plusDays(3), 0);
+        if (strategy.check(food)) {
+            strategy.add(food, storage);
+        }
         assertThat(storage.findAll(), hasSize(1));
     }
 
     @Test
     public void whenExpiredGrater25ThanProductShouldNotBeAddedToStorage() {
-        strategy.add(
-                new Food("", LocalDate.now().minusDays(1), LocalDate.now().plusDays(1), 0),
-                storage
-        );
+        var food = new Food("", LocalDate.now().minusDays(1), LocalDate.now().plusDays(1), 0);
+        if (strategy.check(food)) {
+            strategy.add(food, storage);
+        }
         assertThat(storage.findAll(), hasSize(0));
     }
 }

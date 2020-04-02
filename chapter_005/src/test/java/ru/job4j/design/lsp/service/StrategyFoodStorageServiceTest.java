@@ -2,6 +2,7 @@ package ru.job4j.design.lsp.service;
 
 import org.junit.Test;
 import ru.job4j.design.lsp.controlquality.food.Food;
+import ru.job4j.design.lsp.controlquality.predicate.TrashPredicate;
 import ru.job4j.design.lsp.controlquality.service.FoodStorageService;
 import ru.job4j.design.lsp.controlquality.service.StrategyFoodStorageService;
 import ru.job4j.design.lsp.controlquality.storage.FoodStorage;
@@ -18,7 +19,10 @@ public class StrategyFoodStorageServiceTest {
     @Test
     public void whenServiceAddExpiredFoodThanFoodShouldBeAddedToStorage() {
         FoodStorage storage = new ListFoodStorage();
-        FoodStorageService trashStorageService = new StrategyFoodStorageService(new TrashStorageStrategy(), storage);
+        FoodStorageService trashStorageService = new StrategyFoodStorageService(
+                new TrashStorageStrategy(new TrashPredicate()),
+                storage
+        );
         assertTrue(
                 trashStorageService.add(
                         new Food("", LocalDate.now().minusDays(2), LocalDate.now().minusDays(1), 0)
