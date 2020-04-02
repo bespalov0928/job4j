@@ -10,7 +10,5 @@ public interface SlotStorage {
 
     void remove(Slot slot);
 
-    Slot findByVehicleType(VehicleType vehicleType);
-
-    List<Slot> findNearby(int amount, VehicleType vehicleType);
+    List<Slot> findByVehicleType(VehicleType vehicleType);
 }

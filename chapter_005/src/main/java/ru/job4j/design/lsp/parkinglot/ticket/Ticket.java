@@ -21,6 +21,10 @@ public class Ticket {
         return closeDate;
     }
 
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
     public void close() {
         closeDate = LocalDateTime.now();
     }
