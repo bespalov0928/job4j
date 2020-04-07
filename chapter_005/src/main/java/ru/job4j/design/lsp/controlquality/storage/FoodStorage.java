@@ -8,4 +8,6 @@ public interface FoodStorage {
     boolean add(Food food);
 
     List<Food> findAll();
+
+    void empty();
 }

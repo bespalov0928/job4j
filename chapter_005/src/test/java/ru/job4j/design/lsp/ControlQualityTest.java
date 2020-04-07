@@ -70,4 +70,43 @@ public class ControlQualityTest {
         assertThat(warehouseService.findAll(), hasSize(1));
         assertThat(shopService.findAll(), hasSize(1));
     }
+
+    @Test
+    public void whenResortFoodThanFoodShouldBeDistributedToCorrectStorage() {
+        var trashService = new StrategyFoodStorageService(
+                new TrashStorageStrategy(new TrashPredicate()),
+                new ListFoodStorage()
+        );
+        var warehouseService = new StrategyFoodStorageService(
+                new WarehouseStorageStrategy(new WarehousePredicate()),
+                new ListFoodStorage()
+        );
+        var shopService = new StrategyFoodStorageService(
+                new ShopStorageStrategy(new ShopPredicate()),
+                new ListFoodStorage()
+        );
+
+        controlQuality.addStorageService(trashService);
+        controlQuality.addStorageService(warehouseService);
+        controlQuality.addStorageService(shopService);
+        controlQuality.distribute(
+                new Food("", LocalDate.now().minusDays(2), LocalDate.now().minusDays(1), 0)
+        );
+        controlQuality.distribute(
+                new Food("", LocalDate.now().minusDays(1), LocalDate.now().plusDays(3), 0)
+        );
+        controlQuality.distribute(
+                new Food("", LocalDate.now().minusDays(1), LocalDate.now().plusDays(2), 0)
+        );
+
+        assertThat(trashService.findAll(), hasSize(1));
+        assertThat(warehouseService.findAll(), hasSize(1));
+        assertThat(shopService.findAll(), hasSize(1));
+
+        controlQuality.resort();
+
+        assertThat(trashService.findAll(), hasSize(1));
+        assertThat(warehouseService.findAll(), hasSize(1));
+        assertThat(shopService.findAll(), hasSize(1));
+    }
 }

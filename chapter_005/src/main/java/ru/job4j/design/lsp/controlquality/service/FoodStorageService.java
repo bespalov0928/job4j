@@ -10,4 +10,6 @@ public interface FoodStorageService {
     boolean add(Food food);
 
     List<Food> findAll();
+
+    void empty();
 }

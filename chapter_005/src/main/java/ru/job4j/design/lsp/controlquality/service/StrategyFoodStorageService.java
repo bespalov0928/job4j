@@ -29,4 +29,9 @@ public class StrategyFoodStorageService implements FoodStorageService {
     public List<Food> findAll() {
         return storage.findAll();
     }
+
+    @Override
+    public void empty() {
+        storage.empty();
+    }
 }

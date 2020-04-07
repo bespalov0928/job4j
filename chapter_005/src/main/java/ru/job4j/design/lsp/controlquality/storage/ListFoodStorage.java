@@ -17,4 +17,9 @@ public class ListFoodStorage implements FoodStorage {
     public List<Food> findAll() {
         return foods;
     }
+
+    @Override
+    public void empty() {
+        foods.clear();
+    }
 }

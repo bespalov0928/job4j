@@ -21,4 +21,13 @@ public class ControlQuality {
             }
         }
     }
+
+    public void resort() {
+        List<Food> foods = new ArrayList<>();
+        for (var service : storageServices) {
+            foods.addAll(service.findAll());
+            service.empty();
+        }
+        foods.forEach(this::distribute);
+    }
 }
