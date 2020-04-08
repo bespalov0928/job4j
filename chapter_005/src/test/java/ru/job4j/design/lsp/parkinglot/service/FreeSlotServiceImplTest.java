@@ -1,6 +1,7 @@
 package ru.job4j.design.lsp.parkinglot.service;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import ru.job4j.design.lsp.parkinglot.service.impl.FreeSlotServiceImpl;
 import ru.job4j.design.lsp.parkinglot.slot.CarSlot;
@@ -14,6 +15,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+@Ignore
 public class FreeSlotServiceImplTest {
 
     private FreeSlotService freeSlotService;

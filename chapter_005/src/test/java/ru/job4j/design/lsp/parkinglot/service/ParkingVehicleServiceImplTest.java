@@ -1,6 +1,7 @@
 package ru.job4j.design.lsp.parkinglot.service;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import ru.job4j.design.lsp.parkinglot.service.impl.ParkingVehicleServiceImpl;
 import ru.job4j.design.lsp.parkinglot.vehicle.Car;
@@ -8,6 +9,7 @@ import ru.job4j.design.lsp.parkinglot.vehicle.Car;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+@Ignore
 public class ParkingVehicleServiceImplTest {
     private ParkingVehicleService parkingVehicleService;
 

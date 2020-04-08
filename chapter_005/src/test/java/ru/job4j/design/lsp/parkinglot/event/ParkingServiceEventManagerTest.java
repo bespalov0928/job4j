@@ -1,6 +1,7 @@
 package ru.job4j.design.lsp.parkinglot.event;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import ru.job4j.design.lsp.parkinglot.event.impl.ParkingServiceEventManager;
 import ru.job4j.design.lsp.parkinglot.service.FreeSlotService;
@@ -14,6 +15,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 
+@Ignore
 public class ParkingServiceEventManagerTest {
 
     private EventManager eventManager;
