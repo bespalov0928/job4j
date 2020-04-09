@@ -19,24 +19,23 @@ import static org.hamcrest.Matchers.hasSize;
 public class ParkingServiceEventManagerTest {
 
     private EventManager eventManager;
-    private FreeSlotService freeSlotService;
+    private FreeSlotService slotService;
 
     @Before
     public void setUp() {
         eventManager = new ParkingServiceEventManager();
-        freeSlotService = new FreeSlotServiceImpl();
-        eventManager.subscribe(freeSlotService);
+        slotService = new FreeSlotServiceImpl();
+        eventManager.subscribe(slotService);
     }
 
     @Test
     public void whenOneFreeSlotAvailableThanAfterNotifyToParkVehicleFreeSlotServiceShouldNotHaveFreeSlots() {
         var car = new Car();
-        List<Slot> slotList = List.of(new CarSlot());
-        freeSlotService.add(slotList);
-        slotList = freeSlotService.getFreeSlots(car);
-        car.setSlots(slotList);
+        slotService.add(List.of(new CarSlot()));
+        car.setSlots(slotService.getFreeSlots(car));
         eventManager.notify(car);
-        slotList = freeSlotService.getFreeSlots(car);
-        assertThat(slotList, hasSize(0));
+        var slots = slotService.getFreeSlots(car);
+
+        assertThat(slots, hasSize(0));
     }
 }

@@ -36,6 +36,7 @@ public class ParkingLotTest {
         parkingLot.init(1, 0);
         var car = new Car();
         var ticket = parkingLot.park(car);
+
         assertNotNull(ticket);
         assertEquals(car, ticket.getVehicle());
     }
@@ -53,6 +54,7 @@ public class ParkingLotTest {
         parkingLot.init(1, 0);
         var car = new Car();
         parkingLot.park(car);
+
         assertThat(car.getSlots(), hasSize(1));
     }
 
@@ -61,6 +63,7 @@ public class ParkingLotTest {
         parkingLot.init(0, 1);
         var truck = new Truck(2);
         var ticket = parkingLot.park(truck);
+
         assertNotNull(ticket);
         assertEquals(truck, ticket.getVehicle());
     }
@@ -69,6 +72,7 @@ public class ParkingLotTest {
     public void whenParkingLotHaveNoFreeTruckSlotButHaveFreeAmountOfCarSlotsThanParkShouldReturnTicket() {
         parkingLot.init(2, 0);
         var ticket = parkingLot.park(new Truck(2));
+
         assertNotNull(ticket);
     }
 
@@ -89,8 +93,11 @@ public class ParkingLotTest {
         parkingLot.init(1, 0);
         var car = new Car();
         parkingLot.park(car);
+
         assertThat(car.getSlots(), hasSize(1));
+
         parkingLot.unpark(car);
+
         assertThat(car.getSlots(), hasSize(0));
     }
 }

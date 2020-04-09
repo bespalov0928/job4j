@@ -26,6 +26,7 @@ public class MemorySlotStorageTest {
     public void whenAddSlotThanFindShouldReturnListWithAddedSlot() {
         var slot = new CarSlot();
         slotStorage.add(slot);
+
         assertThat(slotStorage.findByVehicleType(VehicleType.Car), is(List.of(slot)));
     }
 
@@ -34,6 +35,7 @@ public class MemorySlotStorageTest {
         var slot = new CarSlot();
         slotStorage.add(slot);
         slotStorage.remove(slot);
+
         assertThat(slotStorage.findByVehicleType(VehicleType.Car), hasSize(0));
     }
 }

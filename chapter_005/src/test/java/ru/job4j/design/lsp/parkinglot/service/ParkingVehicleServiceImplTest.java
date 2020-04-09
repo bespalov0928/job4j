@@ -11,43 +11,47 @@ import static org.junit.Assert.assertNotEquals;
 
 @Ignore
 public class ParkingVehicleServiceImplTest {
-    private ParkingVehicleService parkingVehicleService;
+    private ParkingVehicleService parkedVehicles;
 
     @Before
     public void setUp() {
-        parkingVehicleService = new ParkingVehicleServiceImpl();
+        parkedVehicles = new ParkingVehicleServiceImpl();
     }
 
     @Test
     public void whenAddVehicleThanCountShouldChange() {
-        var previousCount = parkingVehicleService.count();
-        parkingVehicleService.add(new Car());
-        assertNotEquals(previousCount, parkingVehicleService.count());
+        var count = parkedVehicles.count();
+        parkedVehicles.add(new Car());
+
+        assertNotEquals(count, parkedVehicles.count());
     }
 
     @Test
     public void whenRemoveVehicleThanCountShouldChange() {
         var vehicle = new Car();
-        parkingVehicleService.add(vehicle);
-        var previousCount = parkingVehicleService.count();
-        parkingVehicleService.remove(vehicle);
-        assertNotEquals(previousCount, parkingVehicleService.count());
+        parkedVehicles.add(vehicle);
+        var count = parkedVehicles.count();
+        parkedVehicles.remove(vehicle);
+
+        assertNotEquals(count, parkedVehicles.count());
     }
 
     @Test
     public void whenUpdateServiceByAlreadyParkedVehicleThanVehicleShouldBeRemovedFromService() {
         var vehicle = new Car();
-        parkingVehicleService.add(vehicle);
-        var previousCount = parkingVehicleService.count();
-        parkingVehicleService.update(vehicle);
-        assertEquals(previousCount, parkingVehicleService.count() + 1);
+        parkedVehicles.add(vehicle);
+        var count = parkedVehicles.count();
+        parkedVehicles.update(vehicle);
+
+        assertEquals(count, parkedVehicles.count() + 1);
     }
 
     @Test
     public void whenUpdateServiceByNotParkedVehicleThanVehicleShouldBeAddedToService() {
         var vehicle = new Car();
-        var previousCount = parkingVehicleService.count();
-        parkingVehicleService.update(vehicle);
-        assertEquals(previousCount, parkingVehicleService.count() - 1);
+        var count = parkedVehicles.count();
+        parkedVehicles.update(vehicle);
+
+        assertEquals(count, parkedVehicles.count() - 1);
     }
 }
