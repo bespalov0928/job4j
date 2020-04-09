@@ -1,26 +1,38 @@
 package ru.job4j.shell;
 
 import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Shell {
-    private Path path;
+    private Deque<String> path;
 
     public Shell() {
-        path = Path.of(File.separator);
+        path = new ArrayDeque<>();
     }
 
     Shell cd(final String path) {
-        if (path.startsWith("//")) {
-            this.path = Paths.get(File.separator + path.replaceAll(File.separator, ""));
-        } else {
-            this.path = Paths.get(this.path + File.separator + path);
-        }
+        Arrays.stream(path.split(File.separator)).forEach(this::modifyPath);
         return this;
     }
 
     public String path() {
-        return path.normalize().toString();
+        return File.separator + String.join(File.separator, this.path);
+    }
+
+    private void modifyPath(final String path) {
+        switch (path) {
+            case "":
+            case "/":
+                this.path.clear();
+                break;
+            case ".":
+                break;
+            case "..":
+                this.path.removeLast();
+                break;
+            default:
+                this.path.addLast(path);
+        }
     }
 }
