@@ -7,22 +7,22 @@ import ru.job4j.design.lsp.controlquality.strategy.StorageStrategy;
 import java.util.List;
 
 public class StrategyFoodStorageService implements FoodStorageService {
-    private final StorageStrategy storageStrategy;
+    private final StorageStrategy strategy;
     private final FoodStorage storage;
 
-    public StrategyFoodStorageService(StorageStrategy storageStrategy, FoodStorage storage) {
-        this.storageStrategy = storageStrategy;
+    public StrategyFoodStorageService(StorageStrategy strategy, FoodStorage storage) {
+        this.strategy = strategy;
         this.storage = storage;
     }
 
     @Override
     public boolean check(Food food) {
-        return storageStrategy.check(food);
+        return strategy.check(food);
     }
 
     @Override
     public boolean add(Food food) {
-        return storageStrategy.add(food, storage);
+        return strategy.add(food, storage);
     }
 
     @Override

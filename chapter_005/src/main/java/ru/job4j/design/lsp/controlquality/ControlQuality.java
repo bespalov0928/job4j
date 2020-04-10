@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ControlQuality {
-    private final List<FoodStorageService> storageServices = new ArrayList<>();
+    private final List<FoodStorageService> storages = new ArrayList<>();
 
     public void addStorageService(FoodStorageService service) {
-        storageServices.add(service);
+        storages.add(service);
     }
 
     public void distribute(Food food) {
-        for (var service : storageServices) {
-            if (service.check(food)) {
-                service.add(food);
+        for (var storage : storages) {
+            if (storage.check(food)) {
+                storage.add(food);
                 break;
             }
         }
@@ -24,9 +24,9 @@ public class ControlQuality {
 
     public void resort() {
         List<Food> foods = new ArrayList<>();
-        for (var service : storageServices) {
-            foods.addAll(service.findAll());
-            service.empty();
+        for (var storage : storages) {
+            foods.addAll(storage.findAll());
+            storage.empty();
         }
         foods.forEach(this::distribute);
     }
