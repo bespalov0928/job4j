@@ -1,4 +1,4 @@
-package ru.job4j.design.lsp.strategy;
+package ru.job4j.design.lsp.controlquality.strategy;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package ru.job4j.design.lsp.date;
+package ru.job4j.design.lsp.controlquality.date;
 
 import org.junit.Test;
 import ru.job4j.design.lsp.controlquality.date.FoodExpirePercentCalculator;

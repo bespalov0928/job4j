@@ -1,4 +1,4 @@
-package ru.job4j.design.lsp.storage;
+package ru.job4j.design.lsp.controlquality.storage;
 
 import org.junit.Test;
 import ru.job4j.design.lsp.controlquality.food.Food;

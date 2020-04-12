@@ -1,31 +1,31 @@
-package ru.job4j.design.lsp.strategy;
+package ru.job4j.design.lsp.controlquality.strategy;
 
 import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.design.lsp.controlquality.food.Food;
-import ru.job4j.design.lsp.controlquality.predicate.WarehousePredicate;
+import ru.job4j.design.lsp.controlquality.predicate.TrashPredicate;
 import ru.job4j.design.lsp.controlquality.storage.ListFoodStorage;
 import ru.job4j.design.lsp.controlquality.strategy.StorageStrategy;
-import ru.job4j.design.lsp.controlquality.strategy.WarehouseStorageStrategy;
+import ru.job4j.design.lsp.controlquality.strategy.TrashStorageStrategy;
 
 import java.time.LocalDate;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
 
-public class WarehouseStorageStrategyTest {
+public class TrashStorageStrategyTest {
     private ListFoodStorage storage;
     private StorageStrategy strategy;
 
     @Before
     public void setUp() {
         storage = new ListFoodStorage();
-        strategy = new WarehouseStorageStrategy(new WarehousePredicate());
+        strategy = new TrashStorageStrategy(new TrashPredicate());
     }
 
     @Test
-    public void whenExpireLess25ThanFoodShouldBeAddedToStorage() {
-        var food = new Food("", LocalDate.now().minusDays(1), LocalDate.now().plusDays(3), 0);
+    public void whenAddExpiredFoodThanFoodShouldBeAddedToStorage() {
+        var food = new Food("", LocalDate.now().minusDays(2), LocalDate.now().minusDays(1), 0);
         if (strategy.check(food)) {
             strategy.add(food, storage);
         }
@@ -33,8 +33,8 @@ public class WarehouseStorageStrategyTest {
     }
 
     @Test
-    public void whenExpiredGrater25ThanProductShouldNotBeAddedToStorage() {
-        var food = new Food("", LocalDate.now().minusDays(1), LocalDate.now().plusDays(1), 0);
+    public void whenAddNotExpiredFoodThanProductShouldNotBeAddedToStorage() {
+        var food = new Food("", LocalDate.now().minusDays(2), LocalDate.now().plusDays(10), 0);
         if (strategy.check(food)) {
             strategy.add(food, storage);
         }
