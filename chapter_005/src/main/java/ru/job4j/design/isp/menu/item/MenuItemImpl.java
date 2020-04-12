@@ -52,6 +52,8 @@ public class MenuItemImpl implements LevelMenuItem, ActionMenuItem {
 
     @Override
     public void executeAction() {
-        action.execute();
+        if (action != null) {
+            action.execute();
+        }
     }
 }
