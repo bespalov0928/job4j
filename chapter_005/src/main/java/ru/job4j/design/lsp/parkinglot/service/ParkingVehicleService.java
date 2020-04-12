@@ -4,9 +4,7 @@ import ru.job4j.design.lsp.parkinglot.event.EventListener;
 import ru.job4j.design.lsp.parkinglot.vehicle.Vehicle;
 
 public interface ParkingVehicleService extends EventListener {
-    void add(Vehicle vehicle);
-
-    void remove(Vehicle vehicle);
+    boolean isParked(Vehicle vehicle);
 
     int count();
 }

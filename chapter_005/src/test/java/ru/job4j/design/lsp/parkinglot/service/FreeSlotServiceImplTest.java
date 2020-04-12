@@ -1,11 +1,11 @@
 package ru.job4j.design.lsp.parkinglot.service;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import ru.job4j.design.lsp.parkinglot.service.impl.FreeSlotServiceImpl;
 import ru.job4j.design.lsp.parkinglot.slot.CarSlot;
 import ru.job4j.design.lsp.parkinglot.slot.TruckSlot;
+import ru.job4j.design.lsp.parkinglot.storage.impl.MemorySlotStorage;
 import ru.job4j.design.lsp.parkinglot.vehicle.Car;
 import ru.job4j.design.lsp.parkinglot.vehicle.Truck;
 
@@ -15,27 +15,26 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-@Ignore
 public class FreeSlotServiceImplTest {
 
-    private FreeSlotService slotService;
+    private FreeSlotService service;
 
     @Before
     public void setUp() {
-        slotService = new FreeSlotServiceImpl();
+        service = new FreeSlotServiceImpl(new MemorySlotStorage());
     }
 
     @Test
     public void whenFreeSlotsForVehicleTypeAreAvailableThanGetFreeSlotsShouldReturnCorrectAmount() {
         var carSlot = new CarSlot();
         var truckSlot = new TruckSlot();
-        slotService.add(List.of(carSlot, truckSlot));
+        service.add(List.of(carSlot, truckSlot));
 
-        var slots = slotService.getFreeSlots(new Car());
+        var slots = service.getFreeSlots(new Car());
 
         assertThat(slots, is(List.of(carSlot)));
 
-        slots = slotService.getFreeSlots(new Truck(2));
+        slots = service.getFreeSlots(new Truck(2));
 
         assertThat(slots, is(List.of(truckSlot)));
     }
@@ -44,15 +43,23 @@ public class FreeSlotServiceImplTest {
     public void whenNoFreeSlotsForTruckThanGetFreeSlotsShouldReturnCorrectAmountOfCarSlots() {
         var first = new CarSlot();
         var second = new CarSlot();
-        slotService.add(List.of(first, second));
-        var slots = slotService.getFreeSlots(new Truck(2));
+        service.add(List.of(first, second));
+        var slots = service.getFreeSlots(new Truck(2));
 
         assertThat(slots, is(List.of(first, second)));
     }
 
     @Test
+    public void whenNoFreeSlotsForTruckAndNotEnoughCarSpotsThanGetFreeSlotsShouldReturnEmptyList() {
+        service.add(List.of(new CarSlot()));
+        var slots = service.getFreeSlots(new Truck(2));
+
+        assertThat(slots, is(List.of()));
+    }
+
+    @Test
     public void whenNoFreeSlotsForVehicleThanEmptyListShouldBeReturned() {
-        var slots = slotService.getFreeSlots(new Car());
+        var slots = service.getFreeSlots(new Car());
 
         assertThat(slots, hasSize(0));
     }
@@ -60,25 +67,25 @@ public class FreeSlotServiceImplTest {
     @Test
     public void removeShouldRemoveGivenListOfSpotsFormService() {
         var slot = new CarSlot();
-        slotService.add(List.of(slot));
-        var slots = slotService.getFreeSlots(new Car());
+        service.add(List.of(slot));
+        var slots = service.getFreeSlots(new Car());
 
         assertThat(slots, is(List.of(slot)));
 
-        slotService.remove(slots);
-        slots = slotService.getFreeSlots(new Car());
+        service.remove(slots);
+        slots = service.getFreeSlots(new Car());
 
         assertThat(slots, hasSize(0));
     }
 
     @Test
     public void whenUpdateServiceByUnparkedCarThanSlotsShouldBeRemovedFromService() {
-        slotService.add(List.of(new CarSlot()));
+        service.add(List.of(new CarSlot()));
         var car = new Car();
-        var slots = slotService.getFreeSlots(car);
+        var slots = service.getFreeSlots(car);
         car.setSlots(slots);
-        slotService.update(car);
-        slots = slotService.getFreeSlots(new Car());
+        service.update(car);
+        slots = service.getFreeSlots(new Car());
 
         assertThat(slots, hasSize(0));
     }
@@ -87,8 +94,8 @@ public class FreeSlotServiceImplTest {
     public void whenUpdateServiceByParkedCarThanSlotsShouldBeAddedToService() {
         var car = new Car();
         car.setSlots(List.of(new CarSlot()));
-        slotService.update(car);
-        var slots = slotService.getFreeSlots(new Car());
+        service.update(car);
+        var slots = service.getFreeSlots(new Car());
 
         assertThat(slots, hasSize(1));
     }

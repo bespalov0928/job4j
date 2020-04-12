@@ -1,57 +1,52 @@
 package ru.job4j.design.lsp.parkinglot.service;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import ru.job4j.design.lsp.parkinglot.service.impl.ParkingVehicleServiceImpl;
+import ru.job4j.design.lsp.parkinglot.storage.impl.MemoryVehicleStorage;
 import ru.job4j.design.lsp.parkinglot.vehicle.Car;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 
-@Ignore
 public class ParkingVehicleServiceImplTest {
-    private ParkingVehicleService parkedVehicles;
+    private ParkingVehicleService service;
 
     @Before
     public void setUp() {
-        parkedVehicles = new ParkingVehicleServiceImpl();
-    }
-
-    @Test
-    public void whenAddVehicleThanCountShouldChange() {
-        var count = parkedVehicles.count();
-        parkedVehicles.add(new Car());
-
-        assertNotEquals(count, parkedVehicles.count());
-    }
-
-    @Test
-    public void whenRemoveVehicleThanCountShouldChange() {
-        var vehicle = new Car();
-        parkedVehicles.add(vehicle);
-        var count = parkedVehicles.count();
-        parkedVehicles.remove(vehicle);
-
-        assertNotEquals(count, parkedVehicles.count());
+        service = new ParkingVehicleServiceImpl(new MemoryVehicleStorage());
     }
 
     @Test
     public void whenUpdateServiceByAlreadyParkedVehicleThanVehicleShouldBeRemovedFromService() {
         var vehicle = new Car();
-        parkedVehicles.add(vehicle);
-        var count = parkedVehicles.count();
-        parkedVehicles.update(vehicle);
+        service.update(vehicle);
+        var count = service.count();
+        service.update(vehicle);
 
-        assertEquals(count, parkedVehicles.count() + 1);
+        assertEquals(count, service.count() + 1);
     }
 
     @Test
     public void whenUpdateServiceByNotParkedVehicleThanVehicleShouldBeAddedToService() {
         var vehicle = new Car();
-        var count = parkedVehicles.count();
-        parkedVehicles.update(vehicle);
+        var count = service.count();
+        service.update(vehicle);
 
-        assertEquals(count, parkedVehicles.count() - 1);
+        assertEquals(count, service.count() - 1);
+    }
+
+    @Test
+    public void whenVehicleIsParkedThanIsParkedShouldReturnTrue() {
+        var vehicle = new Car();
+        service.update(vehicle);
+
+        assertTrue(service.isParked(vehicle));
+    }
+
+    @Test
+    public void whenVehicleIsNotParkedThanIsParkedShouldReturnFalse() {
+        var vehicle = new Car();
+
+        assertFalse(service.isParked(vehicle));
     }
 }

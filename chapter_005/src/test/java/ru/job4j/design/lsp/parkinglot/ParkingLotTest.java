@@ -1,38 +1,36 @@
 package ru.job4j.design.lsp.parkinglot;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import ru.job4j.design.lsp.parkinglot.event.impl.ParkingServiceEventManager;
-import ru.job4j.design.lsp.parkinglot.exception.ParkingLotFullException;
-import ru.job4j.design.lsp.parkinglot.exception.VehicleAlreadyParkedException;
+import ru.job4j.design.lsp.parkinglot.event.impl.ParkingLotEventManager;
+import ru.job4j.design.lsp.parkinglot.exception.NoEmptySlotsException;
+import ru.job4j.design.lsp.parkinglot.exception.VehicleNotParkedException;
+import ru.job4j.design.lsp.parkinglot.exception.VehicleParkedException;
 import ru.job4j.design.lsp.parkinglot.service.impl.FreeSlotServiceImpl;
 import ru.job4j.design.lsp.parkinglot.service.impl.ParkingVehicleServiceImpl;
+import ru.job4j.design.lsp.parkinglot.storage.impl.MemorySlotStorage;
+import ru.job4j.design.lsp.parkinglot.storage.impl.MemoryVehicleStorage;
 import ru.job4j.design.lsp.parkinglot.vehicle.Car;
 import ru.job4j.design.lsp.parkinglot.vehicle.Truck;
-import ru.job4j.design.lsp.parkinglot.vehicle.Vehicle;
-
-import java.util.NoSuchElementException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-@Ignore
 public class ParkingLotTest {
     private ParkingLot parkingLot;
 
     @Before
     public void setUp() {
         parkingLot = new ParkingLot(
-                new FreeSlotServiceImpl(),
-                new ParkingVehicleServiceImpl(),
-                new ParkingServiceEventManager());
+                new FreeSlotServiceImpl(new MemorySlotStorage()),
+                new ParkingVehicleServiceImpl(new MemoryVehicleStorage()),
+                new ParkingLotEventManager());
     }
 
     @Test
-    public void whenParkingLotHaveFreeCarSlotThanParkShouldReturnTicket() {
+    public void whenParkingLotHaveFreeCarSlotThanParkShouldReturnTicket() throws NoEmptySlotsException, VehicleParkedException {
         parkingLot.init(1, 0);
         var car = new Car();
         var ticket = parkingLot.park(car);
@@ -41,8 +39,8 @@ public class ParkingLotTest {
         assertEquals(car, ticket.getVehicle());
     }
 
-    @Test(expected = VehicleAlreadyParkedException.class)
-    public void whenParkTwiceSameVehicleThanExceptionShouldBeThrown() {
+    @Test(expected = VehicleParkedException.class)
+    public void whenParkTwiceSameVehicleThanExceptionShouldBeThrown() throws NoEmptySlotsException, VehicleParkedException {
         parkingLot.init(1, 0);
         var car = new Car();
         parkingLot.park(car);
@@ -50,7 +48,7 @@ public class ParkingLotTest {
     }
 
     @Test
-    public void whenCarWasParkedThanAmountOfCarOccupiedSpotsShouldNotBeEmpty() {
+    public void whenCarWasParkedThanAmountOfCarOccupiedSpotsShouldNotBeEmpty() throws NoEmptySlotsException, VehicleParkedException {
         parkingLot.init(1, 0);
         var car = new Car();
         parkingLot.park(car);
@@ -59,7 +57,7 @@ public class ParkingLotTest {
     }
 
     @Test
-    public void whenParkingLotHaveFreeTruckSlotThanParkShouldReturnTicket() {
+    public void whenParkingLotHaveFreeTruckSlotThanParkShouldReturnTicket() throws NoEmptySlotsException, VehicleParkedException {
         parkingLot.init(0, 1);
         var truck = new Truck(2);
         var ticket = parkingLot.park(truck);
@@ -69,27 +67,26 @@ public class ParkingLotTest {
     }
 
     @Test
-    public void whenParkingLotHaveNoFreeTruckSlotButHaveFreeAmountOfCarSlotsThanParkShouldReturnTicket() {
+    public void whenParkingLotHaveNoFreeTruckSlotButHaveFreeAmountOfCarSlotsThanParkShouldReturnTicket() throws NoEmptySlotsException, VehicleParkedException {
         parkingLot.init(2, 0);
         var ticket = parkingLot.park(new Truck(2));
 
         assertNotNull(ticket);
     }
 
-    @Test(expected = ParkingLotFullException.class)
-    public void whenParkingLotHaveNoFreeSpaceThanExceptionShouldBeThrown() {
+    @Test(expected = NoEmptySlotsException.class)
+    public void whenParkingLotHaveNoFreeSpaceThanExceptionShouldBeThrown() throws NoEmptySlotsException, VehicleParkedException {
         parkingLot.init(0, 0);
         parkingLot.park(new Car());
     }
 
-    @Test(expected = NoSuchElementException.class)
-    public void whenCarWasNotParkedThanUnparkShouldThrowException() {
-        parkingLot.init(0, 0);
+    @Test(expected = VehicleNotParkedException.class)
+    public void whenCarWasNotParkedThanUnparkShouldThrowException() throws VehicleNotParkedException {
         parkingLot.unpark(new Car());
     }
 
     @Test
-    public void whenUnparkThanAmountOfCarOccupiedSpotsShouldBeEmpty() {
+    public void whenUnparkThanAmountOfCarOccupiedSpotsShouldBeEmpty() throws NoEmptySlotsException, VehicleParkedException, VehicleNotParkedException {
         parkingLot.init(1, 0);
         var car = new Car();
         parkingLot.park(car);
