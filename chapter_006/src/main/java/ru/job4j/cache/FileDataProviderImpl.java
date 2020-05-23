@@ -8,9 +8,10 @@ public class FileDataProviderImpl implements FileDataProvider {
     public String getData(String filename) {
         var data = "";
         var resource = FileDataProvider.class.getClassLoader().getResourceAsStream(filename);
-        if (resource != null) {
-            var bf = new BufferedReader(new InputStreamReader(resource));
+        try (var bf = new BufferedReader(new InputStreamReader(resource))) {
             data = bf.lines().reduce("", String::concat);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return data;
     }

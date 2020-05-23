@@ -12,4 +12,10 @@ public class FileDataProviderImplTest {
         String data = new FileDataProviderImpl().getData("names.txt");
         assertThat(data, is("test"));
     }
+
+    @Test
+    public void whenFileNotPresentThanEmptyStringShouldBeReturned() {
+        String data = new FileDataProviderImpl().getData("notpresent.txt");
+        assertThat(data, is(""));
+    }
 }
