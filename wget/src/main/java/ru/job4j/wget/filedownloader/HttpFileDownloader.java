@@ -23,7 +23,7 @@ public class HttpFileDownloader implements FileDownloader, DownloadStatus {
     private final Printer printer;
 
     private int fileSize;
-    private int downloadedSize;
+    private volatile int downloadedSize;
 
     public HttpFileDownloader(String url, int maxBytesPerTimeLimit, Printer printer) {
         this.url = url;
@@ -54,7 +54,9 @@ public class HttpFileDownloader implements FileDownloader, DownloadStatus {
                 long startTime = System.currentTimeMillis();
                 while ((bytesRead = inputStream.read(buffer)) != -1) {
                     bytesPerTimeLimit += bytesRead;
-                    downloadedSize += bytesRead;
+                    synchronized (this) {
+                        downloadedSize += bytesRead;
+                    }
                     outputStream.write(buffer, 0, bytesRead);
                     if (bytesPerTimeLimit >= maxBytesPerTimeLimit
                             && ((System.currentTimeMillis() - startTime) < TIME_LIMIT_MILLIS)) {
@@ -93,7 +95,7 @@ public class HttpFileDownloader implements FileDownloader, DownloadStatus {
     }
 
     @Override
-    public int downloadedSize() {
+    public synchronized int downloadedSize() {
         return downloadedSize;
     }
 }
