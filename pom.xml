@@ -17,6 +17,7 @@
         <module>chapter_006</module>
         <module>chapter_007</module>
         <module>wget</module>
+        <module>pooh</module>
     </modules>
 
     <properties>
