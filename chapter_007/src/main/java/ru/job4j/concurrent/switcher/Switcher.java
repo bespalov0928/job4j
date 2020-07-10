@@ -9,7 +9,9 @@ public class Switcher {
                     while (true) {
                         synchronized (Switcher.class) {
                             System.out.println("Thread A");
-                            firstNotStarted = false;
+                            if (firstNotStarted) {
+                                firstNotStarted = false;
+                            }
                             Switcher.class.notify();
                             try {
                                 Switcher.class.wait();
@@ -24,15 +26,14 @@ public class Switcher {
         Thread second = new Thread(
                 () -> {
                     while (true) {
-                        if (firstNotStarted) {
-                            try {
-                                Thread.sleep(100);
-                            } catch (InterruptedException e) {
-                                Thread.currentThread().interrupt();
-                            }
-                            continue;
-                        }
                         synchronized (Switcher.class) {
+                            if (firstNotStarted) {
+                                try {
+                                    Switcher.class.wait();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                             System.out.println("Thread B");
                             Switcher.class.notify();
                             try {
@@ -45,8 +46,8 @@ public class Switcher {
                     }
                 }
         );
-        first.start();
         second.start();
+        first.start();
         first.join();
         second.join();
     }
