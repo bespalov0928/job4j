@@ -6,8 +6,8 @@ public class Switcher {
     public static void main(String[] args) throws InterruptedException {
         Thread first = new Thread(
                 () -> {
-                    while (true) {
-                        synchronized (Switcher.class) {
+                    synchronized (Switcher.class) {
+                        while (true) {
                             System.out.println("Thread A");
                             if (firstNotStarted) {
                                 firstNotStarted = false;
@@ -25,8 +25,8 @@ public class Switcher {
         );
         Thread second = new Thread(
                 () -> {
-                    while (true) {
-                        synchronized (Switcher.class) {
+                    synchronized (Switcher.class) {
+                        while (true) {
                             if (firstNotStarted) {
                                 try {
                                     Switcher.class.wait();
