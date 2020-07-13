@@ -3,21 +3,25 @@ package ru.job4j.concurrent.switcher;
 public class Switcher {
     private volatile static boolean firstNotStarted = true;
 
+    private static void threadPrint(String message) throws InterruptedException {
+        System.out.println(message);
+        Switcher.class.notify();
+        Switcher.class.wait();
+        Thread.sleep(1000);
+    }
+
     public static void main(String[] args) throws InterruptedException {
         Thread first = new Thread(
                 () -> {
                     synchronized (Switcher.class) {
-                        while (true) {
-                            System.out.println("Thread A");
-                            if (firstNotStarted) {
-                                firstNotStarted = false;
-                            }
-                            Switcher.class.notify();
+                        while (!Thread.currentThread().isInterrupted()) {
                             try {
-                                Switcher.class.wait();
-                                Thread.sleep(1000);
+                                if (firstNotStarted) {
+                                    firstNotStarted = false;
+                                }
+                                threadPrint("Thread A");
                             } catch (InterruptedException e) {
-                                e.printStackTrace();
+                                Thread.currentThread().interrupt();
                             }
                         }
                     }
@@ -26,21 +30,14 @@ public class Switcher {
         Thread second = new Thread(
                 () -> {
                     synchronized (Switcher.class) {
-                        while (true) {
-                            if (firstNotStarted) {
-                                try {
-                                    Switcher.class.wait();
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            System.out.println("Thread B");
-                            Switcher.class.notify();
+                        while (!Thread.currentThread().isInterrupted()) {
                             try {
-                                Switcher.class.wait();
-                                Thread.sleep(1000);
+                                if (firstNotStarted) {
+                                    Switcher.class.wait();
+                                }
+                                threadPrint("Thread B");
                             } catch (InterruptedException e) {
-                                e.printStackTrace();
+                                Thread.currentThread().interrupt();
                             }
                         }
                     }
