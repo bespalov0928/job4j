@@ -1,6 +1,6 @@
 package ru.job4j.jdbc.parser;
 
-import ru.job4j.tracker.Item;
+import ru.job4j.tracker.model.Item;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;

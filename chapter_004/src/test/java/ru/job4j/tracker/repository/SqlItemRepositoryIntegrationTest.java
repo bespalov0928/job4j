@@ -6,7 +6,7 @@ import org.junit.Test;
 import ru.job4j.jdbc.connection.ConnectionManagerImpl;
 import ru.job4j.jdbc.connection.ConnectionRollback;
 import ru.job4j.properties.FileProperties;
-import ru.job4j.tracker.Item;
+import ru.job4j.tracker.model.Item;
 
 import java.sql.Connection;
 import java.sql.SQLException;
