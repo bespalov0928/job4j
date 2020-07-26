@@ -1,5 +1,6 @@
-package ru.job4j.tracker;
+package ru.job4j.tracker.action;
 
+import ru.job4j.tracker.input.Input;
 import ru.job4j.tracker.tracker.ITracker;
 
 public class DeleteAction implements UserAction {
@@ -10,7 +11,7 @@ public class DeleteAction implements UserAction {
 
     @Override
     public boolean execute(Input input, ITracker tracker) {
-        String id = input.askStr("Enter item Id: ");
+        long id = Long.parseLong(input.askStr("Enter item Id: "));
         if (tracker.delete(id)) {
             System.out.print("Item successfully deleted");
         } else {

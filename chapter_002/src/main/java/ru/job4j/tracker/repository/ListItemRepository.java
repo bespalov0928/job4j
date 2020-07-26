@@ -1,6 +1,6 @@
 package ru.job4j.tracker.repository;
 
-import ru.job4j.tracker.Item;
+import ru.job4j.tracker.model.Item;
 import ru.job4j.tracker.ItemCompareByNameAsc;
 import ru.job4j.tracker.ItemCompareByNameDesc;
 
@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 public class ListItemRepository implements IItemRepository {
+    private static long id = 0;
     /**
      * Массив для хранение заявок.
      */
@@ -27,7 +28,7 @@ public class ListItemRepository implements IItemRepository {
     }
 
     @Override
-    public Item findById(String id) {
+    public Item findById(long id) {
         Item result = null;
         int index = findItemIndexById(id);
         if (index != -1) {
@@ -37,7 +38,7 @@ public class ListItemRepository implements IItemRepository {
     }
 
     @Override
-    public boolean replace(String id, Item item) {
+    public boolean replace(long id, Item item) {
         boolean result = false;
         int index = findItemIndexById(id);
         if (index > -1) {
@@ -50,7 +51,7 @@ public class ListItemRepository implements IItemRepository {
     }
 
     @Override
-    public boolean delete(String id) {
+    public boolean delete(long id) {
         boolean result = false;
         int index = findItemIndexById(id);
         if (index > -1) {
@@ -84,10 +85,10 @@ public class ListItemRepository implements IItemRepository {
         this.items.sort(new ItemCompareByNameDesc());
     }
 
-    public int findItemIndexById(String id) {
+    public int findItemIndexById(long id) {
         int result = -1;
         for (int index = 0; index < items.size(); index++) {
-            if (items.get(index).getId().equals(id)) {
+            if (items.get(index).getId() == id) {
                 result = index;
                 break;
             }
@@ -101,8 +102,7 @@ public class ListItemRepository implements IItemRepository {
      *
      * @return Уникальный ключ.
      */
-    private String generateId() {
-        Random rm = new Random();
-        return String.valueOf(rm.nextLong() + System.currentTimeMillis());
+    private long generateId() {
+        return id++;
     }
 }

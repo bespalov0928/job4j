@@ -1,14 +1,9 @@
 package ru.job4j.tracker.tracker;
 
-import ru.job4j.tracker.Item;
-import ru.job4j.tracker.ItemCompareByNameAsc;
-import ru.job4j.tracker.ItemCompareByNameDesc;
+import ru.job4j.tracker.model.Item;
 import ru.job4j.tracker.repository.IItemRepository;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class Tracker implements ITracker {
     private IItemRepository repository;
@@ -24,17 +19,17 @@ public class Tracker implements ITracker {
     }
 
     @Override
-    public Item findById(String id) {
+    public Item findById(long id) {
         return repository.findById(id);
     }
 
     @Override
-    public boolean replace(String id, Item item) {
+    public boolean replace(long id, Item item) {
         return repository.replace(id, item);
     }
 
     @Override
-    public boolean delete(String id) {
+    public boolean delete(long id) {
         return repository.delete(id);
     }
 

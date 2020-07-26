@@ -2,6 +2,12 @@ package ru.job4j.tracker;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import ru.job4j.tracker.action.ExitAction;
+import ru.job4j.tracker.action.FindByIdAction;
+import ru.job4j.tracker.action.StubAction;
+import ru.job4j.tracker.action.UserAction;
+import ru.job4j.tracker.input.StubInput;
+import ru.job4j.tracker.model.Item;
 import ru.job4j.tracker.repository.ListItemRepository;
 import ru.job4j.tracker.tracker.Tracker;
 
@@ -50,7 +56,7 @@ public class StartUITest {
         Item item = new Item("new item");
         tracker.add(item);
         String[] answers = {
-                item.getId(), // id сохраненной заявки в объект tracker.
+                String.valueOf(item.getId()), // id сохраненной заявки в объект tracker.
                 "replaced item"
         };
         //StartUI.replaceItem(new StubInput(answers), tracker);
@@ -63,7 +69,7 @@ public class StartUITest {
         Tracker tracker = new Tracker(new ListItemRepository());
         Item item = new Item("new item");
         tracker.add(item);
-        String[] answers = {item.getId()};
+        String[] answers = {String.valueOf(item.getId())};
         //StartUI.deleteItem(new StubInput(answers), tracker);
         Item deleted = tracker.findById(item.getId());
         assertNull(deleted);
@@ -76,7 +82,7 @@ public class StartUITest {
         tracker.add(item);
         String[] answers = {
                 "0",
-                item.getId(),
+                String.valueOf(item.getId()),
                 "1"
         };
         new StartUI(new StubInput(answers), tracker, output).init(List.of(new FindByIdAction(output), new ExitAction()));

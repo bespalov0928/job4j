@@ -2,6 +2,7 @@ package ru.job4j.tracker;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import ru.job4j.tracker.model.Item;
 import ru.job4j.tracker.repository.ListItemRepository;
 import ru.job4j.tracker.tracker.Tracker;
 
@@ -98,7 +99,7 @@ public class TrackerTest {
         Tracker tracker = new Tracker(new ListItemRepository());
         Item item = new Item("test1");
         tracker.add(item);
-        boolean result = tracker.delete("11111");
+        boolean result = tracker.delete(Long.parseLong("11111"));
         boolean expected = false;
         assertEquals(expected, result);
     }
@@ -106,7 +107,7 @@ public class TrackerTest {
     @Test
     public void testDeleteWhenEmpty() {
         Tracker tracker = new Tracker(new ListItemRepository());
-        boolean result = tracker.delete("11111");
+        boolean result = tracker.delete(Long.parseLong("11111"));
         boolean expected = false;
         assertEquals(expected, result);
     }
@@ -149,7 +150,7 @@ public class TrackerTest {
         Tracker tracker = new Tracker(new ListItemRepository());
         Item item = new Item("test1");
         tracker.add(item);
-        Item result = tracker.findById("1234");
+        Item result = tracker.findById(Long.parseLong("1234"));
         assertNull(result);
     }
 

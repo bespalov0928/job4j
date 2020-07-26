@@ -1,5 +1,10 @@
 package ru.job4j.tracker;
 
+import ru.job4j.tracker.action.*;
+import ru.job4j.tracker.input.ConsoleInput;
+import ru.job4j.tracker.input.Input;
+import ru.job4j.tracker.input.ValidateInput;
+import ru.job4j.tracker.repository.HibernateItemRepository;
 import ru.job4j.tracker.repository.ListItemRepository;
 import ru.job4j.tracker.tracker.ITracker;
 import ru.job4j.tracker.tracker.Tracker;
@@ -26,7 +31,7 @@ public class StartUI {
     public static void main(String[] args) {
         new StartUI(
                 new ValidateInput(new ConsoleInput()),
-                new Tracker(new ListItemRepository()),
+                new Tracker(new HibernateItemRepository()),
                 System.out::println
         ).
                 init(List.of(

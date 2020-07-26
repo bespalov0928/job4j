@@ -1,6 +1,6 @@
 package ru.job4j.singleton;
 
-import ru.job4j.tracker.Item;
+import ru.job4j.tracker.model.Item;
 import ru.job4j.tracker.repository.ListItemRepository;
 import ru.job4j.tracker.tracker.Tracker;
 
@@ -15,15 +15,15 @@ public enum TrackerSingleEnum {
         return tracker.add(item);
     }
 
-    public Item findById(String id) {
+    public Item findById(long id) {
         return tracker.findById(id);
     }
 
-    public boolean replace(String id, Item item) {
+    public boolean replace(long id, Item item) {
         return tracker.replace(id, item);
     }
 
-    public boolean delete(String id) {
+    public boolean delete(long id) {
         return tracker.delete(id);
     }
 

@@ -1,18 +1,17 @@
 package ru.job4j.tracker.tracker;
 
-import ru.job4j.tracker.Item;
+import ru.job4j.tracker.model.Item;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface ITracker {
     Item add(Item item);
 
-    Item findById(String id);
+    Item findById(long id);
 
-    boolean replace(String id, Item item);
+    boolean replace(long id, Item item);
 
-    boolean delete(String id);
+    boolean delete(long id);
 
     List<Item> findAll();
 
