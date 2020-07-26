@@ -1,20 +1,30 @@
-package ru.job4j.tracker;
+package ru.job4j.tracker.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Objects;
 
+@Entity
 public class Item implements Comparable<Item> {
-    private String id = "";
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String name;
+
+    public Item() {
+    }
 
     public Item(String name) {
         this.name = name;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -31,7 +41,7 @@ public class Item implements Comparable<Item> {
         boolean result = super.equals(obj);
         if (obj instanceof Item) {
             Item item = (Item) obj;
-            if (this.name.equals(item.name) && this.id.equals(item.id)) {
+            if (this.name.equals(item.name) && this.id == item.id) {
                 result = true;
             }
         }
